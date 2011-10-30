@@ -37,47 +37,39 @@ class Cell
   end
 end
 
-class Row
+class Group
+  def initialize i
+    @coords = []
+  end
+
+  def get_coords
+    @coords
+  end
+
+  def include? x
+    @coords.include? x
+  end
+end
+
+class Row < Group
   def initialize i
     @coords = []
     9.times do |j|
       @coords << [i, j]
     end
   end
-
-  def get_coords
-    @coords
-  end
-
-  def include? x
-    @coords.include? x
-  end
-
-  def search x
-  end
 end
 
-class Column
+class Column < Group
   def initialize j
     @coords = []
     9.times do |i|
       @coords << [i, j]
     end
   end
-
-  def get_coords
-    @coords
-  end
-
-  def include? x
-    @coords.include? x
-  end
-
-  def search x
-  end
 end
 
-class Block
+class Block < Group
   def initialize k
     row_block = 3 * (k / 3)
     col_block = 3 * (k % 3)
@@ -88,17 +80,6 @@ class Block
         @coords << [row_block + i, col_block + j]
       end
     end
-  end
-
-  def get_coords
-    @coords
-  end
-
-  def include? x
-    @coords.include? x
-  end
-
-  def search i
   end
 end
 
@@ -162,9 +143,12 @@ class SudokuSolver
     check_constraints
   end
 
-  def search i
+  def search_group group, x
+  end
+
+  def search x
     (@rows + @columns + @blocks).each do |group|
-      group.search i
+      search_group group, x
     end
   end
 
