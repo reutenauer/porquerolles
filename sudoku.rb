@@ -42,6 +42,10 @@ class Row
     end
   end
 
+  def include? x
+    @cells.include? x
+  end
+
   def search x
   end
 end
@@ -52,6 +56,10 @@ class Column
     9.times do |i|
       @cells << [i, j]
     end
+  end
+
+  def include? x
+    @cells.include? x
   end
 
   def search x
@@ -71,12 +79,17 @@ class Block
     end
   end
 
+  def include? x
+    @cells.include? x
+  end
+
   def search i
   end
 end
 
 class SudokuSolver
   def initialize filename = nil
+
     if filename
       @grid = parse_file filename
     else
@@ -93,6 +106,7 @@ class SudokuSolver
     @columns = []
     9.times { |j| @columns << (Column.new j) }
     @blocks = []
+    9.times { |k| @blocks << (Block.new k) }
   end
 
   def check_constraints
@@ -113,19 +127,16 @@ class SudokuSolver
   end
 
   def solved?
-    true
+    @grid.each do |coord, cell|
+      if not cell.solved?
+        return false
+      end
+      true
+    end
   end
 
   def propagate
-    @cells.each do |cell|
-      cell.check_constraints
-    end
-  end
-
-  def reduce
-    @cells.each do |cell|
-      cell.reduce
-    end
+    check_constraints
   end
 
   def search i
@@ -135,11 +146,13 @@ class SudokuSolver
   end
 
   def solve
+    @old_grid = @grid
     while !solved?
       propagate
-      reduce
-      9.times { |i| search i }
-      reduce
+      1.upto(9) { |n| search n }
+      if @grid == @old_grid
+        break
+      end
     end
 
     @grid
