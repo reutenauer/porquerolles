@@ -5,7 +5,7 @@ class Cell
     @possible_values = []
 
     if x
-      @value = x
+      @value = x.to_i
       @solved = true
     else
       @value = nil
@@ -19,6 +19,9 @@ class Cell
   end
 
   def cross_out x
+    if x.class == Fixnum
+      x = [x]
+    end
     @possible_values = @possible_values - x
   end
 
@@ -36,14 +39,18 @@ end
 
 class Row
   def initialize i
-    @cells = []
+    @coords = []
     9.times do |j|
-      @cells << [i, j]
+      @coords << [i, j]
     end
   end
 
+  def get_coords
+    @coords
+  end
+
   def include? x
-    @cells.include? x
+    @coords.include? x
   end
 
   def search x
@@ -52,14 +59,18 @@ end
 
 class Column
   def initialize j
-    @cells = []
+    @coords = []
     9.times do |i|
-      @cells << [i, j]
+      @coords << [i, j]
     end
   end
 
+  def get_coords
+    @coords
+  end
+
   def include? x
-    @cells.include? x
+    @coords.include? x
   end
 
   def search x
@@ -71,16 +82,20 @@ class Block
     row_block = 3 * (k / 3)
     col_block = 3 * (k % 3)
 
-    @cells = []
+    @coords = []
     3.times do |i|
       3.times do |j|
-        @cells << [row_block + i, col_block + j]
+        @coords << [row_block + i, col_block + j]
       end
     end
   end
 
+  def get_coords
+    @coords
+  end
+
   def include? x
-    @cells.include? x
+    @coords.include? x
   end
 
   def search i
@@ -111,19 +126,27 @@ class SudokuSolver
 
   def check_constraints
     @grid.each do |this_coord, this_cell|
-      (@rows + @columns + @blocks).each do |group|
-        if group.include? @this_coord
-          group.each do |that_coord|
-            that_cell = @grid[that_coord]
-            if that_cell.solved?
-              this_cell.cross_out(that_cell.get_value)
-            end
+      if not this_cell.solved?
+        (@rows + @columns + @blocks).each do |group|
+          if group.include? this_coord
+            this_cell.cross_out(get_values(group))
           end
         end
       end
 
       this_cell.check_solved
     end
+  end
+
+  def get_values group
+    values = []
+    group.get_coords.each do |coord|
+      cell = @grid[coord]
+      if cell.solved?
+        values << cell.get_value
+      end
+    end
+    values
   end
 
   def solved?
@@ -159,6 +182,7 @@ class SudokuSolver
   end
 
   def parse_file filename
+    puts "Parsing file #{filename}."
     begin
       gridfile = File.open filename, "r"
     rescue Errno::ENOENT
@@ -183,15 +207,15 @@ class SudokuSolver
       match = line =~ /(\d|\.)[^\d]*(\d|\.)[^\d]*(\d|\.)[^\d]*(\d|\.)[^\d]*(\d|\.)[^\d]*(\d|\.)[^\d]*(\d|\.)[^\d]*(\d|\.)[^\d]*(\d|\.)[^\d]*/ # TODO: simplify!
 
       if match # TODO Simplify that as well :-)
-        set_cell grid,  i, 0, $1
-        set_cell grid,  i, 1, $2
-        set_cell grid,  i, 2, $3
-        set_cell grid,  i, 3, $4
-        set_cell grid,  i, 4, $5
-        set_cell grid,  i, 5, $6
-        set_cell grid,  i, 6, $7
-        set_cell grid,  i, 7, $8
-        set_cell grid,  i, 8, $9
+        set_cell grid, i, 0, $1
+        set_cell grid, i, 1, $2
+        set_cell grid, i, 2, $3
+        set_cell grid, i, 3, $4
+        set_cell grid, i, 4, $5
+        set_cell grid, i, 5, $6
+        set_cell grid, i, 6, $7
+        set_cell grid, i, 7, $8
+        set_cell grid, i, 8, $9
         i = i + 1
       end
     end
@@ -213,6 +237,3 @@ class SudokuSolver
     end
   end
 end
-
-solver = SudokuSolver.new ARGV[0]
-solver.solve
