@@ -1,11 +1,17 @@
 #!/usr/bin/env ruby
 
 class Cell
-  def initialize
-    @solved = false
+  def initialize x = nil
     @possible_values = []
-    9.times { |i| @possible_values << i }
-    @value = nil
+
+    if x
+      @value = x
+      @solved = true
+    else
+      @value = nil
+      9.times { |i| @possible_values << i }
+      @solved = false
+    end
   end
 
   def get_value
@@ -147,33 +153,32 @@ class SudokuSolver
       exit -1
     end
 
-    def set_cell i, j, x
+    def set_cell grid, i, j, x
       if x == "."
-        grid[[i, j]] = nil
+        grid[[i, j]] = Cell.new
       else
-        grid[[i, j]] = x
+        grid[[i, j]] = Cell.new x
       end
     end
 
     grid = Hash.new
     i = 0
-
     gridfile.each do |line|
       if i == 9
         break
       end
-      line =~ /(\d|\.)[^\d]*(\d|\.)[^\d]*(\d|\.)[^\d]*(\d|\.)[^\d]*(\d|\.)[^\d]*(\d|\.)[^\d]*(\d|\.)[^\d]*(\d|\.)[^\d]*(\d|\.)[^\d]*/ # TODO: simplify!
+      match = line =~ /(\d|\.)[^\d]*(\d|\.)[^\d]*(\d|\.)[^\d]*(\d|\.)[^\d]*(\d|\.)[^\d]*(\d|\.)[^\d]*(\d|\.)[^\d]*(\d|\.)[^\d]*(\d|\.)[^\d]*/ # TODO: simplify!
 
       if match # TODO Simplify that as well :-)
-        set_cell i, 0, $1
-        set_cell i, 1, $2
-        set_cell i, 2, $3
-        set_cell i, 3, $4
-        set_cell i, 4, $5
-        set_cell i, 5, $6
-        set_cell i, 6, $7
-        set_cell i, 7, $8
-        set_cell i, 8, $9
+        set_cell grid,  i, 0, $1
+        set_cell grid,  i, 1, $2
+        set_cell grid,  i, 2, $3
+        set_cell grid,  i, 3, $4
+        set_cell grid,  i, 4, $5
+        set_cell grid,  i, 5, $6
+        set_cell grid,  i, 6, $7
+        set_cell grid,  i, 7, $8
+        set_cell grid,  i, 8, $9
         i = i + 1
       end
     end
@@ -181,8 +186,20 @@ class SudokuSolver
     if i != 9
       puts "Error: could not input grid from file #{filename}."
     end
+
+    grid
+  end
+
+  def print
+    9.times do |i|
+      row = ""
+      9.times do |j|
+        row = "#{row}#{@grid[[i, j]].solved? ? @grid[[i, j]].get_value : '.'}"
+      end
+      puts row
+    end
   end
 end
 
-solver = SudokuSolver.new
+solver = SudokuSolver.new ARGV[0]
 solver.solve
