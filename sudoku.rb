@@ -9,7 +9,7 @@ class Cell
       @solved = true
     else
       @value = nil
-      9.times { |i| @possible_values << i }
+      1.upto(9) { |i| @possible_values << i }
       @solved = false
     end
   end
