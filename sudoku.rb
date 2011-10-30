@@ -68,8 +68,8 @@ end
 
 class Block
   def initialize k
-    row_block = 3 * (k / 9)
-    col_block = 3 * (k % 9)
+    row_block = 3 * (k / 3)
+    col_block = 3 * (k % 3)
 
     @cells = []
     3.times do |i|
