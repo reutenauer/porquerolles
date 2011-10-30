@@ -36,7 +36,7 @@ class Row
     end
   end
 
-  def search i
+  def search x
   end
 end
 
@@ -48,7 +48,7 @@ class Column
     end
   end
 
-  def search i
+  def search x
   end
 end
 
@@ -61,35 +61,26 @@ class Block
   end
 end
 
-class Grid
-  def initialize
-    @hash = Hash.new
-    1.upto(9) do |i|
-      1.upto(9) do |j|
-        @hash[[i, j]] = Cell.new
-      end
-    end
-  end
-
-  def [] i, j
-    @hash[[i, j]]
-  end
-end
-
 class SudokuSolver
   def initialize
-    # Initialize grid
-    @grid = Grid.new
-    @cells = []
+    @grid = Hash.new
+    1.upto(9) do |i|
+      1.upto(9) do |j|
+        @grid[[i, j]] = Cell.new
+      end
+    end
+
     @rows = []
+    1.upto(9) { |i| @rows << (Row.new i) }
     @columns = []
+    1.upto(9) { |j| @columns << (Column.new j) }
     @blocks = []
   end
 
   def check_constraints
     @grid.each do |this_coord, this_cell|
       (@rows + @columns + @blocks).each do |group|
-        if group.include? @coordinates
+        if group.include? @this_coord
           group.each do |that_coord|
             that_cell = @grid[that_coord]
             if that_cell.solved?
