@@ -28,7 +28,7 @@ class Cell
   def check_solved
     if @possible_values.count == 1
       @solved = true
-      value = @possible_values.first
+      @value = @possible_values.first
     end
   end
 
@@ -132,9 +132,9 @@ class SudokuSolver
             this_cell.cross_out(get_values(group))
           end
         end
-      end
 
-      this_cell.check_solved
+        this_cell.check_solved
+      end
     end
   end
 
