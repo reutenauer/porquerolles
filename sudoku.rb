@@ -4,7 +4,7 @@ class Cell
   def initialize
     @solved = false
     @possible_values = []
-    1.upto(9) { |i| @possible_values << i }
+    9.times { |i| @possible_values << i }
     @value = nil
   end
 
@@ -31,7 +31,7 @@ end
 class Row
   def initialize i
     @cells = []
-    1.upto(9) do |j|
+    9.times do |j|
       @cells << [i, j]
     end
   end
@@ -43,7 +43,7 @@ end
 class Column
   def initialize j
     @cells = []
-    1.upto(9) do |i|
+    9.times do |i|
       @cells << [i, j]
     end
   end
@@ -54,7 +54,15 @@ end
 
 class Block
   def initialize k
-    # TODO
+    row_block = 3 * (k / 9)
+    col_block = 3 * (k % 9)
+
+    @cells = []
+    3.times do |i|
+      3.times do |j|
+        @cells << [row_block + i, col_block + j]
+      end
+    end
   end
 
   def search i
@@ -64,16 +72,16 @@ end
 class SudokuSolver
   def initialize
     @grid = Hash.new
-    1.upto(9) do |i|
-      1.upto(9) do |j|
+    9.times do |i|
+      9.times do |j|
         @grid[[i, j]] = Cell.new
       end
     end
 
     @rows = []
-    1.upto(9) { |i| @rows << (Row.new i) }
+    9.times { |i| @rows << (Row.new i) }
     @columns = []
-    1.upto(9) { |j| @columns << (Column.new j) }
+    9.times { |j| @columns << (Column.new j) }
     @blocks = []
   end
 
@@ -120,7 +128,7 @@ class SudokuSolver
     while !solved?
       propagate
       reduce
-      1.upto(9) { |i| search i }
+      9.times { |i| search i }
       reduce
     end
 
