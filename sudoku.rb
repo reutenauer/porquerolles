@@ -19,7 +19,7 @@ class Cell
   end
 
   def cross_out x
-    @possible_figures = @possible_figures - x
+    @possible_values = @possible_values - x
   end
 
   def check_solved
