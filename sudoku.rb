@@ -147,23 +147,33 @@ class SudokuSolver
       exit -1
     end
 
+    def set_cell i, j, x
+      if x == "."
+        grid[[i, j]] = nil
+      else
+        grid[[i, j]] = x
+      end
+    end
+
     grid = Hash.new
     i = 0
+
     gridfile.each do |line|
       if i == 9
         break
       end
-      line =~ /(\d[^\d]*)(\d[^\d]*)(\d[^\d]*)(\d[^\d]*)(\d[^\d]*)(\d[^\d]*)(\d[^\d]*)(\d[^\d]*)(\d[^\d]*)/ # TODO: simplify!
+      line =~ /(\d|\.)[^\d]*(\d|\.)[^\d]*(\d|\.)[^\d]*(\d|\.)[^\d]*(\d|\.)[^\d]*(\d|\.)[^\d]*(\d|\.)[^\d]*(\d|\.)[^\d]*(\d|\.)[^\d]*/ # TODO: simplify!
+
       if match # TODO Simplify that as well :-)
-        grid[[i, 0]] = $1
-        grid[[i, 1]] = $2
-        grid[[i, 2]] = $3
-        grid[[i, 3]] = $4
-        grid[[i, 4]] = $5
-        grid[[i, 5]] = $6
-        grid[[i, 6]] = $7
-        grid[[i, 7]] = $8
-        grid[[i, 8]] = $9
+        set_cell i, 0, $1
+        set_cell i, 1, $2
+        set_cell i, 2, $3
+        set_cell i, 3, $4
+        set_cell i, 4, $5
+        set_cell i, 5, $6
+        set_cell i, 6, $7
+        set_cell i, 7, $8
+        set_cell i, 8, $9
         i = i + 1
       end
     end
