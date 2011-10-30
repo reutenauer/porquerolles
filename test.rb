@@ -1,7 +1,6 @@
 require 'sudoku'
 solver = SudokuSolver.new "simple.sdk"
 solver.print
+solver.solve
 puts solver.solved?
-solver.propagate
 solver.print
-puts solver.solved?
