@@ -70,11 +70,15 @@ class Block
 end
 
 class SudokuSolver
-  def initialize
-    @grid = Hash.new
-    9.times do |i|
-      9.times do |j|
-        @grid[[i, j]] = Cell.new
+  def initialize filename = nil
+    if filename
+      @grid = parse_file filename
+    else
+      @grid = Hash.new
+      9.times do |i|
+        9.times do |j|
+          @grid[[i, j]] = Cell.new
+        end
       end
     end
 
@@ -133,6 +137,40 @@ class SudokuSolver
     end
 
     @grid
+  end
+
+  def parse_file filename
+    begin
+      gridfile = File.open filename, "r"
+    rescue Errno::ENOENT
+      puts "Error: could not open file #{filename}."
+      exit -1
+    end
+
+    grid = Hash.new
+    i = 0
+    gridfile.each do |line|
+      if i == 9
+        break
+      end
+      line =~ /(\d[^\d]*)(\d[^\d]*)(\d[^\d]*)(\d[^\d]*)(\d[^\d]*)(\d[^\d]*)(\d[^\d]*)(\d[^\d]*)(\d[^\d]*)/ # TODO: simplify!
+      if match # TODO Simplify that as well :-)
+        grid[[i, 0]] = $1
+        grid[[i, 1]] = $2
+        grid[[i, 2]] = $3
+        grid[[i, 3]] = $4
+        grid[[i, 4]] = $5
+        grid[[i, 5]] = $6
+        grid[[i, 6]] = $7
+        grid[[i, 7]] = $8
+        grid[[i, 8]] = $9
+        i = i + 1
+      end
+    end
+
+    if i != 9
+      puts "Error: could not input grid from file #{filename}."
+    end
   end
 end
 
