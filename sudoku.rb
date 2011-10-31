@@ -261,17 +261,13 @@ class SudokuSolver
   end
 
   def solve
-    puts "Number solved: #{nb_cell_solved}."
-    n = 0
     while !solved?
       old_nb_cell_solved = nb_cell_solved
       propagate
       search_all
-      puts "Number solved: #{nb_cell_solved}; old number: #{old_nb_cell_solved}."
       if nb_cell_solved == old_nb_cell_solved
         break
       end
-      n = n + 1
     end
 
     @grid
