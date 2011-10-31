@@ -9,6 +9,18 @@ class Array
   end
 end
 
+class Hash
+  def shallow_copy
+    debugger
+    copy = Hash.new
+    each do |key, value|
+      copy[key] = value
+    end
+
+    copy
+  end
+end
+
 class Cell
   def initialize x = nil
     @possible_values = []
@@ -169,6 +181,9 @@ class SudokuSolver
           end
         end
 
+        if this_coord == [7, 4]
+          # debugger
+        end
         this_cell.check_solved
       end
     end
@@ -248,12 +263,13 @@ class SudokuSolver
   end
 
   def solve
-    @old_grid = @grid
+    old_grid = @grid.shallow_copy
     while !solved?
       propagate
       search_all
-      if @grid == @old_grid
-        break
+      if @grid == old_grid
+        debugger
+        # break
       end
     end
 
