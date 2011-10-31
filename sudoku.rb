@@ -3,6 +3,12 @@
 require 'rubygems'
 require 'ruby-debug'
 
+class Array
+  def second
+    at(1)
+  end
+end
+
 class Cell
   def initialize x = nil
     @possible_values = []
@@ -113,6 +119,23 @@ class Block < Group
       end
     end
   end
+
+  def is_on_one_line? type, x
+    lines = @possible_locations[x].map(&type).uniq
+    if lines.count == 1
+      lines.first
+    else
+      false
+    end
+  end
+
+  def is_on_one_row? x
+    is_on_one_line? :first, x
+  end
+
+  def is_on_one_column? x
+    is_on_one_line? :second, x
+  end
 end
 
 class SudokuSolver
@@ -189,17 +212,46 @@ class SudokuSolver
     end
   end
 
-  def search x
+  def search_unique_locations x
     (@rows + @columns + @blocks).each do |group|
       search_group group, x
     end
+  end
+
+  def search_block_locations x
+    @blocks.each_with_index do |block, index|
+      i = block.is_on_one_row? x
+      if i
+        j_to_avoid = index % 3
+        9.times do |j|
+          if j % 3 != j_to_avoid
+            @grid[[i, j]].cross_out x
+          end
+        end
+      else # TODO: rewrite that to avoid duplication
+        i = block.is_on_one_row? x
+        if i
+          i_to_avoid = index / 3
+          9.times do |i|
+            if j / 3 != i_to_avoid
+              @grid[[i, j]].cross_out x
+            end
+          end
+        end
+      end
+    end
+  end
+
+  def search_all
+    1.upto(9) { |x| search_unique_locations x }
+    1.upto(9) { |x| search_block_locations x }
   end
 
   def solve
     @old_grid = @grid
     while !solved?
       propagate
-      1.upto(9) { |n| search n }
+      search_all
       if @grid == @old_grid
         break
       end
