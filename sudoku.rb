@@ -1,5 +1,8 @@
 #!/usr/bin/env ruby
 
+require 'rubygems'
+require 'ruby-debug'
+
 class Cell
   def initialize x = nil
     @possible_values = []
@@ -32,14 +35,28 @@ class Cell
     end
   end
 
+  def set_solved x
+    @value = x
+    @solved = true
+    @possible_values = [x]
+  end
+
+  def get_possible_values
+    @possible_values
+  end
+
   def solved?
     @solved
   end
 end
 
 class Group
-  def initialize i
+  def initialize_group
     @coords = []
+    @possible_locations = { }
+    1.upto(9) do |x|
+      @possible_locations[x] = []
+    end
   end
 
   def get_coords
@@ -49,10 +66,23 @@ class Group
   def include? x
     @coords.include? x
   end
+
+  def add_possible_location x, coord
+    @possible_locations[x] << coord
+    @possible_locations[x].sort!
+  end
+
+  def check_unique_location x
+    if @possible_locations[x].count == 1
+      return @possible_locations[x].first
+    end
+    nil
+  end
 end
 
 class Row < Group
   def initialize i
+    initialize_group
     @coords = []
     9.times do |j|
       @coords << [i, j]
@@ -62,6 +92,7 @@ end
 
 class Column < Group
   def initialize j
+    initialize_group
     @coords = []
     9.times do |i|
       @coords << [i, j]
@@ -71,6 +102,7 @@ end
 
 class Block < Group
   def initialize k
+    initialize_group
     row_block = 3 * (k / 3)
     col_block = 3 * (k % 3)
 
@@ -144,6 +176,17 @@ class SudokuSolver
   end
 
   def search_group group, x
+    group.get_coords.each do |coord|
+      cell = @grid[coord]
+      vals = cell.get_possible_values
+      if vals.include? x
+        group.add_possible_location x, coord
+      end
+    end
+
+    if group.check_unique_location x
+      @grid[(group.check_unique_location x)].set_solved x
+    end
   end
 
   def search x
