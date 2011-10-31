@@ -11,7 +11,7 @@ end
 
 class Hash
   def shallow_copy
-    debugger
+    # debugger
     copy = Hash.new
     each do |key, value|
       copy[key] = value
@@ -267,8 +267,11 @@ class SudokuSolver
     while !solved?
       propagate
       search_all
+      nsolved = 0
+      @grid.each_value { |cell| nsolved = nsolved + 1 if cell.solved? }
+      puts "Number solved: #{nsolved}."
       if @grid == old_grid
-        debugger
+        # debugger
         # break
       end
     end
