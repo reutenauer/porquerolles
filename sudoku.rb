@@ -9,18 +9,6 @@ class Array
   end
 end
 
-class Hash
-  def shallow_copy
-    # debugger
-    copy = Hash.new
-    each do |key, value|
-      copy[key] = value
-    end
-
-    copy
-  end
-end
-
 class Cell
   def initialize x = nil
     @possible_values = []
@@ -262,18 +250,28 @@ class SudokuSolver
     1.upto(9) { |x| search_block_locations x }
   end
 
+  def nb_cell_solved
+    nsolved = 0
+    @grid.each_value do |cell|
+      if cell.solved?
+        nsolved = nsolved + 1
+      end
+    end
+    nsolved
+  end
+
   def solve
-    old_grid = @grid.shallow_copy
+    puts "Number solved: #{nb_cell_solved}."
+    n = 0
     while !solved?
+      old_nb_cell_solved = nb_cell_solved
       propagate
       search_all
-      nsolved = 0
-      @grid.each_value { |cell| nsolved = nsolved + 1 if cell.solved? }
-      puts "Number solved: #{nsolved}."
-      if @grid == old_grid
-        # debugger
-        # break
+      puts "Number solved: #{nb_cell_solved}; old number: #{old_nb_cell_solved}."
+      if nb_cell_solved == old_nb_cell_solved
+        break
       end
+      n = n + 1
     end
 
     @grid
