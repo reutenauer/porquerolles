@@ -308,11 +308,19 @@ class SudokuSolver
 
   def print
     9.times do |i|
+      if i % 3 == 0
+        puts "+---+---+---+"
+      end
       row = ""
       9.times do |j|
+        if j % 3 == 0
+          row = "#{row}|"
+        end
         row = "#{row}#{@grid[[i, j]].solved? ? @grid[[i, j]].get_value : '.'}"
       end
+      row = "#{row}|"
       puts row
     end
+   puts "+---+---+---+"
   end
 end
