@@ -73,6 +73,12 @@ class Group
     @coords.include? x
   end
 
+  def flush_possible_locations
+    1.upto(9) do |x|
+      @possible_locations[x] = []
+    end
+  end
+
   def add_possible_location x, coord
     @possible_locations[x] << coord
     @possible_locations[x].sort!
@@ -217,6 +223,7 @@ class SudokuSolver
 
   def search_unique_locations x
     (@rows + @columns + @blocks).each do |group|
+      group.flush_possible_locations # TODO at some other point...
       search_group group, x
     end
   end
