@@ -227,16 +227,16 @@ class SudokuSolver
       if i
         j_to_avoid = index % 3
         9.times do |j|
-          if j % 3 != j_to_avoid
+          if j / 3 != j_to_avoid
             @grid[[i, j]].cross_out x
           end
         end
       else # TODO: rewrite that to avoid duplication
-        i = block.is_on_one_row? x
-        if i
+        j = block.is_on_one_column? x
+        if j
           i_to_avoid = index / 3
           9.times do |i|
-            if j / 3 != i_to_avoid
+            if i / 3 != i_to_avoid
               @grid[[i, j]].cross_out x
             end
           end
@@ -247,7 +247,7 @@ class SudokuSolver
 
   def search_all
     1.upto(9) { |x| search_unique_locations x }
-    # 1.upto(9) { |x| search_block_locations x }
+    1.upto(9) { |x| search_block_locations x }
   end
 
   def nb_cell_solved
