@@ -193,8 +193,8 @@ class SudokuSolver
       if not cell.solved?
         return false
       end
-      true
     end
+    true
   end
 
   def propagate
