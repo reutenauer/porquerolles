@@ -247,7 +247,7 @@ class SudokuSolver
 
   def search_all
     1.upto(9) { |x| search_unique_locations x }
-    1.upto(9) { |x| search_block_locations x }
+    # 1.upto(9) { |x| search_block_locations x }
   end
 
   def nb_cell_solved
