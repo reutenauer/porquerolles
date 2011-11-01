@@ -7,6 +7,16 @@ class Array
   def second
     at(1)
   end
+
+  def subsets
+    if empty?
+      [[]]
+    else
+      tail = [last]
+      subsubsets = slice(0, count - 1).subsets
+      subsubsets + subsubsets.map { |set| set + tail }
+    end
+  end
 end
 
 class Cell
@@ -89,6 +99,10 @@ class Group
       return @possible_locations[x].first
     end
     nil
+  end
+
+  def get_possible_locations
+    @possible_locations
   end
 end
 
@@ -252,9 +266,31 @@ class SudokuSolver
     end
   end
 
+  def search_group_for_subsets group
+    locs = group.get_possible_locations
+    unsolved = []
+    1.upto(9) do |x|
+      if locs[x].count > 1
+        unsolved << x
+      end
+    end
+
+    subsets = unsolved.subsets
+    subsets.each do |subset|
+      these_locs = subset.inject([]) { |l, x| l + locs[x] }
+      if these_locs.count == subset.count && subset.count > 1
+        puts "Found sth for group #{group}."
+      end
+      debugger
+    end
+  end
+
   def search_all
     1.upto(9) { |x| search_unique_locations x }
     1.upto(9) { |x| search_block_locations x }
+    # (@rows + @columns + @blocks).each { |group| search_group_for_subsets group }
+    debugger
+    search_group_for_subsets @rows[7]
   end
 
   def nb_cell_solved
