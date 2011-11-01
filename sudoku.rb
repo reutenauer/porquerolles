@@ -285,16 +285,13 @@ class SudokuSolver
       if these_locs.count == subset.count && subset.count > 1
         puts "Found sth for group #{group}."
       end
-      debugger
     end
   end
 
   def search_all
     1.upto(9) { |x| search_unique_locations x }
     1.upto(9) { |x| search_block_locations x }
-    # (@rows + @columns + @blocks).each { |group| search_group_for_subsets group }
-    debugger
-    search_group_for_subsets @rows[7]
+    (@rows + @columns + @blocks).each { |group| search_group_for_subsets group }
   end
 
   def nb_cell_solved
