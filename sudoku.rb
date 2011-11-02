@@ -284,7 +284,7 @@ class SudokuSolver
       these_locs = subset.inject([]) { |l, x| l + locs[x] }.sort.uniq
       if these_locs.count == subset.count && subset.count > 1
         values_to_cross_out = unsolved - subset
-        group.get_coords.each do |coord|
+        these_locs.each do |coord|
           values_to_cross_out.each do |x|
             @grid[coord].cross_out x
           end
