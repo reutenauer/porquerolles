@@ -445,8 +445,7 @@ class SudokuSolver
   end
 end
 
-arg = ARGV[0]
-if arg
+ARGV.each do |arg|
   solver = SudokuSolver.new arg
   solver.print
   solver.solve
