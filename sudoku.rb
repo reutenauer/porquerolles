@@ -284,11 +284,10 @@ class SudokuSolver
       these_locs = subset.inject([]) { |l, x| l + locs[x] }.sort.uniq
       if these_locs.count == subset.count && subset.count > 1
         puts "Found sth for group #{group}."
+        values_to_cross_out = unsolved - subset
         group.get_coords.each do |coord|
-          subset.each do |x|
-            if !these_locs.include? coord
-              @grid[coord].cross_out x
-            end
+          values_to_cross_out.each do |x|
+            @grid[coord].cross_out x
           end
         end
       end
