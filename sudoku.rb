@@ -444,3 +444,12 @@ class SudokuSolver
    puts "+---+---+---+"
   end
 end
+
+arg = ARGV[0]
+if arg
+  solver = SudokuSolver.new arg
+  solver.print
+  solver.solve
+  puts solver.solved?
+  solver.print
+end
