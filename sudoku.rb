@@ -118,6 +118,15 @@ class Row < Group
       @coords << [i, j]
     end
   end
+
+  def is_in_one_block? x
+    locs = @possible_locations[x].map { |c| c[1] / 3 }.uniq
+    if locs.count == 1
+      locs.first
+    else
+      false
+    end
+  end
 end
 
 class Column < Group
@@ -126,6 +135,15 @@ class Column < Group
     @coords = []
     9.times do |i|
       @coords << [i, j]
+    end
+  end
+
+  def is_in_one_block? x
+    locs = @possible_locations[x].map { |c| c[0] / 3 }.uniq
+    if locs.count == 1
+      locs.first
+    else
+      false
     end
   end
 end
@@ -270,6 +288,42 @@ class SudokuSolver
     end
   end
 
+  def search_row_locations x
+    @rows.each_with_index do |row, index|
+      b = row.is_in_one_block? x
+      ioff = 3 * (index / 3)
+      joff = 3 * (index % 3)
+      if b
+        3.times do |i|
+          if ioff + i == b
+            next
+          end
+          3.times do |j|
+            @grid[[ioff + i, joff + j]].cross_out x
+          end
+        end
+      end
+    end
+  end
+
+  def search_column_locations x
+    @columns.each_with_index do |column, index|
+      b = column.is_in_one_block? x
+      ioff = 3 * (index / 3)
+      joff = 3 * (index % 3)
+      if b
+        3.times do |i|
+          3.times do |j|
+            if joff + j == b
+              next
+            end
+            @grid[[ioff + i, joff + j]].cross_out x
+          end
+        end
+      end
+    end
+  end
+
   def search_group_for_subsets group
     locs = group.get_possible_locations
     unsolved = []
@@ -295,7 +349,11 @@ class SudokuSolver
 
   def search_all
     1.upto(9) { |x| search_unique_locations x }
-    1.upto(9) { |x| search_block_locations x }
+    1.upto(9) do |x|
+      search_block_locations x
+      # search_row_locations x
+      # search_column_locations x
+    end
     (@rows + @columns + @blocks).each { |group| search_group_for_subsets group }
   end
 
