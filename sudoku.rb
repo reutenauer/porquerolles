@@ -42,6 +42,11 @@ class Cell
       x = [x]
     end
     @possible_values = @possible_values - x
+
+    if @possible_values.count == 1
+      value = @possible_values.first
+      solved = true
+    end
   end
 
   def check_solved
@@ -243,7 +248,7 @@ class SudokuSolver
     check_constraints
   end
 
-  def search_group group, x
+  def compute_locations group, x
     group.get_coords.each do |coord|
       cell = @grid[coord]
       vals = cell.get_possible_values
@@ -251,7 +256,9 @@ class SudokuSolver
         group.add_possible_location x, coord
       end
     end
+  end
 
+  def search_group group, x
     if group.check_unique_location x
       @grid[(group.check_unique_location x)].set_solved x
     end
@@ -259,7 +266,10 @@ class SudokuSolver
 
   def search_unique_locations x
     (@rows + @columns + @blocks).each do |group|
-      group.flush_possible_locations x # TODO at some other point...
+      compute_locations group, x
+    end
+
+    (@rows + @columns + @blocks).each do |group|
       search_group group, x
     end
   end
@@ -336,7 +346,7 @@ class SudokuSolver
     subsets = unsolved.subsets
     subsets.each do |subset|
       these_locs = subset.inject([]) { |l, x| l + locs[x] }.sort.uniq
-      if these_locs.count == subset.count && subset.count > 1
+      if these_locs.count == subset.count # && subset.count > 1
         values_to_cross_out = unsolved - subset
         these_locs.each do |coord|
           values_to_cross_out.each do |x|
