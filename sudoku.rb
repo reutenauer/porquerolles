@@ -266,6 +266,7 @@ class SudokuSolver
 
   def search_unique_locations x
     (@rows + @columns + @blocks).each do |group|
+      group.flush_possible_locations x
       compute_locations group, x
     end
 
@@ -358,11 +359,14 @@ class SudokuSolver
   end
 
   def search_all
+    1.upto(9) do |x|
+        search_unique_locations x
+        search_block_locations x
+    end
+
     (@rows + @columns + @blocks).each do |group|
-      1.upto(9) do |x|
-	compute_locations group, x
-        search_group_for_subsets group
-      end
+      # 1.upto(9) { |x| compute_locations group, x }
+      search_group_for_subsets group
     end
   end
 
