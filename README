@@ -1,6 +1,20 @@
 A sudoku solver I wrote while watching my sister and my mother solving
-sudokus at the beaches of the northern shore on the island of
+sudokus at the beaches on the northern shore of the island of
 Porquerolles (they’re much better than the ones on the southern shore).
+
+The one specificity of the algorithm they use is that they never make
+any assumption about what number could be in some cell, and thus never
+have to backtrack.  Only deduction is used; and that is actually enough
+to solve a vast number of sudokus; even some I could find labelled as
+“extremely hard”.  I wanted to know if it was enough for *any* grid:
+it’s not, as examplified by the one in the ‘unsolved’ directory (I don’t
+have other examples as the moment).
+
+All the deductions are rather straightforward; the only one’s that’s a
+bit elaborate is implemented in the method search
+search_group_for_subsets in the solver.  It is thus quite possible that
+with some additional research one could solve all sudokus, but I haven’t
+investigated this yet.
 
 Usage: ./sudoku.rb <grid.sdk>
 
