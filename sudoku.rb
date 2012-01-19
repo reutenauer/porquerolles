@@ -33,7 +33,7 @@ class Cell
     end
   end
 
-  def get_value
+  def value
     @value
   end
 
@@ -62,7 +62,7 @@ class Cell
     @possible_values = [x]
   end
 
-  def get_possible_values
+  def possible_values
     @possible_values
   end
 
@@ -80,7 +80,7 @@ class Group
     end
   end
 
-  def get_coords
+  def coords
     @coords
   end
 
@@ -110,7 +110,7 @@ class Group
     nil
   end
 
-  def get_possible_locations
+  def possible_locations
     @possible_locations
   end
 end
@@ -212,7 +212,7 @@ class SudokuSolver
       if not this_cell.solved?
         (@rows + @columns + @blocks).each do |group|
           if group.include? this_coord
-            this_cell.cross_out(get_values(group))
+            this_cell.cross_out(values(group))
           end
         end
 
@@ -224,12 +224,12 @@ class SudokuSolver
     end
   end
 
-  def get_values group
+  def values group
     values = []
-    group.get_coords.each do |coord|
+    group.coords.each do |coord|
       cell = @grid[coord]
       if cell.solved?
-        values << cell.get_value
+        values << cell.value
       end
     end
     values
@@ -249,9 +249,9 @@ class SudokuSolver
   end
 
   def compute_locations group, x
-    group.get_coords.each do |coord|
+    group.coords.each do |coord|
       cell = @grid[coord]
-      vals = cell.get_possible_values
+      vals = cell.possible_values
       if vals.include? x
         group.add_possible_location x, coord
       end
@@ -336,7 +336,7 @@ class SudokuSolver
   end
 
   def search_group_for_subsets group
-    locs = group.get_possible_locations
+    locs = group.possible_locations
     unsolved = []
     1.upto(9) do |x|
       if locs[x].count > 1
@@ -449,7 +449,7 @@ class SudokuSolver
         if j % 3 == 0
           row = "#{row}|"
         end
-        row = "#{row}#{@grid[[i, j]].solved? ? @grid[[i, j]].get_value : '.'}"
+        row = "#{row}#{@grid[[i, j]].solved? ? @grid[[i, j]].value : '.'}"
       end
       row = "#{row}|"
       puts row
