@@ -1,6 +1,6 @@
 A sudoku solver I wrote while watching my sister and my mother solving
-sudokus at the beaches on the northern shore of the island of
-Porquerolles (they’re much better than the ones on the southern shore).
+sudokus at the beach on the northern shore of the island of Porquerolles
+(there are much better beaches than on the southern shore).
 
 The one specificity of the algorithm they use is that they never make
 any assumption about what number could be in some cell, and thus never
