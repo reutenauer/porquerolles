@@ -1,7 +1,10 @@
 #!/usr/bin/env ruby
 
+# UTF-8, 108 character a line (more comfortable than 72/80).
+
 require 'rubygems'
 require 'ruby-debug'
+require 'set'
 
 class Array
   def second
@@ -21,19 +24,25 @@ end
 
 class Cell
   def initialize x = nil
-    @possible_values = []
-
     if x
       @value = x.to_i
-      @solved = true
+      @possible_values = Set.new [x.to_i]
     else
       @value = nil
-      1.upto(9) { |i| @possible_values << i }
-      @solved = false
+      @possible_values = Set.new 1.upto(9).map { |i| i }
     end
   end
 
   def value
+    if @possible_values.count != 1
+      debugger
+      raise "Requested valued of unsolved cell; aborting (this shouldn’t happen!)."
+    end
+
+    if @possible_values.first != @value && @value != nil
+      debugger
+    end
+    # @possible_values.first
     @value
   end
 
@@ -43,23 +52,24 @@ class Cell
     end
     @possible_values = @possible_values - x
 
+    # TODO!  This obviously does nothing since I forgot the ‘@’ before
+    # “value”.  However, if I restore it, some grids that could be
+    # solved, can’t be any more.  Find out what happen!
+    # There must be a nasty bug somewhere...
     if @possible_values.count == 1
       value = @possible_values.first
-      solved = true
     end
   end
 
   def check_solved
     if @possible_values.count == 1
-      @solved = true
       @value = @possible_values.first
     end
   end
 
   def set_solved x
     @value = x
-    @solved = true
-    @possible_values = [x]
+    @possible_values = Set.new [x]
   end
 
   def possible_values
@@ -67,7 +77,7 @@ class Cell
   end
 
   def solved?
-    @solved
+    @possible_values.count == 1
   end
 end
 
@@ -89,12 +99,12 @@ class Group
   end
 
   def flush_possible_locations x = nil
-    if not x
+    if x
+      @possible_locations[x] = []
+    else
       1.upto(9) do |x|
         @possible_locations[x] = []
       end
-    else
-      @possible_locations[x] = []
     end
   end
 
@@ -118,10 +128,7 @@ end
 class Row < Group
   def initialize i
     initialize_group
-    @coords = []
-    9.times do |j|
-      @coords << [i, j]
-    end
+    @coords = 9.times.map { |j| [i, j] }
   end
 
   def is_in_one_block? x
@@ -137,10 +144,7 @@ end
 class Column < Group
   def initialize j
     initialize_group
-    @coords = []
-    9.times do |i|
-      @coords << [i, j]
-    end
+    @coords = 9.times.map { |i| [i, j] }
   end
 
   def is_in_one_block? x
@@ -198,12 +202,9 @@ class SudokuSolver
       end
     end
 
-    @rows = []
-    9.times { |i| @rows << (Row.new i) }
-    @columns = []
-    9.times { |j| @columns << (Column.new j) }
-    @blocks = []
-    9.times { |k| @blocks << (Block.new k) }
+    @rows = 9.times.map { |i| Row.new i }
+    @columns = 9.times.map { |j| Column.new j }
+    @blocks = 9.times.map { |k| Block.new k }
   end
 
   def values group
@@ -215,7 +216,7 @@ class SudokuSolver
 
   def solved?
     @grid.each do |coord, cell|
-      if not cell.solved?
+      unless cell.solved?
         return false
       end
     end
@@ -224,14 +225,13 @@ class SudokuSolver
 
   def propagate
     @grid.each do |this_coord, this_cell|
-      if not this_cell.solved?
+      unless this_cell.solved?
         (@rows + @columns + @blocks).each do |group|
           if group.include? this_coord
             this_cell.cross_out(values(group))
           end
         end
-
-        this_cell.check_solved
+        this_cell.check_solved # TODO: suppress need for that, and the method in Cell.
       end
     end
   end
@@ -404,18 +404,13 @@ class SudokuSolver
       if i == 9
         break
       end
-      match = line =~ /(\d|\.)[^\d]*(\d|\.)[^\d]*(\d|\.)[^\d]*(\d|\.)[^\d]*(\d|\.)[^\d]*(\d|\.)[^\d]*(\d|\.)[^\d]*(\d|\.)[^\d]*(\d|\.)[^\d]*/ # TODO: simplify!
+      match = line.scan /\d|\./
 
-      if match # TODO Simplify that as well :-)
-        set_cell grid, i, 0, $1
-        set_cell grid, i, 1, $2
-        set_cell grid, i, 2, $3
-        set_cell grid, i, 3, $4
-        set_cell grid, i, 4, $5
-        set_cell grid, i, 5, $6
-        set_cell grid, i, 6, $7
-        set_cell grid, i, 7, $8
-        set_cell grid, i, 8, $9
+      if match.count == 9
+        9.times do |j|
+          set_cell grid, i, j, match[j]
+        end
+
         i = i + 1
       end
     end
