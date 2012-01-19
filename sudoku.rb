@@ -261,6 +261,7 @@ class SudokuSolver
     end
   end
 
+  # TODO: rewrite the three functions below to avoid duplication
   def search_block_locations x
     @blocks.each_with_index do |block, index|
       i = block.is_on_one_row? x
@@ -271,7 +272,7 @@ class SudokuSolver
             @grid[[i, j]].cross_out x
           end
         end
-      else # TODO: rewrite that to avoid duplication
+      else
         j = block.is_on_one_column? x
         if j
           i_to_avoid = index / 3
@@ -292,9 +293,7 @@ class SudokuSolver
       joff = 3 * (index % 3)
       if b
         3.times do |i|
-          if ioff + i == b
-            next
-          end
+          next if ioff + i == b
           3.times do |j|
             @grid[[ioff + i, joff + j]].cross_out x
           end
@@ -311,9 +310,7 @@ class SudokuSolver
       if b
         3.times do |i|
           3.times do |j|
-            if joff + j == b
-              next
-            end
+            next if joff + j == b
             @grid[[ioff + i, joff + j]].cross_out x
           end
         end
@@ -353,7 +350,7 @@ class SudokuSolver
 
   def nb_cell_solved
     @grid.each_value.inject(0) do |nsolved, cell|
-      cell.solved? ? nsolved + 1 : nsolved
+      nsolved + (cell.solved? ? 1 : 0)
     end
   end
 
@@ -362,9 +359,7 @@ class SudokuSolver
       old_nb_cell_solved = nb_cell_solved
       propagate
       search_all
-      if nb_cell_solved == old_nb_cell_solved
-        break
-      end
+      break if nb_cell_solved == old_nb_cell_solved
     end
 
     @grid
@@ -380,11 +375,8 @@ class SudokuSolver
     end
 
     def set_cell grid, i, j, x
-      if x == "."
-        grid[[i, j]] = Cell.new
-      else
-        grid[[i, j]] = Cell.new x
-      end
+      x = nil if x == "."
+      grid[[i, j]] = Cell.new x
     end
 
     grid = Hash.new
