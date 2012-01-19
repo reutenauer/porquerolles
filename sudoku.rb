@@ -187,7 +187,6 @@ end
 
 class SudokuSolver
   def initialize filename = nil
-
     if filename
       @grid = parse_file filename
     else
@@ -207,32 +206,11 @@ class SudokuSolver
     9.times { |k| @blocks << (Block.new k) }
   end
 
-  def check_constraints
-    @grid.each do |this_coord, this_cell|
-      if not this_cell.solved?
-        (@rows + @columns + @blocks).each do |group|
-          if group.include? this_coord
-            this_cell.cross_out(values(group))
-          end
-        end
-
-        if this_coord == [7, 4]
-          # debugger
-        end
-        this_cell.check_solved
-      end
-    end
-  end
-
   def values group
-    values = []
-    group.coords.each do |coord|
+    group.coords.map do |coord|
       cell = @grid[coord]
-      if cell.solved?
-        values << cell.value
-      end
-    end
-    values
+      cell.value if cell.solved?
+    end.compact
   end
 
   def solved?
@@ -245,7 +223,17 @@ class SudokuSolver
   end
 
   def propagate
-    check_constraints
+    @grid.each do |this_coord, this_cell|
+      if not this_cell.solved?
+        (@rows + @columns + @blocks).each do |group|
+          if group.include? this_coord
+            this_cell.cross_out(values(group))
+          end
+        end
+
+        this_cell.check_solved
+      end
+    end
   end
 
   def compute_locations group, x
