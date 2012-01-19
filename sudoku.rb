@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-# UTF-8, 108 character a line (more comfortable than 72/80).
+# UTF-8, 108 characters a line (more comfortable than 72/80).
 
 require 'rubygems'
 require 'ruby-debug'
@@ -57,6 +57,9 @@ class Cell
     # solved, can’t be any more.  Find out what happen!
     # There must be a nasty bug somewhere...
     if @possible_values.count == 1
+      if @value != @possible_values.first && @value != nil
+        debugger
+      end
       value = @possible_values.first
     end
   end
@@ -77,6 +80,9 @@ class Cell
   end
 
   def solved?
+    if @possible_values.count == 1 && !@value
+      # debugger
+    end
     @possible_values.count == 1
   end
 end
@@ -216,9 +222,7 @@ class SudokuSolver
 
   def solved?
     @grid.each do |coord, cell|
-      unless cell.solved?
-        return false
-      end
+      return false unless cell.solved?
     end
     true
   end
@@ -227,9 +231,7 @@ class SudokuSolver
     @grid.each do |this_coord, this_cell|
       unless this_cell.solved?
         (@rows + @columns + @blocks).each do |group|
-          if group.include? this_coord
-            this_cell.cross_out(values(group))
-          end
+          this_cell.cross_out(values(group)) if group.include? this_coord
         end
         this_cell.check_solved # TODO: suppress need for that, and the method in Cell.
       end
@@ -240,16 +242,12 @@ class SudokuSolver
     group.coords.each do |coord|
       cell = @grid[coord]
       vals = cell.possible_values
-      if vals.include? x
-        group.add_possible_location x, coord
-      end
+      group.add_possible_location x, coord if vals.include? x
     end
   end
 
   def search_group group, x
-    if group.check_unique_location x
-      @grid[(group.check_unique_location x)].set_solved x
-    end
+    @grid[(group.check_unique_location x)].set_solved x if group.check_unique_location x
   end
 
   def search_unique_locations x
@@ -325,12 +323,7 @@ class SudokuSolver
 
   def search_group_for_subsets group
     locs = group.possible_locations
-    unsolved = []
-    1.upto(9) do |x|
-      if locs[x].count > 1
-        unsolved << x
-      end
-    end
+    unsolved = 1.upto(9).map { |x| x if locs[x].count > 1 }.compact
 
     subsets = unsolved.subsets
     subsets.each do |subset|
@@ -348,8 +341,8 @@ class SudokuSolver
 
   def search_all
     1.upto(9) do |x|
-        search_unique_locations x
-        search_block_locations x
+      search_unique_locations x
+      search_block_locations x
     end
 
     (@rows + @columns + @blocks).each do |group|
@@ -359,13 +352,9 @@ class SudokuSolver
   end
 
   def nb_cell_solved
-    nsolved = 0
-    @grid.each_value do |cell|
-      if cell.solved?
-        nsolved = nsolved + 1
-      end
+    @grid.each_value.inject(0) do |nsolved, cell|
+      cell.solved? ? nsolved + 1 : nsolved
     end
-    nsolved
   end
 
   def solve
