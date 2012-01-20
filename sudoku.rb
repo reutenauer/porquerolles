@@ -76,13 +76,16 @@ class Group
     @coords
   end
 
+  def cells
+    @coords.map { |coord| @grid.cell coord }
+  end
+
   def include? x
     @coords.include? x
   end
 
   def values exclude = nil
-    @coords.map do |coord|
-      cell = @grid.cell coord
+    cells.map do |cell|
       cell.value if cell != exclude && cell.solved?
     end.compact
   end
