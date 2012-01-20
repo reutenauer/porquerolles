@@ -6,12 +6,6 @@ require 'rubygems'
 require 'ruby-debug'
 require 'set'
 
-class Hash
-  def separate
-    { }.tap { |rejected| delete_if { |k, v| yield(k, v) && rejected[k] = v } }
-  end
-end
-
 class Set
   # Method to pick one element in a standard-library set.  A little pedestrian, but fun!
   def pick
