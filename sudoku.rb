@@ -6,6 +6,12 @@ require 'rubygems'
 require 'ruby-debug'
 require 'set'
 
+class Hash
+  def separate
+    { }.tap { |rejected| delete_if { |k, v| yield(k, v) && rejected[k] = v } }
+  end
+end
+
 class Set
   # Method to pick one element in a standard-library set.  A little pedestrian, but fun!
   def pick
@@ -20,7 +26,7 @@ class Set
   # Lists subsets.  Recursive.  A classic.
   def subsets
     if empty?
-      return Set.new([Set.new([])])
+      return Set.new [Set.new]
     else
       head = Set.new [pick]
       subsubsets = (self - head).subsets
@@ -81,10 +87,37 @@ class Group
   end
 
   def values exclude = nil
-    coords.map do |coord|
+    @coords.map do |coord|
       cell = @grid.cell coord
       cell.value if cell != exclude && cell.solved?
     end.compact
+  end
+
+  def possible_locations x
+    @coords.map do |coord| # TODO Some enumerator that yields both coord and cell as as an enumerator?
+      cell = @grid.cell coord
+      coord if cell.include? x
+    end.compact.to_set
+  end
+
+  def search_group_for_subsets
+    locs = { }
+    1.upto(9).each { |x| locs[x] = possible_locations x }
+    unsolved = locs.map { |x, l| x if l.count > 1 }.compact.to_set
+    solvable = 1.upto(9).map.to_set - unsolved
+
+    solvable.each { |x| @grid.cell(locs[x].pick).set_solved x }
+
+    subsets = unsolved.subsets
+    subsets.each do |subset|
+      these_locs = subset.inject(Set.new) { |l, x| l + locs[x] }
+      if these_locs.count == subset.count
+        values_to_cross_out = unsolved - subset
+        these_locs.each do |coord|
+          @grid.cell(coord).cross_out values_to_cross_out
+        end
+      end
+    end
   end
 end
 
@@ -129,10 +162,30 @@ class Grid
         end
       end
     end
+
+    @rows = 9.times.map { |i| Row.new i, self }
+    @columns = 9.times.map { |j| Column.new j, self }
+    @blocks = 9.times.map { |k| Block.new k, self }
   end
 
   def cell loc
     grid[loc]
+  end
+
+  def rows
+    @rows
+  end
+
+  def columns
+    @columns
+  end
+
+  def blocks
+    @blocks
+  end
+
+  def groups
+    @rows + @columns + @blocks
   end
 
   def each &block
@@ -163,10 +216,6 @@ class SudokuSolver
     else
       @grid = Grid.new
     end
-
-    @rows = 9.times.map { |i| Row.new i, @grid }
-    @columns = 9.times.map { |j| Column.new j, @grid }
-    @blocks = 9.times.map { |k| Block.new k, @grid }
   end
 
   def solved?
@@ -176,53 +225,15 @@ class SudokuSolver
   def propagate
     @grid.each do |coord, cell|
       unless cell.solved?
-        (@rows + @columns + @blocks).each do |group|
+        @grid.groups.each do |group|
           cell.cross_out group.values cell if group.include? coord
         end
       end
     end
   end
 
-  def possible_locations group, x
-    group.coords.map do |coord| # TODO Some enumerator that yields both coord and cell as as an enumerator?
-      cell = @grid.cell coord
-      coord if cell.include? x
-    end.compact
-  end
-
-  def search_group group, x
-    locs = possible_locations(group, x)
-    if locs.count == 1
-      @grid.cell(locs.first).set_solved x
-    end
-  end
-
-  def search_unique_locations x
-    (@rows + @columns + @blocks).each { |group| search_group group, x }
-  end
-
-  def search_group_for_subsets group
-    locs = { }
-    1.upto(9).each { |x| locs[x] = possible_locations group, x }
-    unsolved = 1.upto(9).map { |x| x if locs[x].count > 1 }.compact.to_set
-    subsets = unsolved.subsets
-
-    subsets.each do |subset|
-      these_locs = subset.inject(Set.new([])) { |l, x| l + locs[x] } # TODO set!
-      if these_locs.count == subset.count
-        values_to_cross_out = unsolved - subset
-        these_locs.each do |coord|
-          values_to_cross_out.each do |x|
-            @grid.cell(coord).cross_out x
-          end
-        end
-      end
-    end
-  end
-
   def search_all
-    1.upto(9) { |x| search_unique_locations x }
-    (@rows + @columns + @blocks).each { |group| search_group_for_subsets group }
+    @grid.groups.each { |group| group.search_group_for_subsets }
   end
 
   def nb_cell_solved
