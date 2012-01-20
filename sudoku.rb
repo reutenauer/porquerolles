@@ -67,7 +67,8 @@ class Cell
 end
 
 class Group
-  def initialize_group
+  def initialize_group grid
+    @grid = grid
     @coords = []
   end
 
@@ -78,25 +79,32 @@ class Group
   def include? x
     @coords.include? x
   end
+
+  def values exclude = nil
+    coords.map do |coord|
+      cell = @grid.cell coord
+      cell.value if cell != exclude && cell.solved?
+    end.compact
+  end
 end
 
 class Row < Group
-  def initialize i
-    initialize_group
+  def initialize i, grid
+    initialize_group grid
     @coords = 9.times.map { |j| [i, j] }
   end
 end
 
 class Column < Group
-  def initialize j
-    initialize_group
+  def initialize j, grid
+    initialize_group grid
     @coords = 9.times.map { |i| [i, j] }
   end
 end
 
 class Block < Group
-  def initialize k
-    initialize_group
+  def initialize k, grid
+    initialize_group grid
     row_block = 3 * (k / 3)
     col_block = 3 * (k % 3)
 
@@ -156,16 +164,9 @@ class SudokuSolver
       @grid = Grid.new
     end
 
-    @rows = 9.times.map { |i| Row.new i }
-    @columns = 9.times.map { |j| Column.new j }
-    @blocks = 9.times.map { |k| Block.new k }
-  end
-
-  def values group, exclude = nil
-    group.coords.map do |coord|
-      cell = @grid.cell coord
-      cell.value if cell.solved? && coord != exclude
-    end.compact
+    @rows = 9.times.map { |i| Row.new i, @grid }
+    @columns = 9.times.map { |j| Column.new j, @grid }
+    @blocks = 9.times.map { |k| Block.new k, @grid }
   end
 
   def solved?
@@ -176,7 +177,7 @@ class SudokuSolver
     @grid.each do |coord, cell|
       unless cell.solved?
         (@rows + @columns + @blocks).each do |group|
-          cell.cross_out values(group, coord) if group.include? coord
+          cell.cross_out group.values cell if group.include? cell
         end
       end
     end
