@@ -46,7 +46,9 @@ class Cell
     @value
   end
 
-  def cross_out x
+  def cross_out x, dbg
+    # debugger if dbg == [0, 3] && !x.is_a?(Array) && x == 6 # && Set.new(x) == Set.new([2, 6])
+    # debugger if dbg == [0, 3]
     if x.class == Fixnum
       x = [x]
     end
@@ -231,7 +233,7 @@ class SudokuSolver
     @grid.each do |this_coord, this_cell|
       unless this_cell.solved?
         (@rows + @columns + @blocks).each do |group|
-          this_cell.cross_out(values(group)) if group.include? this_coord
+          this_cell.cross_out(values(group), this_coord) if group.include? this_coord
         end
         this_cell.check_solved # TODO: suppress need for that, and the method in Cell.
       end
@@ -247,7 +249,14 @@ class SudokuSolver
   end
 
   def search_group group, x
-    @grid[(group.check_unique_location x)].set_solved x if group.check_unique_location x
+    # TODO: Something like that
+    # uniqloc? = group.check_unique_location x
+    # @grid[uniqloc?].set_solved x if uniqloc?
+    if group.check_unique_location x
+      @grid[(group.check_unique_location x)].set_solved x
+      group.flush_possible_locations x
+      compute_locations group, x
+    end
   end
 
   def search_unique_locations x
@@ -269,7 +278,7 @@ class SudokuSolver
         j_to_avoid = index % 3
         9.times do |j|
           if j / 3 != j_to_avoid
-            @grid[[i, j]].cross_out x
+            @grid[[i, j]].cross_out x, [i, j]
           end
         end
       else
@@ -278,7 +287,7 @@ class SudokuSolver
           i_to_avoid = index / 3
           9.times do |i|
             if i / 3 != i_to_avoid
-              @grid[[i, j]].cross_out x
+              @grid[[i, j]].cross_out x, [i, j]
             end
           end
         end
@@ -295,7 +304,7 @@ class SudokuSolver
         3.times do |i|
           next if ioff + i == b
           3.times do |j|
-            @grid[[ioff + i, joff + j]].cross_out x
+            @grid[[ioff + i, joff + j]].cross_out x, [ioff + i, joff + j]
           end
         end
       end
@@ -311,7 +320,7 @@ class SudokuSolver
         3.times do |i|
           3.times do |j|
             next if joff + j == b
-            @grid[[ioff + i, joff + j]].cross_out x
+            @grid[[ioff + i, joff + j]].cross_out x, [ioff + i, joff + j]
           end
         end
       end
@@ -320,16 +329,28 @@ class SudokuSolver
 
   def search_group_for_subsets group
     locs = group.possible_locations
+    group.coords.each do |coord|
+      cell = @grid[coord]
+      if cell.solved?
+        i = cell.value
+        locs[i] = [coord]
+      end
+    end
+
     unsolved = 1.upto(9).map { |x| x if locs[x].count > 1 }.compact
+    # unsolved = 1.upto(9).map { |i| i } - (group.coords.map do |coord|
+    #   cell = @grid[coord]
+    #   cell.value if cell.solved?
+    # end.flatten)
 
     subsets = unsolved.subsets
     subsets.each do |subset|
-      these_locs = subset.inject([]) { |l, x| l + locs[x] }.sort.uniq
+      these_locs = subset.inject([]) { |l, x| l + locs[x] }.sort.uniq # TODO set!
       if these_locs.count == subset.count # && subset.count > 1
         values_to_cross_out = unsolved - subset
         these_locs.each do |coord|
           values_to_cross_out.each do |x|
-            @grid[coord].cross_out x
+            @grid[coord].cross_out x, coord
           end
         end
       end
@@ -410,6 +431,7 @@ class SudokuSolver
       end
       row = ""
       9.times do |j|
+        # debugger if [i, j] == [0, 3]
         if j % 3 == 0
           row = "#{row}|"
         end
