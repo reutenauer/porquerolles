@@ -159,6 +159,8 @@ class Block < Group
   end
 end
 
+# TODO Rename @grid to @matrix here, otherwise nobody has any chance of
+# understanding anything
 class Grid
   def initialize grid = nil
     if grid
