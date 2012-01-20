@@ -69,10 +69,6 @@ end
 class Group
   def initialize_group
     @coords = []
-    @possible_locations = { }
-    1.upto(9) do |x|
-      @possible_locations[x] = []
-    end
   end
 
   def coords
