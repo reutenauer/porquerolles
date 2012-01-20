@@ -6,168 +6,139 @@ require 'rubygems'
 require 'ruby-debug'
 require 'set'
 
-class Array
-  def second
-    at(1)
+class Set
+  # Method to pick one element in a standard-library set.  A little pedestrian, but fun!
+  def pick
+    first # Declared here so as to avoid a global variable (that would be BAD!)
+    each do |element|
+      first = element
+      break
+    end
+    first
   end
 
+  # Lists subsets.  Recursive.  A classic.
   def subsets
     if empty?
-      [[]]
+      return Set.new [Set.new]
     else
-      tail = [last]
-      subsubsets = slice(0, count - 1).subsets
-      subsubsets + subsubsets.map { |set| set + tail }
+      head = Set.new [pick]
+      subsubsets = (self - head).subsets
+      return subsubsets + Set.new(subsubsets.map { |set| set + head })
     end
+  end
+end
+
+class Hash
+  def separate
+    Hash.new.tap { |rejected| delete_if { |k, v| yield(k, v) && rejected[k] = v } }
   end
 end
 
 class Cell
   def initialize x = nil
     if x
-      @value = x.to_i
-      @possible_values = Set.new [x.to_i]
+      @values = Set.new [x.to_i]
     else
-      @value = nil
-      @possible_values = Set.new 1.upto(9).map { |i| i }
+      @values = Set.new 1.upto(9).map { |i| i }
     end
   end
 
   def value
-    if @possible_values.count != 1
-      debugger
+    if @values.count != 1
       raise "Requested valued of unsolved cell; aborting (this shouldn’t happen!)."
     end
 
-    if @possible_values.first != @value && @value != nil
-      debugger
-    end
-    # @possible_values.first
-    @value
+    @values.first
   end
 
-  def cross_out x, dbg
-    # debugger if dbg == [0, 3] && !x.is_a?(Array) && x == 6 # && Set.new(x) == Set.new([2, 6])
-    # debugger if dbg == [0, 3]
-    if x.class == Fixnum
-      x = [x]
-    end
-    @possible_values = @possible_values - x
-
-    # TODO!  This obviously does nothing since I forgot the ‘@’ before
-    # “value”.  However, if I restore it, some grids that could be
-    # solved, can’t be any more.  Find out what happen!
-    # There must be a nasty bug somewhere...
-    if @possible_values.count == 1
-      if @value != @possible_values.first && @value != nil
-        debugger
-      end
-      value = @possible_values.first
-    end
-  end
-
-  def check_solved
-    if @possible_values.count == 1
-      @value = @possible_values.first
-    end
+  def cross_out x
+    x = [x] if x.class == Fixnum
+    @values = @values - x
   end
 
   def set_solved x
-    @value = x
-    @possible_values = Set.new [x]
+    @values = Set.new [x]
   end
 
-  def possible_values
-    @possible_values
+  def include? x
+    @values.include? x
   end
 
   def solved?
-    if @possible_values.count == 1 && !@value
-      # debugger
-    end
-    @possible_values.count == 1
+    @values.count == 1
   end
 end
 
 class Group
-  def initialize_group
+  def initialize_group grid
+    @grid = grid
     @coords = []
-    @possible_locations = { }
-    1.upto(9) do |x|
-      @possible_locations[x] = []
-    end
   end
 
   def coords
     @coords
   end
 
+  def cells
+    @coords.map { |coord| @grid.cell coord }
+  end
+
   def include? x
     @coords.include? x
   end
 
-  def flush_possible_locations x = nil
-    if x
-      @possible_locations[x] = []
-    else
-      1.upto(9) do |x|
-        @possible_locations[x] = []
+  def values exclude = nil
+    cells.map do |cell|
+      cell.value if cell != exclude && cell.solved?
+    end.compact
+  end
+
+  def possible_locations x
+    @coords.map do |coord| # TODO Some enumerator that yields both coord and cell as as an enumerator?
+      cell = @grid.cell coord
+      coord if cell.include? x
+    end.compact.to_set
+  end
+
+  def locate
+    locs = { }
+    1.upto(9).each { |x| locs[x] = possible_locations x }
+    unsolved = locs.separate { |x, l| l.count > 1 }
+
+    locs.each { |x, l| @grid.cell(l.first).set_solved x }
+
+    unsolved_values = unsolved.each_key.to_set
+    subsets = unsolved_values.subsets
+    subsets.each do |subset|
+      these_locs = subset.inject(Set.new) { |l, x| l + unsolved[x] }
+      if these_locs.count == subset.count
+        values_to_cross_out = unsolved_values - subset
+        these_locs.each do |coord|
+          @grid.cell(coord).cross_out values_to_cross_out
+        end
       end
     end
-  end
-
-  def add_possible_location x, coord
-    @possible_locations[x] << coord
-    @possible_locations[x].sort!
-  end
-
-  def check_unique_location x
-    if @possible_locations[x].count == 1
-      return @possible_locations[x].first
-    end
-    nil
-  end
-
-  def possible_locations
-    @possible_locations
   end
 end
 
 class Row < Group
-  def initialize i
-    initialize_group
+  def initialize i, grid
+    initialize_group grid
     @coords = 9.times.map { |j| [i, j] }
-  end
-
-  def is_in_one_block? x
-    locs = @possible_locations[x].map { |c| c[1] / 3 }.uniq
-    if locs.count == 1
-      locs.first
-    else
-      false
-    end
   end
 end
 
 class Column < Group
-  def initialize j
-    initialize_group
+  def initialize j, grid
+    initialize_group grid
     @coords = 9.times.map { |i| [i, j] }
-  end
-
-  def is_in_one_block? x
-    locs = @possible_locations[x].map { |c| c[0] / 3 }.uniq
-    if locs.count == 1
-      locs.first
-    else
-      false
-    end
   end
 end
 
 class Block < Group
-  def initialize k
-    initialize_group
+  def initialize k, grid
+    initialize_group grid
     row_block = 3 * (k / 3)
     col_block = 3 * (k % 3)
 
@@ -178,29 +149,12 @@ class Block < Group
       end
     end
   end
-
-  def is_on_one_line? type, x
-    lines = @possible_locations[x].map(&type).uniq
-    if lines.count == 1
-      lines.first
-    else
-      false
-    end
-  end
-
-  def is_on_one_row? x
-    is_on_one_line? :first, x
-  end
-
-  def is_on_one_column? x
-    is_on_one_line? :second, x
-  end
 end
 
-class SudokuSolver
-  def initialize filename = nil
-    if filename
-      @grid = parse_file filename
+class Grid
+  def initialize grid = nil
+    if grid
+      @grid = grid
     else
       @grid = Hash.new
       9.times do |i|
@@ -210,180 +164,92 @@ class SudokuSolver
       end
     end
 
-    @rows = 9.times.map { |i| Row.new i }
-    @columns = 9.times.map { |j| Column.new j }
-    @blocks = 9.times.map { |k| Block.new k }
+    @rows = 9.times.map { |i| Row.new i, self }
+    @columns = 9.times.map { |j| Column.new j, self }
+    @blocks = 9.times.map { |k| Block.new k, self }
   end
 
-  def values group
-    group.coords.map do |coord|
-      cell = @grid[coord]
-      cell.value if cell.solved?
-    end.compact
+  def cell loc
+    grid[loc]
+  end
+
+  def rows
+    @rows
+  end
+
+  def columns
+    @columns
+  end
+
+  def blocks
+    @blocks
+  end
+
+  def groups
+    @rows + @columns + @blocks
+  end
+
+  def each &block
+    @grid.each &block
+  end
+
+  def each_key &block
+    @grid.each_key &block
+  end
+
+  def each_value &block
+    @grid.each_value &block
+  end
+
+  def [] i, j
+    @grid[[i, j]]
+  end
+
+  def grid
+    @grid
+  end
+end
+
+class SudokuSolver
+  def initialize filename = nil
+    if filename
+      @grid = Grid.new parse_file filename
+    else
+      @grid = Grid.new
+    end
   end
 
   def solved?
-    @grid.each do |coord, cell|
-      return false unless cell.solved?
-    end
-    true
+    @grid.grid.each_value.map(&:solved?).all?
   end
 
   def propagate
-    @grid.each do |this_coord, this_cell|
-      unless this_cell.solved?
-        (@rows + @columns + @blocks).each do |group|
-          this_cell.cross_out(values(group), this_coord) if group.include? this_coord
-        end
-        this_cell.check_solved # TODO: suppress need for that, and the method in Cell.
-      end
-    end
-  end
-
-  def compute_locations group, x
-    group.coords.each do |coord|
-      cell = @grid[coord]
-      vals = cell.possible_values
-      group.add_possible_location x, coord if vals.include? x
-    end
-  end
-
-  def search_group group, x
-    # TODO: Something like that
-    # uniqloc? = group.check_unique_location x
-    # @grid[uniqloc?].set_solved x if uniqloc?
-    if group.check_unique_location x
-      @grid[(group.check_unique_location x)].set_solved x
-      group.flush_possible_locations x
-      compute_locations group, x
-    end
-  end
-
-  def search_unique_locations x
-    (@rows + @columns + @blocks).each do |group|
-      group.flush_possible_locations x
-      compute_locations group, x
-    end
-
-    (@rows + @columns + @blocks).each do |group|
-      search_group group, x
-    end
-  end
-
-  # TODO: rewrite the three functions below to avoid duplication
-  def search_block_locations x
-    @blocks.each_with_index do |block, index|
-      i = block.is_on_one_row? x
-      if i
-        j_to_avoid = index % 3
-        9.times do |j|
-          if j / 3 != j_to_avoid
-            @grid[[i, j]].cross_out x, [i, j]
-          end
-        end
-      else
-        j = block.is_on_one_column? x
-        if j
-          i_to_avoid = index / 3
-          9.times do |i|
-            if i / 3 != i_to_avoid
-              @grid[[i, j]].cross_out x, [i, j]
-            end
-          end
+    @grid.each do |coord, cell|
+      unless cell.solved?
+        @grid.groups.each do |group|
+          cell.cross_out group.values cell if group.include? coord
         end
       end
     end
   end
 
-  def search_row_locations x
-    @rows.each_with_index do |row, index|
-      b = row.is_in_one_block? x
-      ioff = 3 * (index / 3)
-      joff = 3 * (index % 3)
-      if b
-        3.times do |i|
-          next if ioff + i == b
-          3.times do |j|
-            @grid[[ioff + i, joff + j]].cross_out x, [ioff + i, joff + j]
-          end
-        end
-      end
-    end
-  end
-
-  def search_column_locations x
-    @columns.each_with_index do |column, index|
-      b = column.is_in_one_block? x
-      ioff = 3 * (index / 3)
-      joff = 3 * (index % 3)
-      if b
-        3.times do |i|
-          3.times do |j|
-            next if joff + j == b
-            @grid[[ioff + i, joff + j]].cross_out x, [ioff + i, joff + j]
-          end
-        end
-      end
-    end
-  end
-
-  def search_group_for_subsets group
-    locs = group.possible_locations
-    group.coords.each do |coord|
-      cell = @grid[coord]
-      if cell.solved?
-        i = cell.value
-        locs[i] = [coord]
-      end
-    end
-
-    unsolved = 1.upto(9).map { |x| x if locs[x].count > 1 }.compact
-    # unsolved = 1.upto(9).map { |i| i } - (group.coords.map do |coord|
-    #   cell = @grid[coord]
-    #   cell.value if cell.solved?
-    # end.flatten)
-
-    subsets = unsolved.subsets
-    subsets.each do |subset|
-      these_locs = subset.inject([]) { |l, x| l + locs[x] }.sort.uniq # TODO set!
-      if these_locs.count == subset.count # && subset.count > 1
-        values_to_cross_out = unsolved - subset
-        these_locs.each do |coord|
-          values_to_cross_out.each do |x|
-            @grid[coord].cross_out x, coord
-          end
-        end
-      end
-    end
-  end
-
-  def search_all
-    1.upto(9) do |x|
-      search_unique_locations x
-      search_block_locations x
-    end
-
-    (@rows + @columns + @blocks).each do |group|
-      # 1.upto(9) { |x| compute_locations group, x }
-      search_group_for_subsets group
-    end
+  def locate
+    @grid.groups.each { |group| group.locate }
   end
 
   def nb_cell_solved
-    @grid.each_value.inject(0) do |nsolved, cell|
-      nsolved + (cell.solved? ? 1 : 0)
-    end
+    @grid.each_value.inject(0) { |nsolved, cell| nsolved + (cell.solved? ? 1 : 0) }
   end
 
   def solve
-    while !solved?
+    until solved?
       old_nb_cell_solved = nb_cell_solved
       propagate
-      search_all
+      locate
       break if nb_cell_solved == old_nb_cell_solved
     end
 
-    @grid
+    @grid.grid
   end
 
   def parse_file filename
@@ -431,11 +297,10 @@ class SudokuSolver
       end
       row = ""
       9.times do |j|
-        # debugger if [i, j] == [0, 3]
         if j % 3 == 0
           row = "#{row}|"
         end
-        row = "#{row}#{@grid[[i, j]].solved? ? @grid[[i, j]].value : '.'}"
+        row = "#{row}#{@grid[i, j].solved? ? @grid[i, j].value : '.'}"
       end
       row = "#{row}|"
       puts row
