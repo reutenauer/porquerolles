@@ -29,6 +29,12 @@ class Set
   end
 end
 
+class Hash
+  def separate
+    Hash.new.tap { |rejected| delete_if { |k, v| yield(k, v) && rejected[k] = v } }
+  end
+end
+
 class Cell
   def initialize x = nil
     if x
@@ -47,9 +53,7 @@ class Cell
   end
 
   def cross_out x
-    if x.class == Fixnum
-      x = [x]
-    end
+    x = [x] if x.class == Fixnum
     @values = @values - x
   end
 
@@ -97,19 +101,19 @@ class Group
     end.compact.to_set
   end
 
-  def search_group_for_subsets
+  def locate
     locs = { }
     1.upto(9).each { |x| locs[x] = possible_locations x }
-    unsolved = locs.map { |x, l| x if l.count > 1 }.compact.to_set
-    solvable = 1.upto(9).map.to_set - unsolved
+    unsolved = locs.separate { |x, l| l.count > 1 }
 
-    solvable.each { |x| @grid.cell(locs[x].pick).set_solved x }
+    locs.each { |x, l| @grid.cell(l.first).set_solved x }
 
-    subsets = unsolved.subsets
+    unsolved_values = unsolved.each_key.to_set
+    subsets = unsolved_values.subsets
     subsets.each do |subset|
-      these_locs = subset.inject(Set.new) { |l, x| l + locs[x] }
+      these_locs = subset.inject(Set.new) { |l, x| l + unsolved[x] }
       if these_locs.count == subset.count
-        values_to_cross_out = unsolved - subset
+        values_to_cross_out = unsolved_values - subset
         these_locs.each do |coord|
           @grid.cell(coord).cross_out values_to_cross_out
         end
@@ -229,8 +233,8 @@ class SudokuSolver
     end
   end
 
-  def search_all
-    @grid.groups.each { |group| group.search_group_for_subsets }
+  def locate
+    @grid.groups.each { |group| group.locate }
   end
 
   def nb_cell_solved
@@ -241,7 +245,7 @@ class SudokuSolver
     until solved?
       old_nb_cell_solved = nb_cell_solved
       propagate
-      search_all
+      locate
       break if nb_cell_solved == old_nb_cell_solved
     end
 
