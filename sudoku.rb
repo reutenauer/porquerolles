@@ -44,7 +44,6 @@ class Cell
   end
 
   def cross_out x, dbg
-    # debugger if dbg == [1, 2] && x.is_a?(Array) && x.include?(5)
     if x.class == Fixnum
       x = [x]
     end
@@ -165,8 +164,6 @@ class SudokuSolver
     @grid.each do |coord, cell|
       unless cell.solved?
         (@rows + @columns + @blocks).each do |group|
-          # debugger if coord == [1, 2] && cell.possible_values == Set.new([5])
-	  debugger if coord == [1, 2] && values(group, coord).include?(5) && group.include?(coord)
           cell.cross_out values(group, coord), coord if group.include? coord
         end
       end
@@ -199,10 +196,8 @@ class SudokuSolver
   end
 
   def search_group group, x
-    # debugger if group.coords == [[0, 2], [1, 2], [2, 2], [3, 2], [4, 2], [5, 2], [6, 2], [7, 2], [8, 2]] && x == 5
     locs = possible_locations(group, x)
     if locs.count == 1
-      # debugger if locs.first == [4, 2]
       @grid[locs.first].set_solved x
     end
   end
@@ -283,10 +278,6 @@ class SudokuSolver
 
     debugger if !1.upto(9).inject(true) { |b, x| b && locs[x].is_a?(Array) }
     unsolved = 1.upto(9).map { |x| x if locs[x].count > 1 }.compact
-    # unsolved = 1.upto(9).map { |i| i } - (group.coords.map do |coord|
-    #   cell = @grid[coord]
-    #   cell.value if cell.solved?
-    # end.flatten)
 
     subsets = unsolved.subsets
     subsets.each do |subset|
