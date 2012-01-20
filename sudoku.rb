@@ -376,7 +376,7 @@ class SudokuSolver
   end
 
   def solve
-    while !solved?
+    until solved?
       old_nb_cell_solved = nb_cell_solved
       propagate
       search_all
