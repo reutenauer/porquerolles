@@ -6,15 +6,25 @@ require 'rubygems'
 require 'ruby-debug'
 require 'set'
 
-class Array
-  # TODO: move that to subset, obviously
+class Set
+  # Method to pick one element in a standard-library set.  A little pedestrian, but fun!
+  def pick
+    first # Declared here so as to avoid a global variable (that would be BAD!)
+    each do |element|
+      first = element
+      break
+    end
+    first
+  end
+
+  # Lists subsets.  Recursive.  A classic.
   def subsets
     if empty?
-      [[]]
+      return Set.new([Set.new([])])
     else
-      tail = [last]
-      subsubsets = slice(0, count - 1).subsets
-      subsubsets + subsubsets.map { |set| set + tail }
+      head = Set.new [pick]
+      subsubsets = (self - head).subsets
+      return subsubsets + Set.new(subsubsets.map { |set| set + head })
     end
   end
 end
@@ -163,19 +173,11 @@ class SudokuSolver
   def search_group_for_subsets group
     locs = { }
     1.upto(9).each { |x| locs[x] = possible_locations group, x }
-    group.coords.each do |coord|
-      cell = @grid[coord]
-      if cell.solved?
-        i = cell.value
-        locs[i] = [coord]
-      end
-    end
-
-    unsolved = 1.upto(9).map { |x| x if locs[x].count > 1 }.compact
-
+    unsolved = 1.upto(9).map { |x| x if locs[x].count > 1 }.compact.to_set
     subsets = unsolved.subsets
+
     subsets.each do |subset|
-      these_locs = subset.inject([]) { |l, x| l + locs[x] }.sort.uniq # TODO set!
+      these_locs = subset.inject(Set.new([])) { |l, x| l + locs[x] } # TODO set!
       if these_locs.count == subset.count
         values_to_cross_out = unsolved - subset
         these_locs.each do |coord|
