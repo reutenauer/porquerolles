@@ -109,10 +109,10 @@ class Block < Group
   end
 end
 
-class SudokuSolver
-  def initialize filename = nil
-    if filename
-      @grid = parse_file filename
+class Grid
+  def initialize grid = nil
+    if grid
+      @grid = grid
     else
       @grid = Hash.new
       9.times do |i|
@@ -120,6 +120,40 @@ class SudokuSolver
           @grid[[i, j]] = Cell.new
         end
       end
+    end
+  end
+
+  def cell loc
+    grid[loc]
+  end
+
+  def each &block
+    @grid.each &block
+  end
+
+  def each_key &block
+    @grid.each_key &block
+  end
+
+  def each_value &block
+    @grid.each_value &block
+  end
+
+  def [] i, j
+    @grid[[i, j]]
+  end
+
+  def grid
+    @grid
+  end
+end
+
+class SudokuSolver
+  def initialize filename = nil
+    if filename
+      @grid = Grid.new parse_file filename
+    else
+      @grid = Grid.new
     end
 
     @rows = 9.times.map { |i| Row.new i }
@@ -129,13 +163,13 @@ class SudokuSolver
 
   def values group, exclude = nil
     group.coords.map do |coord|
-      cell = @grid[coord]
+      cell = @grid.cell coord
       cell.value if cell.solved? && coord != exclude
     end.compact
   end
 
   def solved?
-    @grid.each_value.map(&:solved?).all?
+    @grid.grid.each_value.map(&:solved?).all?
   end
 
   def propagate
@@ -150,7 +184,7 @@ class SudokuSolver
 
   def possible_locations group, x
     group.coords.map do |coord| # TODO Some enumerator that yields both coord and cell as as an enumerator?
-      cell = @grid[coord]
+      cell = @grid.cell coord
       coord if cell.include? x
     end.compact
   end
@@ -158,7 +192,7 @@ class SudokuSolver
   def search_group group, x
     locs = possible_locations(group, x)
     if locs.count == 1
-      @grid[locs.first].set_solved x
+      @grid.cell(locs.first).set_solved x
     end
   end
 
@@ -178,7 +212,7 @@ class SudokuSolver
         values_to_cross_out = unsolved - subset
         these_locs.each do |coord|
           values_to_cross_out.each do |x|
-            @grid[coord].cross_out x
+            @grid.cell(coord).cross_out x
           end
         end
       end
@@ -202,7 +236,7 @@ class SudokuSolver
       break if nb_cell_solved == old_nb_cell_solved
     end
 
-    @grid
+    @grid.grid
   end
 
   def parse_file filename
@@ -253,7 +287,7 @@ class SudokuSolver
         if j % 3 == 0
           row = "#{row}|"
         end
-        row = "#{row}#{@grid[[i, j]].solved? ? @grid[[i, j]].value : '.'}"
+        row = "#{row}#{@grid[i, j].solved? ? @grid[i, j].value : '.'}"
       end
       row = "#{row}|"
       puts row
