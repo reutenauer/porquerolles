@@ -7,10 +7,7 @@ require 'ruby-debug'
 require 'set'
 
 class Array
-  def second
-    at(1)
-  end
-
+  # TODO: move that to subset, obviously
   def subsets
     if empty?
       [[]]
@@ -25,41 +22,37 @@ end
 class Cell
   def initialize x = nil
     if x
-      @possible_values = Set.new [x.to_i]
+      @values = Set.new [x.to_i]
     else
-      @possible_values = Set.new 1.upto(9).map { |i| i }
+      @values = Set.new 1.upto(9).map { |i| i }
     end
   end
 
   def value
-    if @possible_values.count != 1
-      debugger
+    if @values.count != 1
       raise "Requested valued of unsolved cell; aborting (this shouldn’t happen!)."
     end
 
-    if @possible_values.first != @value && @value != nil
-      debugger
-    end
-    @possible_values.first
+    @values.first
   end
 
-  def cross_out x, dbg
+  def cross_out x
     if x.class == Fixnum
       x = [x]
     end
-    @possible_values = @possible_values - x
+    @values = @values - x
   end
 
   def set_solved x
-    @possible_values = Set.new [x]
+    @values = Set.new [x]
   end
 
-  def possible_values
-    @possible_values
+  def include? x
+    @values.include? x
   end
 
   def solved?
-    @possible_values.count == 1
+    @values.count == 1
   end
 end
 
@@ -86,30 +79,12 @@ class Row < Group
     initialize_group
     @coords = 9.times.map { |j| [i, j] }
   end
-
-  def is_in_one_block? x
-    locs = @possible_locations[x].map { |c| c[1] / 3 }.uniq
-    if locs.count == 1
-      locs.first
-    else
-      false
-    end
-  end
 end
 
 class Column < Group
   def initialize j
     initialize_group
     @coords = 9.times.map { |i| [i, j] }
-  end
-
-  def is_in_one_block? x
-    locs = @possible_locations[x].map { |c| c[0] / 3 }.uniq
-    if locs.count == 1
-      locs.first
-    else
-      false
-    end
   end
 end
 
@@ -154,45 +129,24 @@ class SudokuSolver
   end
 
   def solved?
-    @grid.each do |coord, cell|
-      return false unless cell.solved?
-    end
-    true
+    @grid.each_value.map(&:solved?).all?
   end
 
   def propagate
     @grid.each do |coord, cell|
       unless cell.solved?
         (@rows + @columns + @blocks).each do |group|
-          cell.cross_out values(group, coord), coord if group.include? coord
+          cell.cross_out values(group, coord) if group.include? coord
         end
       end
     end
   end
 
   def possible_locations group, x
-    group.coords.map do |coord| # TODO Some map that yields both coord and cell as as an enumerator?
+    group.coords.map do |coord| # TODO Some enumerator that yields both coord and cell as as an enumerator?
       cell = @grid[coord]
-      coord if cell.possible_values.include? x # TODO Cell.include method?
+      coord if cell.include? x
     end.compact
-  end
-
-  def is_on_one_line? group, type, x
-    locs = possible_locations group, x
-    lines = locs.map(&type).uniq
-    if lines.count == 1
-      lines.first
-    else
-      false
-    end
-  end
-
-  def is_on_one_row? block, x
-    is_on_one_line? block, :first, x
-  end
-
-  def is_on_one_column? block, x
-    is_on_one_line? block, :second, x
   end
 
   def search_group group, x
@@ -203,66 +157,7 @@ class SudokuSolver
   end
 
   def search_unique_locations x
-    (@rows + @columns + @blocks).each do |group|
-      search_group group, x
-    end
-  end
-
-  # TODO: rewrite the three functions below to avoid duplication
-  def search_block_locations x
-    @blocks.each_with_index do |block, index|
-      i = is_on_one_row? block, x
-      if i
-        j_to_avoid = index % 3
-        9.times do |j|
-          if j / 3 != j_to_avoid
-            @grid[[i, j]].cross_out x, [i, j]
-          end
-        end
-      else
-        j = is_on_one_column? block, x
-        if j
-          i_to_avoid = index / 3
-          9.times do |i|
-            if i / 3 != i_to_avoid
-              @grid[[i, j]].cross_out x, [i, j]
-            end
-          end
-        end
-      end
-    end
-  end
-
-  def search_row_locations x
-    @rows.each_with_index do |row, index|
-      b = row.is_in_one_block? x
-      ioff = 3 * (index / 3)
-      joff = 3 * (index % 3)
-      if b
-        3.times do |i|
-          next if ioff + i == b
-          3.times do |j|
-            @grid[[ioff + i, joff + j]].cross_out x, [ioff + i, joff + j]
-          end
-        end
-      end
-    end
-  end
-
-  def search_column_locations x
-    @columns.each_with_index do |column, index|
-      b = column.is_in_one_block? x
-      ioff = 3 * (index / 3)
-      joff = 3 * (index % 3)
-      if b
-        3.times do |i|
-          3.times do |j|
-            next if joff + j == b
-            @grid[[ioff + i, joff + j]].cross_out x, [ioff + i, joff + j]
-          end
-        end
-      end
-    end
+    (@rows + @columns + @blocks).each { |group| search_group group, x }
   end
 
   def search_group_for_subsets group
@@ -276,17 +171,16 @@ class SudokuSolver
       end
     end
 
-    debugger if !1.upto(9).inject(true) { |b, x| b && locs[x].is_a?(Array) }
     unsolved = 1.upto(9).map { |x| x if locs[x].count > 1 }.compact
 
     subsets = unsolved.subsets
     subsets.each do |subset|
       these_locs = subset.inject([]) { |l, x| l + locs[x] }.sort.uniq # TODO set!
-      if these_locs.count == subset.count # && subset.count > 1
+      if these_locs.count == subset.count
         values_to_cross_out = unsolved - subset
         these_locs.each do |coord|
           values_to_cross_out.each do |x|
-            @grid[coord].cross_out x, coord
+            @grid[coord].cross_out x
           end
         end
       end
@@ -294,20 +188,12 @@ class SudokuSolver
   end
 
   def search_all
-    1.upto(9) do |x|
-      search_unique_locations x
-      search_block_locations x
-    end
-
-    (@rows + @columns + @blocks).each do |group|
-      search_group_for_subsets group
-    end
+    1.upto(9) { |x| search_unique_locations x }
+    (@rows + @columns + @blocks).each { |group| search_group_for_subsets group }
   end
 
   def nb_cell_solved
-    @grid.each_value.inject(0) do |nsolved, cell|
-      nsolved + (cell.solved? ? 1 : 0)
-    end
+    @grid.each_value.inject(0) { |nsolved, cell| nsolved + (cell.solved? ? 1 : 0) }
   end
 
   def solve
@@ -366,7 +252,6 @@ class SudokuSolver
       end
       row = ""
       9.times do |j|
-        # debugger if [i, j] == [0, 3]
         if j % 3 == 0
           row = "#{row}|"
         end
