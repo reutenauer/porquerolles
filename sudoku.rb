@@ -68,6 +68,14 @@ class Cell
   def solved?
     @values.count == 1
   end
+
+  def to_s
+    if solved?
+      value.to_s
+    else
+      "."
+    end
+  end
 end
 
 class Group
@@ -170,7 +178,7 @@ class Grid
   end
 
   def cell loc
-    grid[loc]
+    @grid[loc]
   end
 
   def rows
@@ -205,8 +213,23 @@ class Grid
     @grid[[i, j]]
   end
 
-  def grid
-    @grid
+  def to_s
+    s = ""
+    9.times do |i|
+      if i % 3 == 0
+        s = s + "+---+---+---+\n"
+      end
+      row = ""
+      9.times do |j|
+        if j % 3 == 0
+          row = "#{row}|"
+        end
+        row = "#{row}#{self[i, j].to_s}"
+      end
+      row = "#{row}|"
+      s = s + row + "\n"
+    end
+   s = s + "+---+---+---+\n"
   end
 end
 
@@ -220,7 +243,7 @@ class SudokuSolver
   end
 
   def solved?
-    @grid.grid.each_value.map(&:solved?).all?
+    @grid.each_value.map(&:solved?).all?
   end
 
   def propagate
@@ -249,7 +272,7 @@ class SudokuSolver
       break if nb_cell_solved == old_nb_cell_solved
     end
 
-    @grid.grid
+    @grid
   end
 
   def parse_file filename
@@ -290,29 +313,15 @@ class SudokuSolver
     grid
   end
 
-  def print
-    9.times do |i|
-      if i % 3 == 0
-        puts "+---+---+---+"
-      end
-      row = ""
-      9.times do |j|
-        if j % 3 == 0
-          row = "#{row}|"
-        end
-        row = "#{row}#{@grid[i, j].solved? ? @grid[i, j].value : '.'}"
-      end
-      row = "#{row}|"
-      puts row
-    end
-   puts "+---+---+---+"
+  def grid
+    @grid
   end
 end
 
 ARGV.each do |arg|
   solver = SudokuSolver.new arg
-  solver.print
-  solver.solve
+  puts solver.grid.to_s
+  grid = solver.solve
   puts solver.solved?
-  solver.print
+  puts grid.to_s
 end
