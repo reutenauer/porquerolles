@@ -173,11 +173,19 @@ class SudokuSolver
     @grid.grid.each_value.map(&:solved?).all?
   end
 
+  def values group, exclude = nil
+    coords.map do |coord|
+      cell = @grid.cell coord
+      cell.value if coord != exclude && cell.solved?
+    end.compact
+  end
+
   def propagate
     @grid.each do |coord, cell|
       unless cell.solved?
         (@rows + @columns + @blocks).each do |group|
-          cell.cross_out group.values cell if group.include? cell
+	  cell.cross_out values(group, coord) if group.include? cell
+          # cell.cross_out group.values cell if group.include? cell
         end
       end
     end
