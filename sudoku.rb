@@ -44,6 +44,7 @@ class Cell
   end
 
   def cross_out x, dbg
+    # debugger if dbg == [1, 2] && x.is_a?(Array) && x.include?(5)
     if x.class == Fixnum
       x = [x]
     end
@@ -146,10 +147,10 @@ class SudokuSolver
     @blocks = 9.times.map { |k| Block.new k }
   end
 
-  def values group
+  def values group, exclude = nil
     group.coords.map do |coord|
       cell = @grid[coord]
-      cell.value if cell.solved?
+      cell.value if cell.solved? && coord != exclude
     end.compact
   end
 
@@ -164,7 +165,9 @@ class SudokuSolver
     @grid.each do |coord, cell|
       unless cell.solved?
         (@rows + @columns + @blocks).each do |group|
-          cell.cross_out(values(group), coord) if group.include? coord
+          # debugger if coord == [1, 2] && cell.possible_values == Set.new([5])
+	  debugger if coord == [1, 2] && values(group, coord).include?(5) && group.include?(coord)
+          cell.cross_out values(group, coord), coord if group.include? coord
         end
       end
     end
@@ -173,7 +176,7 @@ class SudokuSolver
   def possible_locations group, x
     group.coords.map do |coord| # TODO Some map that yields both coord and cell as as an enumerator?
       cell = @grid[coord]
-      coord if cell.possible_values.include? x
+      coord if cell.possible_values.include? x # TODO Cell.include method?
     end.compact
   end
 
@@ -196,8 +199,12 @@ class SudokuSolver
   end
 
   def search_group group, x
+    # debugger if group.coords == [[0, 2], [1, 2], [2, 2], [3, 2], [4, 2], [5, 2], [6, 2], [7, 2], [8, 2]] && x == 5
     locs = possible_locations(group, x)
-    @grid[locs.first].set_solved x if locs.count == 1
+    if locs.count == 1
+      # debugger if locs.first == [4, 2]
+      @grid[locs.first].set_solved x
+    end
   end
 
   def search_unique_locations x
