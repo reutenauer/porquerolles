@@ -105,32 +105,6 @@ class Group
   def include? x
     @coords.include? x
   end
-
-  def flush_possible_locations x = nil
-    if x
-      @possible_locations[x] = []
-    else
-      1.upto(9) do |x|
-        @possible_locations[x] = []
-      end
-    end
-  end
-
-  def add_possible_location x, coord
-    @possible_locations[x] << coord
-    @possible_locations[x].sort!
-  end
-
-  def check_unique_location x
-    if @possible_locations[x].count == 1
-      return @possible_locations[x].first
-    end
-    nil
-  end
-
-  def possible_locations
-    @possible_locations
-  end
 end
 
 class Row < Group
@@ -178,23 +152,6 @@ class Block < Group
       end
     end
   end
-
-  def is_on_one_line? type, x
-    lines = @possible_locations[x].map(&type).uniq
-    if lines.count == 1
-      lines.first
-    else
-      false
-    end
-  end
-
-  def is_on_one_row? x
-    is_on_one_line? :first, x
-  end
-
-  def is_on_one_column? x
-    is_on_one_line? :second, x
-  end
 end
 
 class SudokuSolver
@@ -235,36 +192,41 @@ class SudokuSolver
         (@rows + @columns + @blocks).each do |group|
           this_cell.cross_out(values(group), this_coord) if group.include? this_coord
         end
-        this_cell.check_solved # TODO: suppress need for that, and the method in Cell.
       end
     end
   end
 
-  def compute_locations group, x
-    group.coords.each do |coord|
+  def possible_locations group, x
+    group.coords.map do |coord| # TODO Some map that yields both coord and cell as as an enumerator?
       cell = @grid[coord]
-      vals = cell.possible_values
-      group.add_possible_location x, coord if vals.include? x
+      coord if cell.possible_values.include? x
+    end.compact
+  end
+
+  def is_on_one_line? group, type, x
+    locs = possible_locations group, x
+    lines = locs.map(&type).uniq
+    if lines.count == 1
+      lines.first
+    else
+      false
     end
+  end
+
+  def is_on_one_row? block, x
+    is_on_one_line? block, :first, x
+  end
+
+  def is_on_one_column? block, x
+    is_on_one_line? block, :second, x
   end
 
   def search_group group, x
-    # TODO: Something like that
-    # uniqloc? = group.check_unique_location x
-    # @grid[uniqloc?].set_solved x if uniqloc?
-    if group.check_unique_location x
-      @grid[(group.check_unique_location x)].set_solved x
-      group.flush_possible_locations x
-      compute_locations group, x
-    end
+    locs = possible_locations(group, x)
+    @grid[locs.first].set_solved x if locs.count == 1
   end
 
   def search_unique_locations x
-    (@rows + @columns + @blocks).each do |group|
-      group.flush_possible_locations x
-      compute_locations group, x
-    end
-
     (@rows + @columns + @blocks).each do |group|
       search_group group, x
     end
@@ -273,7 +235,7 @@ class SudokuSolver
   # TODO: rewrite the three functions below to avoid duplication
   def search_block_locations x
     @blocks.each_with_index do |block, index|
-      i = block.is_on_one_row? x
+      i = is_on_one_row? block, x
       if i
         j_to_avoid = index % 3
         9.times do |j|
@@ -282,7 +244,7 @@ class SudokuSolver
           end
         end
       else
-        j = block.is_on_one_column? x
+        j = is_on_one_column? block, x
         if j
           i_to_avoid = index / 3
           9.times do |i|
@@ -328,7 +290,8 @@ class SudokuSolver
   end
 
   def search_group_for_subsets group
-    locs = group.possible_locations
+    locs = { }
+    1.upto(9).each { |x| locs[x] = possible_locations group, x }
     group.coords.each do |coord|
       cell = @grid[coord]
       if cell.solved?
@@ -337,6 +300,7 @@ class SudokuSolver
       end
     end
 
+    debugger if !1.upto(9).inject(true) { |b, x| b && locs[x].is_a?(Array) }
     unsolved = 1.upto(9).map { |x| x if locs[x].count > 1 }.compact
     # unsolved = 1.upto(9).map { |i| i } - (group.coords.map do |coord|
     #   cell = @grid[coord]
@@ -364,7 +328,6 @@ class SudokuSolver
     end
 
     (@rows + @columns + @blocks).each do |group|
-      # 1.upto(9) { |x| compute_locations group, x }
       search_group_for_subsets group
     end
   end
