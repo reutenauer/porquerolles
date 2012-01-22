@@ -27,6 +27,10 @@ class Set
       return subsubsets + Set.new(subsubsets.map { |set| set + head })
     end
   end
+
+  def random
+    to_a[rand to_a.count]
+  end
 end
 
 class Hash
@@ -83,6 +87,10 @@ class Cell
 
   def copy
     Cell.new.tap { |cell| cell.cross_out(1.upto(9).map.to_set - @values) }
+  end
+
+  def guess
+    set_solved @values.random
   end
 end
 
@@ -257,7 +265,8 @@ class Grid
   def random
     min_unk = min_unknown_value
     cells = map do |coord, cell|
-      [coord, cell] if cell.nb_unknown_values == min_unk
+      # [coord, cell] if cell.nb_unknown_values == min_unk
+      cell if cell.nb_unknown_values == min_unk
     end.compact
 
     cells[rand cells.count]
@@ -323,6 +332,10 @@ class SudokuSolver
   end
 
   def guess
+    grid = @grid.copy
+    cell = @grid.random
+    val = cell.guess
+    @hypotheses << [grid, cell, val]
   end
 
   def parse_file filename
@@ -372,7 +385,11 @@ ARGV.each do |arg|
   solver = SudokuSolver.new arg
   puts solver.grid.to_s
   grid = solver.deduce
-  puts solver.solved?
-  debugger
+  unless solver.solved?
+    3.times do
+      solver.guess
+      solver.deduce
+    end
+  end
   puts grid.to_s
 end
