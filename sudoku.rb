@@ -73,7 +73,7 @@ class Cell
     @values.count == 1
   end
 
-  def nb_unknown_values
+  def count
     @values.count
   end
 
@@ -255,18 +255,18 @@ class Grid
    s = s + "+---+---+---+\n"
   end
 
-  def min_unknown_value
+  def min
     map do |coord, cell|
-      n = cell.nb_unknown_values
+      n = cell.count
       n if n > 1
     end.compact.min
   end
 
   def random
-    min_unk = min_unknown_value
+    m = min
     cells = map do |coord, cell|
-      # [coord, cell] if cell.nb_unknown_values == min_unk
-      cell if cell.nb_unknown_values == min_unk
+      # [coord, cell] if cell.count == m
+      cell if cell.count == m
     end.compact
 
     cells[rand cells.count]
@@ -279,11 +279,12 @@ class Grid
     #   end
     # end
 
-    h = Hash.new
-    each do |coord, cell|
-      h[coord] = cell.copy
+    Grid.new hash
+    h = Hash.new.tap do |hash|
+      each do |coord, cell|
+        hash[coord] = cell.copy
+      end
     end
-    Grid.new h
   end
 end
 
