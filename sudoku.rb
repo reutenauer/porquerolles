@@ -286,7 +286,7 @@ class SudokuSolver
       @grid = Grid.new
     end
 
-    hypotheses = []
+    @hypotheses = []
   end
 
   def solved?
