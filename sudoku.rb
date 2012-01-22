@@ -69,12 +69,20 @@ class Cell
     @values.count == 1
   end
 
+  def nb_unknown_values
+    @values.count
+  end
+
   def to_s
     if solved?
       value.to_s
     else
       "."
     end
+  end
+
+  def copy
+    Cell.new.tap { |cell| cell.cross_out(1.upto(9).map.to_set - @values) }
   end
 end
 
@@ -132,7 +140,7 @@ end
 
 class Row < Group
   def initialize i, grid
-    initialize_group grid
+    initialize_group grid # TODO make that more OO-like
     @coords = 9.times.map { |j| [i, j] }
   end
 end
@@ -174,6 +182,7 @@ class Grid
       end
     end
 
+    # TODO: make that a class method!
     @rows = 9.times.map { |i| Row.new i, self }
     @columns = 9.times.map { |j| Column.new j, self }
     @blocks = 9.times.map { |k| Block.new k, self }
@@ -211,6 +220,10 @@ class Grid
     @grid.each_value &block
   end
 
+  def map &block
+    @grid.map &block
+  end
+
   def [] i, j
     @grid[[i, j]]
   end
@@ -233,6 +246,36 @@ class Grid
     end
    s = s + "+---+---+---+\n"
   end
+
+  def min_unknown_value
+    map do |coord, cell|
+      n = cell.nb_unknown_values
+      n if n > 1
+    end.compact.min
+  end
+
+  def random
+    min_unk = min_unknown_value
+    cells = map do |coord, cell|
+      [coord, cell] if cell.nb_unknown_values == min_unk
+    end.compact
+
+    cells[rand cells.count]
+  end
+
+  def copy
+    # Grid.new Hash.new.tap do |h|
+    #   h.each do |coord, cell|
+    #     h[coord] = @grid[coord]
+    #   end
+    # end
+
+    h = Hash.new
+    each do |coord, cell|
+      h[coord] = cell.copy
+    end
+    Grid.new h
+  end
 end
 
 class SudokuSolver
@@ -242,6 +285,8 @@ class SudokuSolver
     else
       @grid = Grid.new
     end
+
+    hypotheses = []
   end
 
   def solved?
@@ -266,7 +311,7 @@ class SudokuSolver
     @grid.each_value.inject(0) { |nsolved, cell| nsolved + (cell.solved? ? 1 : 0) }
   end
 
-  def solve
+  def deduce
     until solved?
       old_nb_cell_solved = nb_cell_solved
       propagate
@@ -275,6 +320,9 @@ class SudokuSolver
     end
 
     @grid
+  end
+
+  def guess
   end
 
   def parse_file filename
@@ -323,7 +371,8 @@ end
 ARGV.each do |arg|
   solver = SudokuSolver.new arg
   puts solver.grid.to_s
-  grid = solver.solve
+  grid = solver.deduce
   puts solver.solved?
+  debugger
   puts grid.to_s
 end
