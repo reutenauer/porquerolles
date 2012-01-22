@@ -273,14 +273,7 @@ class Grid
   end
 
   def copy
-    # Grid.new Hash.new.tap do |h|
-    #   h.each do |coord, cell|
-    #     h[coord] = @grid[coord]
-    #   end
-    # end
-
-    Grid.new hash
-    h = Hash.new.tap do |hash|
+    Hash.new.tap do |hash|
       each do |coord, cell|
         hash[coord] = cell.copy
       end
