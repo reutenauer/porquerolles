@@ -317,6 +317,26 @@ class Grid
   end
 end
 
+class Hypothesis
+  def initialize grid, coord, value
+    @grid = grid
+    @coord = coord
+    @value = value
+  end
+
+  def grid
+    @grid
+  end
+
+  def coord
+    @coord
+  end
+
+  def value
+    @value
+  end
+end
+
 class SudokuSolver
   def initialize filename = nil
     if filename
@@ -363,7 +383,7 @@ class SudokuSolver
     coord = coord_and_cell.first
     cell = coord_and_cell.last
     val = cell.guess
-    @hypotheses << [grid, coord, val]
+    @hypotheses << Hypothesis.new(grid, coord, val)
   end
 
   def parse_file filename
@@ -410,12 +430,12 @@ class SudokuSolver
 
   def backtrack
     raise Paradox if @hypotheses.count == 0
-    data = @hypotheses.pop
-    @grid = data[0]
-    coord = data[1]
-    val = data[2]
+    hypothesis = @hypotheses.pop
+    @grid = hypothesis.grid
+    coord = hypothesis.coord
+    value = hypothesis.value
     cell = @grid.cell coord
-    cell.cross_out val
+    cell.cross_out value
     backtrack if @grid.paradox?
   end
 end
