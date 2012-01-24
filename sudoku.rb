@@ -9,6 +9,9 @@ require 'set'
 class Deadlock < Exception
 end
 
+class Paradox < Exception
+end
+
 class Set
   # Method to pick one element in a standard-library set.  A little pedestrian, but fun!
   def pick
@@ -142,8 +145,10 @@ class Group
 
     locs.each do |x, l|
       cell = @grid.cell(l.first)
-      debugger unless cell
+      # debugger unless cell
       cell.set_solved x
+      # puts "Paradox? #{paradox?.to_s}"
+      # debugger if paradox?
     end
 
     unsolved_values = unsolved.each_key.to_set
@@ -157,6 +162,12 @@ class Group
         end
       end
     end
+  end
+
+  def paradox?
+    1.upto(9).map do |x|
+      cells.map { |cell| cell if cell.solved? && cell.value == x }.compact.count > 1
+    end.any?
   end
 end
 
@@ -302,6 +313,10 @@ class Grid
   def deadlock?
     each_value.map(&:deadlock?).any?
   end
+
+  def paradox?
+    groups.map(&:paradox?).any?
+  end
 end
 
 class SudokuSolver
@@ -402,6 +417,7 @@ class SudokuSolver
     val = data[2]
     cell = @grid.cell coord
     cell.cross_out val
+    backtrack if @grid.paradox?
   end
 end
 
@@ -410,6 +426,7 @@ ARGV.each do |arg|
   puts solver.grid.to_s
   grid = solver.deduce
   until solver.grid.solved?
+    # puts "Paradox? (1) #{solver.grid.paradox?}"
     begin
       solver.guess
       solver.deduce
@@ -417,6 +434,7 @@ ARGV.each do |arg|
         puts "Deadlock (0).  Backtracking..."
         solver.backtrack
       end
+      solver.grid.paradox?
     rescue Deadlock
       puts "Deadlock!  Backtracking..." if solver.grid.deadlock?
       solver.backtrack
