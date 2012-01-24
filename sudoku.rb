@@ -455,7 +455,7 @@ class SudokuSolver
         end
       end
     rescue Paradox
-      puts "Sudoku unsolvable."
+      puts "Sudoku insoluble."
     end
   end
 end
