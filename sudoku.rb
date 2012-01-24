@@ -6,6 +6,9 @@ require 'rubygems'
 require 'ruby-debug'
 require 'set'
 
+class Deadlock < Exception
+end
+
 class Set
   # Method to pick one element in a standard-library set.  A little pedestrian, but fun!
   def pick
@@ -70,7 +73,7 @@ class Cell
   end
 
   def solved?
-    @values.count == 1
+    count == 1
   end
 
   def count
@@ -91,6 +94,10 @@ class Cell
 
   def guess
     set_solved @values.random
+  end
+
+  def deadlock?
+    count == 0
   end
 end
 
@@ -118,7 +125,7 @@ class Group
     end.compact
   end
 
-  def possible_locations x
+  def locations x
     @coords.map do |coord| # TODO Some enumerator that yields both coord and cell as as an enumerator?
       cell = @grid.cell coord
       coord if cell.include? x
@@ -127,10 +134,17 @@ class Group
 
   def locate
     locs = { }
-    1.upto(9).each { |x| locs[x] = possible_locations x }
+    1.upto(9).each do |x|
+      locs[x] = locations x
+      raise Deadlock if locs[x].count == 0
+    end
     unsolved = locs.separate { |x, l| l.count > 1 }
 
-    locs.each { |x, l| @grid.cell(l.first).set_solved x }
+    locs.each do |x, l|
+      cell = @grid.cell(l.first)
+      debugger unless cell
+      cell.set_solved x
+    end
 
     unsolved_values = unsolved.each_key.to_set
     subsets = unsolved_values.subsets
@@ -265,19 +279,28 @@ class Grid
   def random
     m = min
     cells = map do |coord, cell|
-      # [coord, cell] if cell.count == m
-      cell if cell.count == m
+      [coord, cell] if cell.count == m
+      # cell if cell.count == m
     end.compact
 
     cells[rand cells.count]
   end
 
   def copy
-    Hash.new.tap do |hash|
-      each do |coord, cell|
-        hash[coord] = cell.copy
-      end
-    end
+   Grid.new(
+     Hash.new.tap do |hash|
+       each do |coord, cell|
+         hash[coord] = cell.copy
+       end
+     end)
+  end
+
+  def solved?
+    each_value.map(&:solved?).all?
+  end
+
+  def deadlock?
+    each_value.map(&:deadlock?).any?
   end
 end
 
@@ -290,10 +313,6 @@ class SudokuSolver
     end
 
     @hypotheses = []
-  end
-
-  def solved?
-    @grid.each_value.map(&:solved?).all?
   end
 
   def propagate
@@ -315,7 +334,7 @@ class SudokuSolver
   end
 
   def deduce
-    until solved?
+    until @grid.solved?
       old_nb_cell_solved = nb_cell_solved
       propagate
       locate
@@ -327,9 +346,11 @@ class SudokuSolver
 
   def guess
     grid = @grid.copy
-    cell = @grid.random
+    coord_and_cell = @grid.random
+    coord = coord_and_cell.first
+    cell = coord_and_cell.last
     val = cell.guess
-    @hypotheses << [grid, cell, val]
+    @hypotheses << [grid, coord, val]
   end
 
   def parse_file filename
@@ -373,17 +394,33 @@ class SudokuSolver
   def grid
     @grid
   end
+
+  def backtrack
+    data = @hypotheses.pop
+    @grid = data[0]
+    coord = data[1]
+    val = data[2]
+    cell = @grid.cell coord
+    cell.cross_out val
+  end
 end
 
 ARGV.each do |arg|
   solver = SudokuSolver.new arg
   puts solver.grid.to_s
   grid = solver.deduce
-  unless solver.solved?
-    3.times do
+  until solver.grid.solved?
+    begin
       solver.guess
       solver.deduce
+      if solver.grid.deadlock?
+        puts "Deadlock (0).  Backtracking..."
+        solver.backtrack
+      end
+    rescue Deadlock
+      puts "Deadlock!  Backtracking..." if solver.grid.deadlock?
+      solver.backtrack
     end
   end
-  puts grid.to_s
+  puts solver.grid.to_s
 end
