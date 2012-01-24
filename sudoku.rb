@@ -409,6 +409,7 @@ class SudokuSolver
   end
 
   def backtrack
+    raise Paradox if @hypotheses.count == 0
     data = @hypotheses.pop
     @grid = data[0]
     coord = data[1]
