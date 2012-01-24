@@ -145,10 +145,8 @@ class Group
 
     locs.each do |x, l|
       cell = @grid.cell(l.first)
-      # debugger unless cell
+      raise "No ‘cell’ in Group.locate.  This should not happen." unless cell
       cell.set_solved x
-      # puts "Paradox? #{paradox?.to_s}"
-      # debugger if paradox?
     end
 
     unsolved_values = unsolved.each_key.to_set
@@ -426,17 +424,13 @@ ARGV.each do |arg|
   puts solver.grid.to_s
   grid = solver.deduce
   until solver.grid.solved?
-    # puts "Paradox? (1) #{solver.grid.paradox?}"
     begin
       solver.guess
       solver.deduce
       if solver.grid.deadlock?
-        puts "Deadlock (0).  Backtracking..."
         solver.backtrack
       end
-      solver.grid.paradox?
     rescue Deadlock
-      puts "Deadlock!  Backtracking..." if solver.grid.deadlock?
       solver.backtrack
     end
   end
