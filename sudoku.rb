@@ -425,10 +425,6 @@ class SudokuSolver
     grid
   end
 
-  def grid
-    @grid
-  end
-
   def backtrack
     raise Paradox if @hypotheses.count == 0
     hypothesis = @hypotheses.pop
@@ -458,11 +454,15 @@ class SudokuSolver
       puts "Sudoku insoluble."
     end
   end
+
+  def print
+    puts @grid.to_s
+  end
 end
 
 ARGV.each do |arg|
   solver = SudokuSolver.new arg
-  puts solver.grid.to_s
-  grid = solver.solve
-  puts solver.grid.to_s
+  solver.print
+  solver.solve
+  solver.print
 end
