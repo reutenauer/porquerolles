@@ -374,6 +374,7 @@ class SudokuSolver
       break if nb_cell_solved == old_nb_cell_solved
     end
 
+    raise Paradox if @grid.paradox?
     @grid
   end
 
@@ -438,22 +439,30 @@ class SudokuSolver
     cell.cross_out value
     backtrack if @grid.paradox?
   end
+
+  def solve
+    begin
+      deduce
+      until @grid.solved?
+        begin
+          guess
+          deduce
+          if @grid.deadlock?
+            backtrack
+          end
+        rescue Deadlock
+          backtrack
+        end
+      end
+    rescue Paradox
+      puts "Sudoku unsolvable."
+    end
+  end
 end
 
 ARGV.each do |arg|
   solver = SudokuSolver.new arg
   puts solver.grid.to_s
-  grid = solver.deduce
-  until solver.grid.solved?
-    begin
-      solver.guess
-      solver.deduce
-      if solver.grid.deadlock?
-        solver.backtrack
-      end
-    rescue Deadlock
-      solver.backtrack
-    end
-  end
+  grid = solver.solve
   puts solver.grid.to_s
 end
