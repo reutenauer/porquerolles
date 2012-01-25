@@ -483,6 +483,10 @@ class SudokuSolver
     backtrack if @grid.paradox?
   end
 
+  def valid?
+    !@grid.paradox?
+  end
+
   def solve
     begin
       deduce
@@ -510,6 +514,10 @@ end
 ARGV.each do |arg|
   solver = SudokuSolver.new arg
   solver.print
+  if !solver.valid?
+    puts "Grid is not valid.  Exiting."
+    exit
+  end
   solver.solve
   solver.print
 end
