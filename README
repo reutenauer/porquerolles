@@ -7,8 +7,8 @@ any assumption about what number could be in some cell, and thus never
 have to backtrack.  Only deduction is used; and that is actually enough
 to solve a vast number of sudokus; even some I could find labelled as
 “extremely hard” (and deemed so by human players!).  I wanted to know if
-it was enough for *any* grid: it’s not, as examplified by the one in the
-‘unsolved’ directory (I don’t have other examples as the moment).
+it was enough for *any* grid: it’s not, as examplified by
+‘grids/maman.sdk’ (I don’t have other examples as the moment).
 
 As it turns out, all the deductive logic can be summed up in one single
 method, called ‘locate’ in the solver class; together with the

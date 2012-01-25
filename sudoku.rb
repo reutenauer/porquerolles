@@ -102,6 +102,10 @@ class Cell
   def deadlock?
     count == 0
   end
+
+  def each &block
+    @values.each &block
+  end
 end
 
 class Group
@@ -337,6 +341,37 @@ class Hypothesis
   end
 end
 
+class Node
+  def initialize parent, label = nil
+    @parent = parent
+    @children = []
+    @children << Node.new(label) if label
+  end
+
+  def add label
+    @children << Node.new(label)
+  end
+
+  def parent
+    @parent
+  end
+
+  def root
+    node = self
+    while parent
+      node = node.parent
+    end
+
+    node
+  end
+end
+
+class Tree < Node
+  def initialize
+    @children = []
+  end
+end
+
 class SudokuSolver
   def initialize filename = nil
     if filename
@@ -346,6 +381,7 @@ class SudokuSolver
     end
 
     @hypotheses = []
+    @node = Tree.new
   end
 
   def propagate
@@ -385,6 +421,17 @@ class SudokuSolver
     cell = coord_and_cell.last
     val = cell.guess
     @hypotheses << Hypothesis.new(grid, coord, val)
+  end
+
+  def tree
+    coord_and_cell = @grid.random
+    coord = coord_and_cell.first
+    cell = coord_and_cell.last
+    cell.each do |val|
+      grid = @grid.copy
+      grid[coord].set_solved val
+      @hypothesis = Hypothesis.new(grid, coord, val)
+    end
   end
 
   def parse_file filename
