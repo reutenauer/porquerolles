@@ -45,6 +45,65 @@ class Hash
   end
 end
 
+class Hypothesis
+  def initialize grid, coord, value
+    @grid = grid
+    @coord = coord
+    @value = value
+  end
+
+  def grid
+    @grid
+  end
+
+  def coord
+    @coord
+  end
+
+  def value
+    @value
+  end
+end
+
+class Node
+  def initialize parent, label = nil
+    @parent = parent
+    @children = []
+    @children << Node.new(label) if label
+  end
+
+  def add label
+    @children << Node.new(label)
+  end
+
+  def remove node
+    @children.delete_if { |child| child == node }
+  end
+
+  def parent
+    @parent
+  end
+
+  def root
+    node = self
+    while parent
+      node = node.parent
+    end
+
+    node
+  end
+
+  def each &block
+    @children.each &block
+  end
+end
+
+class Tree < Node
+  def initialize
+    @children = []
+  end
+end
+
 class Cell
   def initialize x = nil
     if x
@@ -319,56 +378,21 @@ class Grid
   def paradox?
     groups.map(&:paradox?).any?
   end
-end
 
-class Hypothesis
-  def initialize grid, coord, value
-    @grid = grid
-    @coord = coord
-    @value = value
-  end
-
-  def grid
-    @grid
-  end
-
-  def coord
-    @coord
-  end
-
-  def value
-    @value
-  end
-end
-
-class Node
-  def initialize parent, label = nil
-    @parent = parent
-    @children = []
-    @children << Node.new(label) if label
-  end
-
-  def add label
-    @children << Node.new(label)
-  end
-
-  def parent
-    @parent
-  end
-
-  def root
-    node = self
-    while parent
-      node = node.parent
+  def tree
+    coord_and_cell = random
+    coord = coord_and_cell.first
+    cell = coord_and_cell.last
+    cell.each do |val|
+      grid = copy
+      grid[coord].set_solved val
+      hypothesis = Hypothesis.new(grid, coord, val)
+      @node.add hypothesis
     end
 
-    node
-  end
-end
-
-class Tree < Node
-  def initialize
-    @children = []
+    @node.each do |node|
+      node.grid.tree
+    end
   end
 end
 
@@ -424,14 +448,7 @@ class SudokuSolver
   end
 
   def tree
-    coord_and_cell = @grid.random
-    coord = coord_and_cell.first
-    cell = coord_and_cell.last
-    cell.each do |val|
-      grid = @grid.copy
-      grid[coord].set_solved val
-      @hypothesis = Hypothesis.new(grid, coord, val)
-    end
+    @grid.tree
   end
 
   def parse_file filename
@@ -487,18 +504,28 @@ class SudokuSolver
     !@grid.paradox?
   end
 
-  def solve
+  def solve params = { }
+    # Possible methods: :deduction, :guess, :tree
+    method = params[:method]
+    method = :deduction if !method
     begin
       deduce
-      until @grid.solved?
-        begin
-          guess
-          deduce
-          if @grid.deadlock?
+      if method == :guess
+        until @grid.solved?
+          begin
+            guess
+            deduce
+            if @grid.deadlock?
+              backtrack
+            end
+          rescue Deadlock
             backtrack
           end
-        rescue Deadlock
-          backtrack
+        end
+      elsif method == :tree
+        tree = @grid.tree
+        tree.each do |node|
+          node.grid.tree
         end
       end
     rescue Paradox
