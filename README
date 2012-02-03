@@ -8,7 +8,8 @@ have to backtrack.  Only deduction is used; and that is actually enough
 to solve a vast number of sudokus; even some I could find labelled as
 “extremely hard” (and deemed so by human players!).  I wanted to know if
 it was enough for *any* grid: it’s not, as examplified by
-‘grids/maman.sdk’ (I don’t have other examples as the moment).
+‘grids/maman.sdk’ and ‘grids/guardian/2094.sdk’ (I don’t have other
+examples as the moment).
 
 As it turns out, all the deductive logic can be summed up in one single
 method, called ‘locate’ in the solver class; together with the
@@ -17,6 +18,12 @@ sudoku-solving algorithm that solves almost everything.  It is thus
 quite possible that with some additional research one could solve all
 sudokus, but I haven’t investigated this yet.
 
-	Usage: ./sudoku.rb <grid.sdk>
+	Usage: ./sudoku.rb [-g] <grid.sdk>
+
+The -g switch applies the “guessing” method; that is, the aforementioned
+method of making hypotheses where we may have to backtrack.  It is not
+the default because that I was more interested in exploring the
+possibilities of the deductive method; that’s how I found the two
+examples above.
 
 See directory grids for example of grids (all solved by the program).
