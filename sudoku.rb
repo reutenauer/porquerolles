@@ -543,12 +543,13 @@ end
 
 f = ARGV.first
 args = ARGV
+params = { }
 
 if f == '-d'
-  $params = { :method => :deduction } # Boo, global variable!
+  params = { :method => :deduction }
   args = args[1..-1]
 elsif f == '-g'
-  $params = { :method => :guess }
+  params = { :method => :guess }
   args = args[1..-1]
 # No tree yet.
 end
@@ -560,6 +561,6 @@ args.each do |arg|
     puts "Grid is not valid.  Exiting."
     exit
   end
-  solver.solve
+  solver.solve params
   solver.print
 end
