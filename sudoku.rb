@@ -527,6 +527,7 @@ class SudokuSolver
         tree.each do |node|
           node.grid.tree
         end
+	# TODO...
       end
     rescue Paradox
       puts "Sudoku insoluble."
@@ -538,7 +539,21 @@ class SudokuSolver
   end
 end
 
-ARGV.each do |arg|
+# I’ll play with optparse later.
+
+f = ARGV.first
+args = ARGV
+
+if f == '-d'
+  $params = { :method => :deduction } # Boo, global variable!
+  args = args[1..-1]
+elsif f == '-g'
+  $params = { :method => :guess }
+  args = args[1..-1]
+# No tree yet.
+end
+
+args.each do |arg|
   solver = SudokuSolver.new arg
   solver.print
   if !solver.valid?
