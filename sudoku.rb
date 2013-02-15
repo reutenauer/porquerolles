@@ -197,7 +197,7 @@ class Group
     end.compact.to_set
   end
 
-  def locate
+  def place
     locs = { }
     1.upto(9).each do |x|
       locs[x] = locations x
@@ -207,7 +207,7 @@ class Group
 
     locs.each do |x, l|
       cell = @grid.cell(l.first)
-      raise "No ‘cell’ in Group.locate.  This should not happen." unless cell
+      raise "No ‘cell’ in Group.place.  This should not happen." unless cell
       cell.set_solved x
     end
 
@@ -417,8 +417,8 @@ class SudokuSolver
     end
   end
 
-  def locate
-    @grid.groups.each { |group| group.locate }
+  def place
+    @grid.groups.each { |group| group.place }
   end
 
   def nb_cell_solved
@@ -429,7 +429,7 @@ class SudokuSolver
     until @grid.solved?
       old_nb_cell_solved = nb_cell_solved
       propagate
-      locate
+      place
       break if nb_cell_solved == old_nb_cell_solved
     end
 
