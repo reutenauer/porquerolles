@@ -45,26 +45,18 @@ class Hash
 end
 
 class Hypothesis
+  attr_reader :grid, :coord, :value
+
   def initialize grid, coord, value
     @grid = grid
     @coord = coord
     @value = value
   end
-
-  def grid
-    @grid
-  end
-
-  def coord
-    @coord
-  end
-
-  def value
-    @value
-  end
 end
 
 class Node
+  attr_reader :parent
+
   def initialize parent, label = nil
     @parent = parent
     @children = []
@@ -77,10 +69,6 @@ class Node
 
   def remove node
     @children.delete_if { |child| child == node }
-  end
-
-  def parent
-    @parent
   end
 
   def root
@@ -167,13 +155,11 @@ class Cell
 end
 
 class Group
+  attr_reader :coords
+
   def initialize_group grid
     @grid = grid
     @coords = []
-  end
-
-  def coords
-    @coords
   end
 
   def cells
@@ -263,6 +249,8 @@ end
 # TODO Rename @grid to @matrix here, otherwise nobody has any chance of
 # understanding anything
 class Grid
+  attr_reader :rows, :columns, :blocks
+
   def initialize grid = nil
     if grid
       @grid = grid
@@ -283,18 +271,6 @@ class Grid
 
   def cell loc
     @grid[loc]
-  end
-
-  def rows
-    @rows
-  end
-
-  def columns
-    @columns
-  end
-
-  def blocks
-    @blocks
   end
 
   def groups
