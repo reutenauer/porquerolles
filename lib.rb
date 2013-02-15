@@ -211,9 +211,9 @@ class Group
   end
 
   def paradox?
-    1.upto(9).map do |x|
+    1.upto(9).any? do |x|
       cells.map { |cell| cell if cell.solved? && cell.value == x }.compact.count > 1
-    end.any?
+    end
   end
 end
 
@@ -343,15 +343,15 @@ class Grid
   end
 
   def solved?
-    each_value.map(&:solved?).all?
+    each_value.all?(&:solved?)
   end
 
   def deadlock?
-    each_value.map(&:deadlock?).any?
+    each_value.any?(&:deadlock?)
   end
 
   def paradox?
-    groups.map(&:paradox?).any?
+    groups.any?(&:paradox?)
   end
 
   def tree
