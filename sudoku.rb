@@ -3,7 +3,6 @@
 # UTF-8, 108 characters a line (more comfortable than 72/80).
 
 require 'rubygems'
-require 'ruby-debug'
 require 'set'
 
 class Deadlock < Exception
