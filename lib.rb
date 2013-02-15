@@ -246,19 +246,17 @@ class Block < Group
   end
 end
 
-# TODO Rename @grid to @matrix here, otherwise nobody has any chance of
-# understanding anything
 class Grid
   attr_reader :rows, :columns, :blocks
 
   def initialize grid = nil
     if grid
-      @grid = grid
+      @matrix = grid
     else
-      @grid = Hash.new
+      @matrix = Hash.new
       9.times do |i|
         9.times do |j|
-          @grid[[i, j]] = Cell.new
+          @matrix[[i, j]] = Cell.new
         end
       end
     end
@@ -270,7 +268,7 @@ class Grid
   end
 
   def cell loc
-    @grid[loc]
+    @matrix[loc]
   end
 
   def groups
@@ -278,23 +276,23 @@ class Grid
   end
 
   def each &block
-    @grid.each &block
+    @matrix.each &block
   end
 
   def each_key &block
-    @grid.each_key &block
+    @matrix.each_key &block
   end
 
   def each_value &block
-    @grid.each_value &block
+    @matrix.each_value &block
   end
 
   def map &block
-    @grid.map &block
+    @matrix.map &block
   end
 
   def [] i, j
-    @grid[[i, j]]
+    @matrix[[i, j]]
   end
 
   def to_s
