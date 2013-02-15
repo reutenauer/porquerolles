@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
-
-# UTF-8, 108 characters a line (more comfortable than 72/80).
+# encoding: UTF-8
+# Some lines may have up to 108 characters (more comfortable than 72 or 80).
 
 require 'rubygems'
 require 'set'
