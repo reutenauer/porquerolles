@@ -9,6 +9,7 @@ require File.expand_path('lib', File.dirname(__FILE__))
 
 # Sudoku main.
 
+# TODO tree option, verbose option.
 # I’ll play with optparse later.
 
 f = ARGV.first
