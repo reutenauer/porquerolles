@@ -413,6 +413,11 @@ class SudokuSolver
     until @grid.solved?
       old_nb_cell_solved = nb_cell_solved
       propagate
+      @grid.blocks.each do |block|
+        1.upto(9) do
+          |x| block.place_single(x)
+        end
+      end
       place
       break if nb_cell_solved == old_nb_cell_solved
     end
