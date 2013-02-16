@@ -12,29 +12,24 @@ class Paradox < Exception
 end
 
 class Set
-  # Method to pick one element in a standard-library set.  A little pedestrian, but fun!
+  # Method to pick one element in a standard-library set.
   def pick
-    first # Declared here so as to avoid a global variable (that would be BAD!)
-    each do |element|
-      first = element
-      break
-    end
-    first
+    to_a.first
   end
 
   # Lists subsets.  Recursive.  A classic.
   def subsets
     if empty?
-      return Set.new [Set.new]
+      Set.new([Set.new])
     else
-      head = Set.new [pick]
+      head = Set.new([pick])
       subsubsets = (self - head).subsets
-      return subsubsets + Set.new(subsubsets.map { |set| set + head })
+      subsubsets + Set.new(subsubsets.map { |set| set + head })
     end
   end
 
   def random
-    to_a[rand to_a.count]
+    to_a[rand(to_a.count)]
   end
 end
 
@@ -47,7 +42,7 @@ end
 class Hypothesis
   attr_reader :grid, :coord, :value
 
-  def initialize grid, coord, value
+  def initialize(grid, coord, value)
     @grid = grid
     @coord = coord
     @value = value
@@ -57,7 +52,7 @@ end
 class Node
   attr_reader :parent
 
-  def initialize parent, label = nil
+  def initialize(parent, label = nil)
     @parent = parent
     @children = []
     @children << Node.new(label) if label
@@ -81,7 +76,7 @@ class Node
   end
 
   def each &block
-    @children.each &block
+    @children.each(&block)
   end
 end
 
@@ -92,11 +87,11 @@ class Tree < Node
 end
 
 class Cell
-  def initialize x = nil
+  def initialize(x = nil)
     if x
-      @values = Set.new [x.to_i]
+      @values = Set.new([x.to_i])
     else
-      @values = Set.new 1.upto(9).map { |i| i }
+      @values = Set.new(1.upto(9))
     end
   end
 
@@ -108,17 +103,18 @@ class Cell
     @values.first
   end
 
-  def cross_out x
+  # Cross out a single value or an array from the cell
+  def cross_out(x)
     x = [x] if x.class == Fixnum
     @values = @values - x
   end
 
-  def set_solved x
+  def set_solved(x)
     @values = Set.new [x]
   end
 
-  def include? x
-    @values.include? x
+  def include?(x)
+    @values.include?(x)
   end
 
   def solved?
@@ -142,7 +138,7 @@ class Cell
   end
 
   def guess
-    set_solved @values.random
+    set_solved(@values.random)
   end
 
   def deadlock?
@@ -157,7 +153,7 @@ end
 class Group
   attr_reader :coords
 
-  def initialize_group grid
+  def initialize_group(grid)
     @grid = grid
     @coords = []
   end
@@ -170,13 +166,13 @@ class Group
     @coords.include? x
   end
 
-  def values exclude = nil
+  def values(exclude = nil)
     cells.map do |cell|
       cell.value if cell != exclude && cell.solved?
     end.compact
   end
 
-  def locations x
+  def locations(x)
     @coords.map do |coord| # TODO Some enumerator that yields both coord and cell as as an enumerator?
       cell = @grid.cell coord
       coord if cell.include? x
@@ -194,7 +190,7 @@ class Group
     locs.each do |x, l|
       cell = @grid.cell(l.first)
       raise "No ‘cell’ in Group.place.  This should not happen." unless cell
-      cell.set_solved x
+      cell.set_solved(x)
     end
 
     unsolved_values = unsolved.each_key.to_set
@@ -204,7 +200,7 @@ class Group
       if these_locs.count == subset.count
         values_to_cross_out = unsolved_values - subset
         these_locs.each do |coord|
-          @grid.cell(coord).cross_out values_to_cross_out
+          @grid.cell(coord).cross_out(values_to_cross_out)
         end
       end
     end
@@ -218,21 +214,21 @@ class Group
 end
 
 class Row < Group
-  def initialize i, grid
-    initialize_group grid # TODO make that more OO-like
+  def initialize(i, grid)
+    initialize_group(grid) # TODO make that more OO-like
     @coords = 9.times.map { |j| [i, j] }
   end
 end
 
 class Column < Group
-  def initialize j, grid
-    initialize_group grid
+  def initialize(j, grid)
+    initialize_group(grid)
     @coords = 9.times.map { |i| [i, j] }
   end
 end
 
 class Block < Group
-  def initialize k, grid
+  def initialize(k, grid)
     initialize_group grid
     row_block = 3 * (k / 3)
     col_block = 3 * (k % 3)
@@ -249,7 +245,7 @@ end
 class Grid
   attr_reader :rows, :columns, :blocks
 
-  def initialize grid = nil
+  def initialize(grid = nil)
     if grid
       @matrix = grid
     else
@@ -267,7 +263,7 @@ class Grid
     @blocks = 9.times.map { |k| Block.new k, self }
   end
 
-  def cell loc
+  def cell(loc)
     @matrix[loc]
   end
 
@@ -328,16 +324,16 @@ class Grid
       # cell if cell.count == m
     end.compact
 
-    cells[rand cells.count]
+    cells[rand(cells.count)]
   end
 
   def copy
-   Grid.new(
+   Grid.new
      Hash.new.tap do |hash|
        each do |coord, cell|
          hash[coord] = cell.copy
        end
-     end)
+     end
   end
 
   def solved?
@@ -358,7 +354,7 @@ class Grid
     cell = coord_and_cell.last
     cell.each do |val|
       grid = copy
-      grid[coord].set_solved val
+      grid[coord].set_solved(val)
       hypothesis = Hypothesis.new(grid, coord, val)
       @node.add hypothesis
     end
@@ -370,7 +366,7 @@ class Grid
 end
 
 class SudokuSolver
-  def initialize filename = nil
+  def initialize(filename = nil)
     if filename
       @grid = Grid.new parse_file filename
     else
@@ -433,9 +429,9 @@ class SudokuSolver
       exit -1
     end
 
-    def set_cell grid, i, j, x
+    def set_cell(grid, i, j, x)
       x = nil if x == "."
-      grid[[i, j]] = Cell.new x
+      grid[[i, j]] = Cell.new(x)
     end
 
     grid = Hash.new
@@ -448,7 +444,7 @@ class SudokuSolver
 
       if match.count == 9
         9.times do |j|
-          set_cell grid, i, j, match[j]
+          set_cell(grid, i, j, match[j])
         end
 
         i = i + 1
