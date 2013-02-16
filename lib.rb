@@ -238,33 +238,17 @@ class Block < Group
   end
 
   def place_single(x)
-    # debugger
-    first_coord = coords.first
-
-    exclude_rows, exclude_cols = [], []
-      first_coord.first.upto(first_coord.first + 2).each do |i|
-        row = @grid.rows[i]
-        if row.values.include? x
-          exclude_rows << i
-        end
+    possible_locs = Array.new.tap do |a|
+      coords.each do |coord|
+        cell = @grid.cell(coord)
+        a << coord if cell.include? x
       end
-
-      first_coord.last.upto(first_coord.last + 2).each do |j|
-        col = @grid.columns[j]
-        if col.values.include? x
-          exclude_cols << j
-        end
-      end
-
-    # debugger if @grid[8, 6].solved? && @grid[0, 0].value == 8
-
-    if exclude_rows.count == 2 && exclude_rows.count == 2
-      row = first_coord.first.upto(first_coord.first + 2).to_a - exclude_rows
-      col = first_coord.last.upto(first_coord.last + 2).to_a - exclude_cols
-      # debugger
-      @grid[row.first, col.first].set_solved(x)
     end
 
+    if possible_locs.count == 1
+      coord = possible_locs.first
+      @grid.cell(coord).set_solved(x)
+    end
   end
 end
 
