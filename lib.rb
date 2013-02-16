@@ -4,6 +4,7 @@
 
 require 'rubygems'
 require 'set'
+require 'debugger'
 
 class Deadlock < Exception
 end
@@ -237,41 +238,33 @@ class Block < Group
   end
 
   def place_single(x)
+    # debugger
     first_coord = coords.first
 
-    coords.each do |coord|
+    exclude_rows, exclude_cols = [], []
       first_coord.first.upto(first_coord.first + 2).each do |i|
         row = @grid.rows[i]
         if row.values.include? x
-          puts "Crossing out #{x} from row #{i} in block."
-          # (i - first_coord.first).upto(i - first_coord.first + 2).each do |k|
-          # coords.each_with_index do |coord2, k|
-          0.upto(2) do |l|
-            k = 3 * (i - first_coord.first) + l
-	    # puts "#{k / 3}, #{i - first_coord.first}"
-            # next if k / 3 == i - first_coord.first
-            puts "  crossing from cell #{k} in block."
-            @grid.cell(coords[k]).cross_out(x)
-          end
+          exclude_rows << i
         end
       end
 
       first_coord.last.upto(first_coord.last + 2).each do |j|
         col = @grid.columns[j]
         if col.values.include? x
-          puts "Crossing out #{x} from column #{j} in block."
-          # (j - first_coord.last).upto(j - first_coord.last + 2).each do |k|
-          # coords.each_with_index do |coord2, k|
-          0.upto(2) do |l|
-            k = j - first_coord.last + 3 * l
-	    # puts "#{k % 3}, #{j - first_coord.last}"
-            # next if k % 3 == j - first_coord.last
-            puts "  crossing from cell #{k} in block."
-            @grid.cell(coords[k]).cross_out(x)
-          end
+          exclude_cols << j
         end
       end
+
+    # debugger if @grid[8, 6].solved? && @grid[0, 0].value == 8
+
+    if exclude_rows.count == 2 && exclude_rows.count == 2
+      row = first_coord.first.upto(first_coord.first + 2).to_a - exclude_rows
+      col = first_coord.last.upto(first_coord.last + 2).to_a - exclude_cols
+      # debugger
+      @grid[row.first, col.first].set_solved(x)
     end
+
   end
 end
 
