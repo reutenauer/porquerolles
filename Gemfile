@@ -1,4 +1,4 @@
 source 'http://rubygems.org/'
 
-gem 'ruby-debug'
+gem 'ruby-debug19'
 gem 'rspec'
