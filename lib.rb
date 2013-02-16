@@ -478,7 +478,7 @@ class SudokuSolver
       deduce
       if method == :guess
         @nb_hypotheses = 0
-        puts "Entering guessing stage ..."
+        puts "Entering guessing mode ..."
         until @grid.solved?
           begin
 	    Kernel.print "\rConsidered #{@nb_hypotheses} hypotheses so far.  Hypothesis depth: #{@hypotheses.count}."
