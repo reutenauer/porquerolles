@@ -387,7 +387,9 @@ class SudokuSolver
   end
 
   def nb_cell_solved
-    @grid.each_value.inject(0) { |nsolved, cell| nsolved + (cell.solved? ? 1 : 0) }
+    @grid.each_value.inject(0) do |nsolved, cell|
+      nsolved + if cell.solved? then 1 else 0 end
+    end
   end
 
   def deduce
@@ -399,7 +401,6 @@ class SudokuSolver
     end
 
     raise Paradox if @grid.paradox?
-    @grid
   end
 
   def guess
