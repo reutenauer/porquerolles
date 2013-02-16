@@ -12,17 +12,25 @@ require File.expand_path('lib', File.dirname(__FILE__))
 # TODO tree option, verbose option.
 # I’ll play with optparse later.
 
-f = ARGV.first
-args = ARGV
 params = { }
+args = ARGV
 
-if f == '-d'
-  params = { :method => :deduction }
-  args = args[1..-1]
-elsif f == '-g'
-  params = { :method => :guess }
-  args = args[1..-1]
-# No tree yet.
+# TODO Play with optparse now.
+# TODO “$0 -f grid/maman.sdk” freezes
+while args.count > 1
+  f = args.first
+
+  if f == '-s'
+    params[:singles] = true
+    args = args[1..-1]
+  elsif f == '-d'
+    params[:method] = :deduction
+    args = args[1..-1]
+  elsif f == '-g'
+    params[:method] = :guess
+    args = args[1..-1]
+  # No tree yet.
+  end
 end
 
 args.each do |arg|
