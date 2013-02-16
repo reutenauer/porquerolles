@@ -120,7 +120,7 @@ class Cell
     @values.count
   end
 
-  def to_s
+  def display
     if solved?
       value.to_s
     else
@@ -286,7 +286,7 @@ class Grid
     @matrix[[i, j]]
   end
 
-  def to_s
+  def display
     s = ""
     9.times do |i|
       if i % 3 == 0
@@ -297,7 +297,7 @@ class Grid
         if j % 3 == 0
           row = "#{row}|"
         end
-        row = "#{row}#{self[i, j].to_s}"
+        row = "#{row}#{self[i, j].display}"
       end
       row = "#{row}|"
       s = s + row + "\n"
@@ -505,6 +505,6 @@ class SudokuSolver
   end
 
   def print
-    puts @grid.to_s
+    puts @grid.display
   end
 end
