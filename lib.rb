@@ -153,12 +153,7 @@ class Group
     @grid = grid
     @coords = []
   end
-end
 
-class Block < Group
-end
-
-class Group
   def cells
     @coords.map { |coord| @grid.cell coord }
   end
