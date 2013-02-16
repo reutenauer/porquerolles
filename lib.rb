@@ -235,6 +235,44 @@ class Block < Group
       end
     end
   end
+
+  def place_single(x)
+    first_coord = coords.first
+
+    coords.each do |coord|
+      first_coord.first.upto(first_coord.first + 2).each do |i|
+        row = @grid.rows[i]
+        if row.values.include? x
+          puts "Crossing out #{x} from row #{i} in block."
+          # (i - first_coord.first).upto(i - first_coord.first + 2).each do |k|
+          # coords.each_with_index do |coord2, k|
+          0.upto(2) do |l|
+            k = 3 * (i - first_coord.first) + l
+	    # puts "#{k / 3}, #{i - first_coord.first}"
+            # next if k / 3 == i - first_coord.first
+            puts "  crossing from cell #{k} in block."
+            @grid.cell(coords[k]).cross_out(x)
+          end
+        end
+      end
+
+      first_coord.last.upto(first_coord.last + 2).each do |j|
+        col = @grid.columns[j]
+        if col.values.include? x
+          puts "Crossing out #{x} from column #{j} in block."
+          # (j - first_coord.last).upto(j - first_coord.last + 2).each do |k|
+          # coords.each_with_index do |coord2, k|
+          0.upto(2) do |l|
+            k = j - first_coord.last + 3 * l
+	    # puts "#{k % 3}, #{j - first_coord.last}"
+            # next if k % 3 == j - first_coord.last
+            puts "  crossing from cell #{k} in block."
+            @grid.cell(coords[k]).cross_out(x)
+          end
+        end
+      end
+    end
+  end
 end
 
 class Grid
@@ -361,6 +399,8 @@ class Grid
 end
 
 class SudokuSolver
+  attr_reader :grid
+
   def initialize(filename = nil)
     if filename
       @grid = Grid.new parse_file filename
