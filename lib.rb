@@ -12,17 +12,12 @@ class Paradox < Exception
 end
 
 class Set
-  # Method to pick one element in a standard-library set.
-  def pick
-    to_a.first
-  end
-
   # Lists subsets.  Recursive.  A classic.
   def subsets
     if empty?
       Set.new([Set.new])
     else
-      head = Set.new([pick])
+      head = Set.new([first])
       subsubsets = (self - head).subsets
       subsubsets + Set.new(subsubsets.map { |set| set + head })
     end
