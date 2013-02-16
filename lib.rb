@@ -153,7 +153,12 @@ class Group
     @grid = grid
     @coords = []
   end
+end
 
+class Block < Group
+end
+
+class Group
   def cells
     @coords.map { |coord| @grid.cell coord }
   end
@@ -175,7 +180,15 @@ class Group
     end.compact.to_set
   end
 
-  def place
+  def place(params = { })
+    if params[:singles] && (self.is_a? Block) # Brackets needed here for syntax.
+      @grid.blocks.each do |block|
+        1.upto(9) do
+	  |x| place_single(x)
+        end
+      end
+    end
+
     locs = { }
     1.upto(9).each do |x|
       locs[x] = locations x
@@ -413,11 +426,6 @@ class SudokuSolver
     until @grid.solved?
       old_nb_cell_solved = nb_cell_solved
       propagate
-      @grid.blocks.each do |block|
-        1.upto(9) do
-          |x| block.place_single(x)
-        end
-      end
       place
       break if nb_cell_solved == old_nb_cell_solved
     end
