@@ -404,6 +404,7 @@ class SudokuSolver
   end
 
   def guess
+    @nb_hypotheses += 1
     grid = @grid.copy
     coord_and_cell = @grid.random
     coord = coord_and_cell.first
@@ -476,8 +477,11 @@ class SudokuSolver
     begin
       deduce
       if method == :guess
+        @nb_hypotheses = 0
+        puts "Entering guessing stage ..."
         until @grid.solved?
           begin
+	    Kernel.print "\rConsidered #{@nb_hypotheses} hypotheses so far.  Hypothesis depth: #{@hypotheses.count}."
             guess
             deduce
             if @grid.deadlock?
@@ -497,6 +501,7 @@ class SudokuSolver
     rescue Paradox
       puts "Sudoku insoluble."
     end
+    puts "  Solved!" if method == :guess and nb_cell_solved == 81
   end
 
   def print
