@@ -323,12 +323,12 @@ class Grid
   end
 
   def copy
-   Grid.new
+   Grid.new(
      Hash.new.tap do |hash|
        each do |coord, cell|
          hash[coord] = cell.copy
        end
-     end
+     end)
   end
 
   def solved?
