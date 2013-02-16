@@ -53,11 +53,11 @@ class Node
     @children << Node.new(label) if label
   end
 
-  def add label
+  def add(label)
     @children << Node.new(label)
   end
 
-  def remove node
+  def remove(node)
     @children.delete_if { |child| child == node }
   end
 
@@ -351,7 +351,7 @@ class Grid
       grid = copy
       grid[coord].set_solved(val)
       hypothesis = Hypothesis.new(grid, coord, val)
-      @node.add hypothesis
+      @node.add(hypothesis)
     end
 
     @node.each do |node|
