@@ -33,6 +33,33 @@ describe Block do
 end
 
 describe Grid do
+  context "with an empty grid" do
+    before(:each) do
+      grid = Grid.new
+    end
+
+    describe ".row_of" do
+      it "finds the row of one cell" do
+        grid.row_of([2, 3]).should == grid.rows[2]
+      end
+    end
+
+    describe ".column_of" do
+      it "finds the column on one cell" do
+        grid.column_of([4, 6]).should == grid.columns[6]
+      end
+    end
+
+    describe ".block_of" do
+      it "finds the block of some cells" do
+        grid.block_of([6, 6]).should == grid.block[8]
+        grid.block_of([4, 3]).should == grid.block[4]
+        grid.block_of([4, 4]).should == grid.block[4]
+        grid.block_of([2, 8]).should == grid.block[2]
+      end
+    end
+  end
+
   describe '#find_chains' do
     it 'works' do
       solver = SudokuSolver.new(File.expand_path('X-wing.sdk', File.dirname(__FILE__)))
