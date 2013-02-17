@@ -256,6 +256,17 @@ class Block < Group
     if possible_locs.count == 1
       coord = possible_locs.first
       @grid.cell(coord).set_solved(x)
+
+      # Propagate the knowledge.
+      row = @grid.rows[coord.first]
+      col = @grid.columns[coord.last]
+      block = @grid.blocks[3 * (coord.first / 3) + coord.last % 3]
+
+      [row, col, block].each do |group|
+        group.coords.each do |coord2|
+          @grid.cell(coord2).cross_out(x) unless coord2 == coord
+        end
+      end
     end
   end
 end
