@@ -72,7 +72,7 @@ class Node
   end
 
   def each &block
-    @children.each(&block)
+    @children.each &block
   end
 end
 
@@ -106,7 +106,7 @@ class Cell
   end
 
   def set_solved(x)
-    @values = Set.new [x]
+    @values = Set.new([x])
   end
 
   def include?(x)
@@ -178,8 +178,8 @@ class Group
   def place(params = { })
     if params[:singles] && (self.is_a? Block) # Brackets needed here for syntax.
       @grid.blocks.each do |block|
-        1.upto(9) do
-	  |x| place_single(x)
+        1.upto(9) do |x|
+          place_single(x)
         end
       end
     end
@@ -399,7 +399,7 @@ class SudokuSolver
 
   def initialize(filename = nil)
     if filename
-      @grid = Grid.new parse_file filename
+      @grid = Grid.new(parse_file(filename))
     else
       @grid = Grid.new
     end
@@ -412,7 +412,7 @@ class SudokuSolver
     @grid.each do |coord, cell|
       unless cell.solved?
         @grid.groups.each do |group|
-          cell.cross_out group.values cell if group.include? coord
+          cell.cross_out(group.values(cell)) if group.include? coord
         end
       end
     end
@@ -453,10 +453,10 @@ class SudokuSolver
     @grid.tree
   end
 
-  def parse_file filename
+  def parse_file(filename)
     puts "Parsing file #{filename}."
     begin
-      gridfile = File.open filename, "r"
+      gridfile = File.open(filename, "r")
     rescue Errno::ENOENT
       puts "Error: could not open file #{filename}."
       exit -1
@@ -506,10 +506,10 @@ class SudokuSolver
     !@grid.paradox?
   end
 
-  def solve params = { }
+  def solve(params = { })
     # Possible methods: :deduction, :guess, :tree
     method = params[:method]
-    method = :deduction if !method
+    method = :deduction unless method
     begin
       deduce
       if method == :guess
