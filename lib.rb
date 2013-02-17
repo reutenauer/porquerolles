@@ -258,7 +258,7 @@ class Block < Group
       # Propagate the knowledge.
       row = @grid.rows[coord.first]
       col = @grid.columns[coord.last]
-      block = @grid.blocks[3 * (coord.first / 3) + coord.last % 3]
+      block = @grid.blocks[3 * (coord.first / 3) + coord.last / 3]
 
       [row, col, block].each do |group|
         group.coords.each do |coord2|
