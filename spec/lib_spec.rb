@@ -55,6 +55,12 @@ describe Grid do
         grid.block_of([2, 8]).should == grid.blocks[2]
       end
     end
+
+    describe "#groups_of" do
+      it "finds the groups to which one cell belongs" do
+        grid.groups_of([4, 6]).should =~ [grid.rows[4], grid.columns[6], grid.blocks[5]]
+      end
+    end
   end
 
   describe '#find_chains' do
