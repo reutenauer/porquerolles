@@ -30,3 +30,13 @@ describe Block do
     end
   end
 end
+
+describe Grid do
+  describe '#find_chains' do
+    it 'works' do
+      solver = SudokuSolver.new
+      grid = solver.parse_file(File.expand_path('X-wing.sdk', File.dirname(__FILE__)))
+      grid.find_chains
+    end
+  end
+end
