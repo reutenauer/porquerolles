@@ -320,6 +320,18 @@ class Grid
     @matrix[[i, j]]
   end
 
+  def row_of(coord)
+    @rows[coord.first]
+  end
+
+  def column_of(coord)
+    @columns[coord.last]
+  end
+
+  def block_of(coord)
+    @blocks[3 * (coord.first / 3) + coord.last / 3]
+  end
+
   def display
     s = ""
     9.times do |i|
