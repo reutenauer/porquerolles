@@ -64,11 +64,11 @@ describe Grid do
   end
 
   describe '#find_chains' do
-    it 'works' do
+    it 'find a link' do
       solver = SudokuSolver.new(File.expand_path('X-wing.sdk', File.dirname(__FILE__)))
       grid = solver.grid
       solver.solve
-      grid.find_chains
+      grid.find_chains.should == [[6, grid.columns[8]]]
     end
   end
 end
