@@ -1,3 +1,3 @@
-Rspec.configure do |config|
+RSpec.configure do |config|
   config.filter_run :focus => true
 end
