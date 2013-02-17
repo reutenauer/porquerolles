@@ -1,6 +1,6 @@
 require File.expand_path('../lib.rb', File.dirname(__FILE__))
 
-describe "SudokuSolver" do
+describe SudokuSolver do
   describe "#solve" do
     it "solves a couple of grids" do
       solver = SudokuSolver.new(File.expand_path('../grids/guardian/2423.sdk', File.dirname(__FILE__)))
