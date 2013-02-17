@@ -1,4 +1,3 @@
-require 'spec_helper'
 require File.expand_path('../lib.rb', File.dirname(__FILE__))
 
 describe Block do
@@ -50,10 +49,10 @@ describe Grid do
 
     describe ".block_of" do
       it "finds the block of some cells" do
-        grid.block_of([6, 6]).should == grid.block[8]
-        grid.block_of([4, 3]).should == grid.block[4]
-        grid.block_of([4, 4]).should == grid.block[4]
-        grid.block_of([2, 8]).should == grid.block[2]
+        grid.block_of([6, 6]).should == grid.blocks[8]
+        grid.block_of([4, 3]).should == grid.blocks[4]
+        grid.block_of([4, 4]).should == grid.blocks[4]
+        grid.block_of([2, 8]).should == grid.blocks[2]
       end
     end
   end
