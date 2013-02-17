@@ -34,9 +34,7 @@ end
 
 describe Grid do
   context "with an empty grid" do
-    before(:each) do
-      grid = Grid.new
-    end
+    let(:grid) { @grid = Grid.new }
 
     describe ".row_of" do
       it "finds the row of one cell" do
