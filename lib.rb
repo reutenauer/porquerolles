@@ -467,7 +467,7 @@ class SudokuSolver
 
     grid = Hash.new
     i = 0
-    gridfile.each do |line|
+    gridfile.each do |line| # TODO Rescue Errno::EISDIR
       if i == 9
         break
       end
