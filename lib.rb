@@ -332,6 +332,10 @@ class Grid
     @blocks[3 * (coord.first / 3) + coord.last / 3]
   end
 
+  def groups_of(coord)
+    [row_of(coord), column_of(coord), block_of(coord)]
+  end
+
   def display
     s = ""
     9.times do |i|
