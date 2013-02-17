@@ -246,11 +246,9 @@ class Block < Group
   end
 
   def place_single(x)
-    possible_locs = Array.new.tap do |a|
-      coords.each do |coord|
-        cell = @grid.cell(coord)
-        a << coord if cell.include? x
-      end
+    possible_locs = coords.select do |coord|
+      cell = @grid.cell(coord)
+      coord if cell.include? x
     end
 
     if possible_locs.count == 1
