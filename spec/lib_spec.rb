@@ -1,3 +1,4 @@
+require 'spec_helper'
 require File.expand_path('../lib.rb', File.dirname(__FILE__))
 
 describe Block do
@@ -34,8 +35,9 @@ end
 describe Grid do
   describe '#find_chains' do
     it 'works' do
-      solver = SudokuSolver.new
-      grid = solver.parse_file(File.expand_path('X-wing.sdk', File.dirname(__FILE__)))
+      solver = SudokuSolver.new(File.expand_path('X-wing.sdk', File.dirname(__FILE__)))
+      grid = solver.grid
+      solver.solve
       grid.find_chains
     end
   end
