@@ -1,0 +1,33 @@
+2013-02-18.  Figure out that:
+mac-pros-mac-pro 18:05 % ~/perso/porquerolles-base ./sudoku.rb -s -g grids/maman.sdk
+Parsing file grids/maman.sdk.
++---+---+---+
+|1..|..7|.9.|
+|.3.|.2.|..8|
+|..9|6..|5..|
++---+---+---+
+|..5|3..|9..|
+|.1.|.8.|..2|
+|6..|..4|...|
++---+---+---+
+|3..|...|.1.|
+|.4.|...|..7|
+|..7|...|3..|
++---+---+---+
+Entering guessing mode ...
+Considered 122 hypotheses so far.  Hypothesis depth: 3.Sudoku insoluble.
+  Solved!
++---+---+---+
+|158|437|296|
+|736|925|148|
+|429|618|573|
++---+---+---+
+|285|371|964|
+|914|586|732|
+|673|294|851|
++---+---+---+
+|362|769|415|
+|541|853|627|
+|567|142|389|
++---+---+---+
+mac-pros-mac-pro 18:06 % ~/perso/porquerolles-base     
