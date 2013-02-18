@@ -438,6 +438,10 @@ class Grid
             # find_chains(chains, [x, 
         # end
         # upper_locs = upper
+
+        ### if upper_locs.count == 1 && lower_locs.count == 1
+        ###   # find_chains(x, )
+        ### end
       else
         return
       end
@@ -453,8 +457,9 @@ class Grid
     end
 
     value = 6
+    locs = [[3, 8], [8, 8]]
     group = @columns[8]
-    chains = [[value, group]]
+    chains = [[value, locs, group]]
 
     chains
   end
