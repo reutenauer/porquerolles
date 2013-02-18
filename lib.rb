@@ -510,7 +510,7 @@ class SudokuSolver
   end
 
   def place
-    @grid.groups.each { |group| group.place }
+    @grid.groups.each { |group| group.place(@params) }
   end
 
   def nb_cell_solved
@@ -601,6 +601,8 @@ class SudokuSolver
   end
 
   def solve(params = { })
+    @params = params
+
     # Possible methods: :deduction, :guess, :tree
     method = params[:method]
     method = :deduction unless method
