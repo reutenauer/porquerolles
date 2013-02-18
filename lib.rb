@@ -224,12 +224,20 @@ class Row < Group
     initialize_group(grid) # TODO make that more OO-like
     @coords = 9.times.map { |j| [i, j] }
   end
+
+  def name
+    "Row #{@coords.first.first}"
+  end
 end
 
 class Column < Group
   def initialize(j, grid)
     initialize_group(grid)
     @coords = 9.times.map { |i| [i, j] }
+  end
+
+  def name
+    "Column #{@coords.last.last}"
   end
 end
 
@@ -268,6 +276,12 @@ class Block < Group
         end
       end
     end
+  end
+
+  def name
+    first_coord = @coords.first
+    k = 3 * (first_coord.first / 3) + first_coord.last / 3
+    "Block #{k}"
   end
 end
 
