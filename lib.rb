@@ -469,11 +469,10 @@ class Grid
               if next_lower_locs.count == 1
 		puts "BAR!" if x == 6 && upper_chain.first == columns[2]
                 next_lower_loc = next_lower_locs.first
-                # FIXME reinstate.  Infinite loop for the moment.
                 # puts "BEEP BEEP BEEP!!!" if upper_chain.last == upper_group
                 # debugger if upper_chain.last == upper_group
                 # OK, so it’s *next*_upper and _lower_group, obviously.
-                find_chains(chains, [x, [next_upper_loc, next_lower_loc], [upper_chain << next_upper_group, lower_chain << next_lower_group]], call_depth + 1) if call_depth < 9
+                find_chains(chains, [x, [next_upper_loc, next_lower_loc], [upper_chain << next_upper_group, lower_chain << next_lower_group]], call_depth + 1)
               else
                 return
               end
