@@ -529,6 +529,9 @@ class SudokuSolver
     @grid.tree
   end
 
+  # TODO Method to cross out value x from group1 when there is a group2 such that
+  # group1.locations(x) is contained in group2.  Probably was there at some point.
+
   def parse_file(filename)
     puts "Parsing file #{filename}."
     begin
