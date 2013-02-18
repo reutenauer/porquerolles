@@ -43,7 +43,7 @@ describe "Convenience methods" do
 
     describe "Column#name" do
       it "works" do
-        grid.columns[6].should == "Column 6"
+        grid.columns[6].name.should == "Column 6"
       end
     end
 
