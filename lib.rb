@@ -408,6 +408,60 @@ class Grid
       node.grid.tree
     end
   end
+
+  def find_chains(chains = [], links = nil)
+    if links # Chain building has already started
+      x = links[0]
+      upper_loc = links[1].first
+      lower_loc = links[1].last
+      upper_chain = links[2].first
+      lower_chain = links[2].last
+      upper_group = links[2].first.last
+      lower_group = links[2].last.last
+
+      upper_groups = groups_of(upper_loc) - [upper_group]
+      lower_groups = groups_of(lower_loc) - [lower_group]
+
+      if upper_groups.count > 0 and lower_groups.count > 0
+	next_upper_locs = upper_groups.map do |upper_group|
+          upper_locs = upper_group.locations(x)
+          upper_locs - upper_loc if upper_locs.count == 2
+        end
+
+        next_lower_locs = lower_groups.map do |lower_group|
+          lower_locs = lower_group.locations(x)
+          lower_locs - lower_loc if lower_locs.count == 2
+        end
+
+        # upper_locs.each do |upper_loc|
+          # lower_locs.each do |lower_loc|
+            # find_chains(chains, [x, 
+        # end
+        # upper_locs = upper
+
+        if upper_locs.count == 1 && lower_locs.count == 1
+          # find_chains(x, )
+        end
+      else
+        return
+      end
+    else # First call
+      (1..9).each do |x|
+        groups.each do |group|
+          locs = group.locations(x)
+          if locs.count == 2
+            find_chains(chains, [x, [locs.to_a.first, locs.to_a.last], [[group], [group]]])
+          end
+        end
+      end
+    end
+
+    value = 6
+    group = @columns[8]
+    chains = [[value, group]]
+
+    chains
+  end
 end
 
 class SudokuSolver
