@@ -484,11 +484,6 @@ class Grid
       end
     end
 
-    value = 6
-    locs = [[3, 8], [8, 8]]
-    group = @columns[8]
-    chains = [[value, locs, group]]
-
     chains
   end
 end
