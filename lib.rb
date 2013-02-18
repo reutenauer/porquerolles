@@ -419,29 +419,34 @@ class Grid
       upper_group = links[2].first.last
       lower_group = links[2].last.last
 
-      upper_groups = groups_of(upper_loc) - [upper_group]
-      lower_groups = groups_of(lower_loc) - [lower_group]
+      upper_groups = groups_of(upper_loc) - Set.new([upper_group]) # groups_of returns a set.
+      lower_groups = groups_of(lower_loc) - Set.new([lower_group])
 
-      if upper_groups.count > 0 and lower_groups.count > 0
-	next_upper_locs = upper_groups.map do |upper_group|
-          upper_locs = upper_group.locations(x)
-          upper_locs - upper_loc if upper_locs.count == 2
+      inter = upper_groups.intersection(lower_groups)
+      if inter.count > 0
+        group = inter.first # Can only be one, as upper_loc != lower_loc
+        chains << [x, [upper_loc, lower_loc], [group]]
+      elsif upper_groups.count > 0 && lower_groups.count > 0
+	next_upper_locs = upper_groups.inject(Set.new) do |agg, upper_group|
+          upper_locs = upper_group.locations(x) # also returns a set.
+          agg += upper_locs - Set.new([upper_loc]) if upper_locs.count == 2
+          agg
         end
 
-        next_lower_locs = lower_groups.map do |lower_group|
+        next_lower_locs = lower_groups.inject(Set.new) do |agg, lower_group|
           lower_locs = lower_group.locations(x)
-          lower_locs - lower_loc if lower_locs.count == 2
+          agg += lower_locs - Set.new([lower_loc]) if lower_locs.count == 2
+          agg
         end
+        # debugger
 
-        # upper_locs.each do |upper_loc|
-          # lower_locs.each do |lower_loc|
-            # find_chains(chains, [x, 
-        # end
-        # upper_locs = upper
-
-        ### if upper_locs.count == 1 && lower_locs.count == 1
-        ###   # find_chains(x, )
-        ### end
+        debugger unless next_upper_locs
+        next_upper_locs.each do |next_upper_loc|
+          next_lower_locs.each do |next_lower_loc|
+            next if next_upper_loc == next_lower_loc # Already adressed when the chain was discovered
+            # find_chains(chains, [x, [], [upper_chains << ]]) # FIXME needs to be linked to a group!
+          end
+        end
       else
         return
       end
