@@ -433,29 +433,16 @@ class Grid
       upper_group = links[2].first.last
       lower_group = links[2].last.last
 
-      if upper_chain.count == 17
-        print "Chain of length 17: "
-        puts upper_chain.map { |group| group.name }.join(" ")
-      end
-
       all_upper_groups = upper_chain.to_set
       all_lower_groups = lower_chain.to_set
 
       next_upper_groups = groups_of(upper_loc) - all_upper_groups # groups_of returns a set.
       next_lower_groups = groups_of(lower_loc) - all_lower_groups
 
-      if upper_chain.count == 17
-        puts "Groups to date: " + all_upper_groups.map(&:name).join(" ")
-        puts "New groups to consider: upper " + next_upper_groups.map(&:name).join(" ") + ", lower " + next_lower_groups.map(&:name).join(" ")
-      end
-
       inter = next_upper_groups.intersection(next_lower_groups)
       if inter.count > 0
         group = inter.first # Can only be one, as upper_loc != lower_loc
         ch = [x, [upper_loc, lower_loc], group]
-        if upper_chain.count >= 17 && upper_chain.count <= 22
-          puts "QUUX! upper_chain has length #{upper_chain.count}."
-        end
         chains << ch unless chains.map { |chain| [chain.first, chain[1].first, chain[1].last, chain.last] }.include? [x, upper_loc, lower_loc, group]
         puts "One more chain, total #{chains.count}.  Latest chain [#{ch[0]}, #{ch[1].inspect}, #{ch[2].name}].  Total length #{upper_chain.count + 1}."
         return
@@ -467,11 +454,7 @@ class Grid
             next_lower_groups.each do |next_lower_group|
               next_lower_locs = next_lower_group.locations(x) - Set.new([lower_loc])
               if next_lower_locs.count == 1
-		puts "BAR!" if x == 6 && upper_chain.first == columns[2]
                 next_lower_loc = next_lower_locs.first
-                # puts "BEEP BEEP BEEP!!!" if upper_chain.last == upper_group
-                # debugger if upper_chain.last == upper_group
-                # OK, so it’s *next*_upper and _lower_group, obviously.
                 find_chains(chains, [x, [next_upper_loc, next_lower_loc], [upper_chain << next_upper_group, lower_chain << next_lower_group]])
               else
                 return
@@ -487,7 +470,6 @@ class Grid
         groups.each do |group|
           locs = group.locations(x)
           if locs.count == 2
-	    puts "FOO!" if x == 6 && group == columns[2]
             find_chains(chains, [x, [locs.to_a.first, locs.to_a.last], [[group], [group]]])
           end
         end
