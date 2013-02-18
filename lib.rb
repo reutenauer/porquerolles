@@ -158,6 +158,14 @@ class Group
     @coords.map { |coord| @grid.cell coord }
   end
 
+  def each &block
+    @coords.each &block
+  end
+
+  def map &block
+    @coords.map &block
+  end
+
   def include? x
     @coords.include? x
   end
