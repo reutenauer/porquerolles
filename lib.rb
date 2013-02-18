@@ -516,6 +516,19 @@ class SudokuSolver
     @grid.groups.each { |group| group.place(@params) }
   end
 
+  def find_chains
+    @grid.find_chains.each do |chain|
+      x = chain[0]
+      upper_loc = chain[1].first
+      lower_loc = chain[1].last
+      group = chain[2]
+      group.each do |coord|
+        next if coord == upper_loc || coord == lower_loc
+        @grid.cell(coord).cross_out(x)
+      end
+    end
+  end
+
   def nb_cell_solved
     @grid.each_value.inject(0) do |nsolved, cell|
       nsolved + if cell.solved? then 1 else 0 end
@@ -527,6 +540,7 @@ class SudokuSolver
       old_nb_cell_solved = nb_cell_solved
       propagate
       place
+      find_chains if @params[:chains]
       break if nb_cell_solved == old_nb_cell_solved
     end
 
