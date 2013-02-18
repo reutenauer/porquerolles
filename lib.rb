@@ -441,11 +441,8 @@ class Grid
       all_upper_groups = upper_chain.to_set
       all_lower_groups = lower_chain.to_set
 
-      # FIXME reinstate
-      # next_upper_groups = groups_of(upper_loc) - Set.new([upper_group]) # groups_of returns a set.
-      # next_lower_groups = groups_of(lower_loc) - Set.new([lower_group])
-      next_upper_groups = Set.new([row_of(upper_loc), column_of(upper_loc)]) - all_upper_groups # groups_of returns a set.
-      next_lower_groups = Set.new([row_of(lower_loc), column_of(lower_loc)]) - all_lower_groups
+      next_upper_groups = groups_of(upper_loc) - all_upper_groups # groups_of returns a set.
+      next_lower_groups = groups_of(lower_loc) - all_lower_groups
 
       if upper_chain.count == 17
         puts "Groups to date: " + all_upper_groups.map(&:name).join(" ")
