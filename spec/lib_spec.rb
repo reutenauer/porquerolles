@@ -58,7 +58,9 @@ describe Grid do
 
     describe "#groups_of" do
       it "finds the groups to which one cell belongs" do
-        grid.groups_of([4, 6]).should =~ [grid.rows[4], grid.columns[6], grid.blocks[5]]
+        # TODO Write matcher for that
+        grid.groups_of([4, 6]).class.should == Set
+        grid.groups_of([4, 6]).to_a.should =~ [grid.rows[4], grid.columns[6], grid.blocks[5]]
       end
     end
   end
