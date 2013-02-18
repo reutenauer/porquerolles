@@ -423,7 +423,7 @@ class Grid
     end
   end
 
-  def find_chains(chains = [], links = nil)
+  def find_chains(chains = [], links = nil, call_depth = 0)
     if links # Chain building has already started
       x = links[0]
       upper_loc = links[1].first
@@ -433,43 +433,67 @@ class Grid
       upper_group = links[2].first.last
       lower_group = links[2].last.last
 
-      upper_groups = groups_of(upper_loc) - Set.new([upper_group]) # groups_of returns a set.
-      lower_groups = groups_of(lower_loc) - Set.new([lower_group])
+      if upper_chain.count == 17
+        print "Chain of length 17: "
+        puts upper_chain.map { |group| group.name }.join(" ")
+      end
 
-      inter = upper_groups.intersection(lower_groups)
+      all_upper_groups = upper_chain.to_set
+      all_lower_groups = lower_chain.to_set
+
+      # FIXME reinstate
+      # next_upper_groups = groups_of(upper_loc) - Set.new([upper_group]) # groups_of returns a set.
+      # next_lower_groups = groups_of(lower_loc) - Set.new([lower_group])
+      next_upper_groups = Set.new([row_of(upper_loc), column_of(upper_loc)]) - all_upper_groups # groups_of returns a set.
+      next_lower_groups = Set.new([row_of(lower_loc), column_of(lower_loc)]) - all_lower_groups
+
+      if upper_chain.count == 17
+        puts "Groups to date: " + all_upper_groups.map(&:name).join(" ")
+        puts "New groups to consider: upper " + next_upper_groups.map(&:name).join(" ") + ", lower " + next_lower_groups.map(&:name).join(" ")
+      end
+
+      inter = next_upper_groups.intersection(next_lower_groups)
       if inter.count > 0
         group = inter.first # Can only be one, as upper_loc != lower_loc
-        chains << [x, [upper_loc, lower_loc], [group]]
-      elsif upper_groups.count > 0 && lower_groups.count > 0
-	next_upper_locs = upper_groups.inject(Set.new) do |agg, upper_group|
-          upper_locs = upper_group.locations(x) # also returns a set.
-          agg += upper_locs - Set.new([upper_loc]) if upper_locs.count == 2
-          agg
+        ch = [x, [upper_loc, lower_loc], group]
+        if upper_chain.count >= 17 && upper_chain.count <= 22
+          puts "QUUX! upper_chain has length #{upper_chain.count}."
         end
-
-        next_lower_locs = lower_groups.inject(Set.new) do |agg, lower_group|
-          lower_locs = lower_group.locations(x)
-          agg += lower_locs - Set.new([lower_loc]) if lower_locs.count == 2
-          agg
-        end
-        # debugger
-
-        debugger unless next_upper_locs
-        next_upper_locs.each do |next_upper_loc|
-          next_lower_locs.each do |next_lower_loc|
-            next if next_upper_loc == next_lower_loc # Already adressed when the chain was discovered
-            # find_chains(chains, [x, [], [upper_chains << ]]) # FIXME needs to be linked to a group!
+        chains << ch unless chains.map { |chain| [chain.first, chain[1].first, chain[1].last, chain.last] }.include? [x, upper_loc, lower_loc, group]
+        puts "One more chain, total #{chains.count}.  Latest chain [#{ch[0]}, #{ch[1].inspect}, #{ch[2].name}].  Total length #{upper_chain.count + 1}."
+        return
+      else
+        next_upper_groups.each do |next_upper_group|
+          next_upper_locs = next_upper_group.locations(x) - Set.new([upper_loc]) # Group#location also returns a set.
+          if next_upper_locs.count == 1
+            next_upper_loc = next_upper_locs.first
+            next_lower_groups.each do |next_lower_group|
+              next_lower_locs = next_lower_group.locations(x) - Set.new([lower_loc])
+              if next_lower_locs.count == 1
+		puts "BAR!" if x == 6 && upper_chain.first == columns[2]
+                next_lower_loc = next_lower_locs.first
+                # FIXME reinstate.  Infinite loop for the moment.
+                # puts "BEEP BEEP BEEP!!!" if upper_chain.last == upper_group
+                # debugger if upper_chain.last == upper_group
+                # OK, so it’s *next*_upper and _lower_group, obviously.
+                find_chains(chains, [x, [next_upper_loc, next_lower_loc], [upper_chain << next_upper_group, lower_chain << next_lower_group]], call_depth + 1) if call_depth < 9
+              else
+                return
+              end
+            end
+          else
+            return
           end
         end
-      else
-        return
       end
     else # First call
       (1..9).each do |x|
-        groups.each do |group|
+        # groups.each do |group| # FIXME reinstate
+        (rows + columns).each do |group|
           locs = group.locations(x)
           if locs.count == 2
-            find_chains(chains, [x, [locs.to_a.first, locs.to_a.last], [[group], [group]]])
+	    puts "FOO!" if x == 6 && group == columns[2]
+            find_chains(chains, [x, [locs.to_a.first, locs.to_a.last], [[group], [group]]], 1)
           end
         end
       end

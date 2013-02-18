@@ -97,7 +97,7 @@ describe Grid do
       grid = solver.grid
       solver.solve
       grid[0, 2].cross_out(6) # That’s right
-      grid.find_chains.should == [[6, [[3, 8], [8, 8]], grid.columns[8]]]
+      grid.find_chains.include?([6, [[3, 8], [8, 8]], grid.columns[8]]).should == true
     end
   end
 end
