@@ -31,6 +31,32 @@ describe Block do
   end
 end
 
+describe "Convenience methods" do
+  context "with an empty grid" do
+    let(:grid) { Grid.new }
+
+    describe "Row#name" do
+      it "works" do
+        grid.rows[2].name.should == "Row 2"
+      end
+    end
+
+    describe "Column#name" do
+      it "works" do
+        grid.columns[6].should == "Column 6"
+      end
+    end
+
+    describe "Block#name" do
+      it "works" do
+        grid.blocks[8].name.should == "Block 8"
+        grid.blocks[4].name.should == "Block 4"
+        grid.blocks[2].name.should == "Block 2"
+      end
+    end
+  end
+end
+
 describe Grid do
   context "with an empty grid" do
     let(:grid) { @grid = Grid.new }
