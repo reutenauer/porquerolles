@@ -438,10 +438,6 @@ class Grid
             # find_chains(chains, [x, 
         # end
         # upper_locs = upper
-
-        if upper_locs.count == 1 && lower_locs.count == 1
-          # find_chains(x, )
-        end
       else
         return
       end
