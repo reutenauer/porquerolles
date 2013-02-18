@@ -423,7 +423,7 @@ class Grid
     end
   end
 
-  def find_chains(chains = [], links = nil, call_depth = 0)
+  def find_chains(chains = [], links = nil)
     if links # Chain building has already started
       x = links[0]
       upper_loc = links[1].first
@@ -472,7 +472,7 @@ class Grid
                 # puts "BEEP BEEP BEEP!!!" if upper_chain.last == upper_group
                 # debugger if upper_chain.last == upper_group
                 # OK, so it’s *next*_upper and _lower_group, obviously.
-                find_chains(chains, [x, [next_upper_loc, next_lower_loc], [upper_chain << next_upper_group, lower_chain << next_lower_group]], call_depth + 1)
+                find_chains(chains, [x, [next_upper_loc, next_lower_loc], [upper_chain << next_upper_group, lower_chain << next_lower_group]])
               else
                 return
               end
@@ -489,7 +489,7 @@ class Grid
           locs = group.locations(x)
           if locs.count == 2
 	    puts "FOO!" if x == 6 && group == columns[2]
-            find_chains(chains, [x, [locs.to_a.first, locs.to_a.last], [[group], [group]]], 1)
+            find_chains(chains, [x, [locs.to_a.first, locs.to_a.last], [[group], [group]]])
           end
         end
       end
