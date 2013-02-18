@@ -1,10 +1,55 @@
-# On branch master
-# Your branch is ahead of 'origin/master' by 13 commits.
-#
-# Untracked files:
-#   (use "git add <file>..." to include in what will be committed)
-#
-#	a
-#	b
-#	lib_spec.out
-nothing added to commit but untracked files present (use "git add" to track)
+Parsing file /Users/arthur/perso/porquerolles-base/grids/guardian/2423.sdk.
+.Parsing file /Users/arthur/perso/porquerolles-base/grids/simple.sdk.
+Propagating ...
+#<Cell:0x007f956d98fe18 @values=#<Set: {1, 6, 8}>>
++---+---+---+
+|8.6|.7.|451|
+|725|184|693|
+|..4|...|827|
++---+---+---+
+|..1|8.7|2.6|
+|.69|4.2|578|
+|2.7|3.6|149|
++---+---+---+
+|473|...|9.5|
+|612|5..|784|
+|958|.41|362|
++---+---+---+
+place_single(1) ...
+#<Cell:0x007f956d98fe18 @values=#<Set: {1}>>
++---+---+---+
+|8.6|.7.|451|
+|725|184|693|
+|..4|...|827|
++---+---+---+
+|..1|8.7|2.6|
+|.69|4.2|578|
+|2.7|3.6|149|
++---+---+---+
+|473|..8|915|
+|612|5..|784|
+|958|.41|362|
++---+---+---+
+........Parsing file /Users/arthur/perso/porquerolles-base/spec/X-wing.sdk.
+One more chain, total 1.  Latest chain [2, [[2, 2], [2, 3]], Row 2].  Total length 3.
+One more chain, total 2.  Latest chain [2, [[0, 2], [0, 3]], Row 0].  Total length 3.
+One more chain, total 3.  Latest chain [2, [[0, 3], [2, 3]], Column 3].  Total length 3.
+One more chain, total 4.  Latest chain [2, [[0, 2], [2, 2]], Column 2].  Total length 3.
+One more chain, total 5.  Latest chain [3, [[4, 1], [4, 2]], Row 4].  Total length 3.
+One more chain, total 6.  Latest chain [3, [[2, 1], [2, 2]], Row 2].  Total length 3.
+One more chain, total 7.  Latest chain [3, [[2, 2], [4, 2]], Column 2].  Total length 3.
+One more chain, total 8.  Latest chain [3, [[2, 1], [4, 1]], Column 1].  Total length 3.
+One more chain, total 9.  Latest chain [6, [[6, 0], [6, 6]], Row 6].  Total length 3.
+FOO!
+BAR!
+One more chain, total 10.  Latest chain [6, [[3, 8], [8, 8]], Column 8].  Total length 3.
+One more chain, total 11.  Latest chain [9, [[4, 6], [6, 6]], Column 6].  Total length 4.
+One more chain, total 12.  Latest chain [9, [[3, 8], [6, 8]], Column 8].  Total length 4.
+One more chain, total 13.  Latest chain [9, [[4, 2], [3, 2]], Column 2].  Total length 4.
+One more chain, total 14.  Latest chain [9, [[6, 8], [6, 6]], Row 6].  Total length 4.
+One more chain, total 15.  Latest chain [9, [[3, 2], [3, 8]], Row 3].  Total length 4.
+One more chain, total 16.  Latest chain [9, [[4, 2], [4, 6]], Row 4].  Total length 4.
+.
+
+Finished in 0.08147 seconds
+10 examples, 0 failures
