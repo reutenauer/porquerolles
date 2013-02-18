@@ -484,8 +484,7 @@ class Grid
       end
     else # First call
       (1..9).each do |x|
-        # groups.each do |group| # FIXME reinstate
-        (rows + columns).each do |group|
+        groups.each do |group|
           locs = group.locations(x)
           if locs.count == 2
 	    puts "FOO!" if x == 6 && group == columns[2]
