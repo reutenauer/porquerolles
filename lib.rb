@@ -333,7 +333,7 @@ class Grid
   end
 
   def groups_of(coord)
-    [row_of(coord), column_of(coord), block_of(coord)]
+    Set.new([row_of(coord), column_of(coord), block_of(coord)])
   end
 
   def display
