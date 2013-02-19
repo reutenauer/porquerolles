@@ -191,27 +191,18 @@ class Group
     end
 
     # Resolving cases where all the possible locations for x in group1 are included in group2
+    # FIXME Simplify that greatly
     # TODO Spec for that!
     1.upto(9).each do |x|
       locs = locations(x)
-      if is_a? Block
-        if locs.map { |loc| @grid.row_of(loc) }.uniq.count == 1
-          row = @grid.row_of(locs.first)
-          row.each do |coord|
-            next if locs.include? coord
-            @grid.cell(coord).cross_out(x)
-          end
-        elsif locs.map { |loc| @grid.column_of(loc) }.uniq.count == 1
-          col = @grid.column_of(locs.first)
-          col.each do |coord|
-            next if locs.include? coord
-            @grid.cell(coord).cross_out(x)
-          end
-        end
-      else # self is Row or Column
-        if locs.map { |loc| @grid.block_of(loc) }.uniq.count == 1
-          block = @grid.block_of(locs.first)
-          block.each do |coord|
+      [:row, :column, :block].each do |group_type| # TODO Group#intersecting_group_types
+        areas = locs.map do |loc|
+          @grid.send("#{group_type}_of", loc)
+        end.uniq
+
+        if areas.count == 1
+          area = @grid.send("#{group_type}_of", locs.first)
+          area.each do |coord|
             next if locs.include? coord
             @grid.cell(coord).cross_out(x)
           end
