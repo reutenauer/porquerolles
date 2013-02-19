@@ -191,7 +191,6 @@ class Group
     end
 
     # Resolving cases where all the possible locations for x in group1 are included in group2
-    # FIXME Simplify that greatly
     # TODO Spec for that!
     1.upto(9).each do |x|
       locs = locations(x)
