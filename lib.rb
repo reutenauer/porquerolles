@@ -192,7 +192,7 @@ class Group
 
     locs = { }
     1.upto(9).each do |x|
-      locs[x] = locations x
+      locs[x] = locations(x)
       raise Deadlock if locs[x].count == 0
     end
     unsolved = locs.separate { |x, l| l.count > 1 }
