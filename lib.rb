@@ -184,13 +184,9 @@ class Group
   end
 
   def place(params = { })
-    # TODO: Better than that.  Maybe an method in Group, matched by the
-    # real one in Block.  Could take an optional number or range.
     if params[:singles]
-      @grid.blocks.each do |block|
-        1.upto(9) do |x|
-          place_single(x)
-        end
+      1.upto(9) do |x|
+        place_single(x)
       end
     end
 
