@@ -190,6 +190,27 @@ class Group
       end
     end
 
+    # Resolving cases where all the possible locations for x in group1 are included in group2
+    # TODO Spec for that!
+    1.upto(9).each do |x|
+      locs = locations(x)
+      if is_a? Block
+        if locs.map { |loc| @grid.row_of(loc) }.count == 1 || locs.map { |loc| @grid.column_of(loc) }.count == 1
+          each do |coord|
+            next if locs.include? coord
+            @grid.cell(coord).cross_out(x)
+          end
+        end
+      else # Row or Column
+        if locs.map { |loc| @grid.block_of(loc) }.count == 1
+          each do |coord|
+            next if locs.include? coord
+            @grid.cell(coord).cross_out(x)
+          end
+        end
+      end
+    end
+
     locs = { }
     1.upto(9).each do |x|
       locs[x] = locations(x)
