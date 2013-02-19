@@ -264,23 +264,15 @@ class Block < Group
   end
 
   def place_single(x)
-    possible_locs = coords.select do |coord|
-      cell = @grid.cell(coord)
-      coord if cell.include? x
-    end
-
-    if possible_locs.count == 1
-      coord = possible_locs.first
-      @grid.cell(coord).set_solved(x)
-
-      # Propagate the knowledge.
-      row = @grid.rows[coord.first]
-      col = @grid.columns[coord.last]
-      block = @grid.blocks[3 * (coord.first / 3) + coord.last / 3]
-
-      [row, col, block].each do |group|
-        group.coords.each do |coord2|
-          @grid.cell(coord2).cross_out(x) unless coord2 == coord
+    locs = locations(x)
+    if locs.count == 1
+      loc = locs.first
+      @grid.cell(loc).set_solved(x)
+      # Propagate to all the groups containing loc.
+      groups = @grid.groups_of(loc)
+      groups.each do |group|
+        group.each do |coord|
+          @grid.cell(coord).cross_out(x) unless coord == loc
         end
       end
     end
