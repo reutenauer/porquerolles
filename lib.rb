@@ -195,15 +195,23 @@ class Group
     1.upto(9).each do |x|
       locs = locations(x)
       if is_a? Block
-        if locs.map { |loc| @grid.row_of(loc) }.count == 1 || locs.map { |loc| @grid.column_of(loc) }.count == 1
-          each do |coord|
+        if locs.map { |loc| @grid.row_of(loc) }.uniq.count == 1
+          row = @grid.row_of(locs.first)
+          row.each do |coord|
+            next if locs.include? coord
+            @grid.cell(coord).cross_out(x)
+          end
+        elsif locs.map { |loc| @grid.column_of(loc) }.uniq.count == 1
+          col = @grid.column_of(locs.first)
+          col.each do |coord|
             next if locs.include? coord
             @grid.cell(coord).cross_out(x)
           end
         end
-      else # Row or Column
-        if locs.map { |loc| @grid.block_of(loc) }.count == 1
-          each do |coord|
+      else # self is Row or Column
+        if locs.map { |loc| @grid.block_of(loc) }.uniq.count == 1
+          block = @grid.block_of(locs.first)
+          block.each do |coord|
             next if locs.include? coord
             @grid.cell(coord).cross_out(x)
           end
