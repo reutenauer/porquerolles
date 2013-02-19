@@ -186,7 +186,7 @@ class Group
   def place(params = { })
     # TODO: Better than that.  Maybe an method in Group, matched by the
     # real one in Block.  Could take an optional number or range.
-    if params[:singles] && (self.is_a? Block) # Brackets needed here for syntax.
+    if params[:singles]
       @grid.blocks.each do |block|
         1.upto(9) do |x|
           place_single(x)
@@ -215,6 +215,21 @@ class Group
         values_to_cross_out = unsolved_values - subset
         these_locs.each do |coord|
           @grid.cell(coord).cross_out(values_to_cross_out)
+        end
+      end
+    end
+  end
+
+  def place_single(x)
+    locs = locations(x)
+    if locs.count == 1
+      loc = locs.first
+      @grid.cell(loc).set_solved(x)
+      # Propagate to all the groups containing loc.
+      groups = @grid.groups_of(loc)
+      groups.each do |group|
+        group.each do |coord|
+          @grid.cell(coord).cross_out(x) unless coord == loc
         end
       end
     end
@@ -259,21 +274,6 @@ class Block < Group
     3.times do |i|
       3.times do |j|
         @coords << [row_block + i, col_block + j]
-      end
-    end
-  end
-
-  def place_single(x)
-    locs = locations(x)
-    if locs.count == 1
-      loc = locs.first
-      @grid.cell(loc).set_solved(x)
-      # Propagate to all the groups containing loc.
-      groups = @grid.groups_of(loc)
-      groups.each do |group|
-        group.each do |coord|
-          @grid.cell(coord).cross_out(x) unless coord == loc
-        end
       end
     end
   end
