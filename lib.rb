@@ -500,7 +500,7 @@ class SudokuSolver
 
   def initialize(filename = nil)
     if filename
-      @grid = SudokuSolver.ingest(filename)
+      ingest(filename)
     else
       @grid = Grid.new
     end
@@ -509,8 +509,8 @@ class SudokuSolver
     @node = Tree.new
   end
 
-  def self.ingest(filename)
-    Grid.new(SudokuSolver.parse_file(filename))
+  def ingest(filename)
+    @grid = Grid.new(SudokuSolver.parse_file(filename))
   end
 
   def propagate
