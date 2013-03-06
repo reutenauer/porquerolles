@@ -613,10 +613,6 @@ class SudokuSolver
     grid
   end
 
-  def parse_file(filename)
-    SudokuSolver.parse_file(filename)
-  end
-
   def backtrack
     raise Paradox if @hypotheses.count == 0
     hypothesis = @hypotheses.pop

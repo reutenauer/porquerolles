@@ -4,7 +4,7 @@ describe Block do
   describe '#place_single' do
     it "works" do
       solver = SudokuSolver.new
-      grid = Grid.new(solver.parse_file(File.expand_path('../grids/guardian/2423.sdk', File.dirname(__FILE__))))
+      grid = Grid.new(SudokuSolver.parse_file(File.expand_path('../grids/guardian/2423.sdk', File.dirname(__FILE__))))
       block = grid.blocks.first
 
       1.upto(9) do |x|
