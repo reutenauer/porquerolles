@@ -1,9 +1,10 @@
 require File.expand_path('../lib.rb', File.dirname(__FILE__))
 
 describe Block do
+  let(:solver) { SudokuSolver.new }
+
   describe '#place_single' do
     it "works" do
-      solver = SudokuSolver.new
       solver.ingest(File.expand_path('../grids/guardian/2423.sdk', File.dirname(__FILE__)))
       grid = solver.grid
       block = grid.blocks.first
@@ -61,7 +62,7 @@ end
 
 describe Grid do
   context "with an empty grid" do
-    let(:grid) { @grid = Grid.new }
+    let(:grid) { Grid.new }
 
     describe "#row_of" do
       it "finds the row of one cell" do
@@ -94,10 +95,11 @@ describe Grid do
   end
 
   describe "#find_chains" do
+    let(:solver) { SudokuSolver.new }
+    let(:grid) { solver.grid }
+
     it "find a link" do
-      solver = SudokuSolver.new
       solver.ingest(File.expand_path('X-wing.sdk', File.dirname(__FILE__)))
-      grid = solver.grid
       solver.solve
       # TODO Write a matcher for that too
       grid.find_chains.include?([6, [[3, 8], [8, 8]], grid.columns[8]]).should == true
