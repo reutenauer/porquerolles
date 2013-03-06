@@ -500,13 +500,17 @@ class SudokuSolver
 
   def initialize(filename = nil)
     if filename
-      @grid = Grid.new(parse_file(filename))
+      @grid = SudokuSolver.ingest(filename)
     else
       @grid = Grid.new
     end
 
     @hypotheses = []
     @node = Tree.new
+  end
+
+  def self.ingest(filename)
+    Grid.new(SudokuSolver.parse_file(filename))
   end
 
   def propagate
@@ -571,7 +575,7 @@ class SudokuSolver
   # TODO Method to cross out value x from group1 when there is a group2 such that
   # group1.locations(x) is contained in group2.  Probably was there at some point.
 
-  def parse_file(filename)
+  def self.parse_file(filename)
     puts "Parsing file #{filename}."
     begin
       gridfile = File.open(filename, "r")
@@ -580,7 +584,7 @@ class SudokuSolver
       exit -1
     end
 
-    def set_cell(grid, i, j, x)
+    def self.set_cell(grid, i, j, x)
       x = nil if x == "."
       grid[[i, j]] = Cell.new(x)
     end
@@ -595,7 +599,7 @@ class SudokuSolver
 
       if match.count == 9
         9.times do |j|
-          set_cell(grid, i, j, match[j])
+          SudokuSolver.set_cell(grid, i, j, match[j])
         end
 
         i = i + 1
@@ -607,6 +611,10 @@ class SudokuSolver
     end
 
     grid
+  end
+
+  def parse_file(filename)
+    SudokuSolver.parse_file(filename)
   end
 
   def backtrack
