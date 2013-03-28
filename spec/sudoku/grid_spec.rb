@@ -99,11 +99,16 @@ module Sudoku
       let(:solver) { Solver.new }
       let(:grid) { solver.grid }
 
-      it "find a link" do
+      it "finds a link" do
         solver.ingest(open_grid('misc/X-wing.sdk'))
         solver.solve
         # TODO Write a matcher for that too
         grid.find_chains.include?([6, [[3, 8], [8, 8]], grid.columns[8]]).should == true
+      end
+
+      it "does not crash" do
+        solver.ingest(open_grid('guardian/2423.sdk'))
+        solver.solve(:chains => true)
       end
     end
   end
