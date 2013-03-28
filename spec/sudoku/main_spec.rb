@@ -27,4 +27,8 @@ describe "Main routine" do
   it "runs main with the “singles” and the “chains” switch" do
     run('misc/X-wing.sdk', '-s -c')
   end
+
+  it "runs main with only the “chains” switch" do
+    run('misc/X-wing.sdk', '-c')
+  end
 end
