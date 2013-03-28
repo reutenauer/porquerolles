@@ -1,1 +1,1 @@
-require File.expand_path('../lib.rb', File.dirname(__FILE__))
+require File.expand_path('../lib/sudoku', File.dirname(__FILE__))
