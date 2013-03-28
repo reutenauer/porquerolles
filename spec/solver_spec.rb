@@ -1,4 +1,4 @@
-require File.expand_path('../lib.rb', File.dirname(__FILE__))
+require 'spec_helper'
 
 describe SudokuSolver do
   describe "#solve" do
