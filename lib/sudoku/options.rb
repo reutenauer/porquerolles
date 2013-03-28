@@ -10,16 +10,16 @@ module Sudoku
 
         if f == '-s'
           params[:singles] = true
-          args.slice!(0, 1)
+          args.slice!(0)
         elsif f == '-d'
           params[:method] = :deduction
-          args.slice!(0, 1)
+          args.slice!(0)
         elsif f == '-c'
           params[:chains] = true
-          args.slice!(0, 1)
+          args.slice!(0)
         elsif f == '-g'
           params[:method] = :guess
-          args.slice!(0, 1)
+          args.slice!(0)
         # No tree yet.
         end
       end
