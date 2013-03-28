@@ -10,19 +10,21 @@ require 'set'
 # TODO tree option, verbose option.
 # I’ll play with optparse later.
 
-class Main
-  def self.run(args)
-    params = Options.parse(args)
+module Sudoku
+  class Main
+    def self.run(args)
+      params = Options.parse(args)
 
-    args.each do |arg|
-      solver = SudokuSolver.new arg
-      solver.print
-      if !solver.valid?
-        puts "Grid is not valid.  Exiting."
-        exit
+      args.each do |arg|
+        solver = Solver.new arg
+        solver.print
+        if !solver.valid?
+          puts "Grid is not valid.  Exiting."
+          exit
+        end
+        solver.solve params
+        solver.print
       end
-      solver.solve params
-      solver.print
     end
   end
 end
