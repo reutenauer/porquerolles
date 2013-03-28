@@ -473,9 +473,10 @@ module Sudoku
         (1..9).each do |x|
           groups.each do |group|
             locs = group.locations(x)
-            # if locs.count == 2
+            # FIXME Test shouldn’t be needed
+            if locs.count == 2
               find_chains(chains, [x, [locs.to_a.first, locs.to_a.last], [[group], [group]]])
-            # end
+            end
           end
         end
       end

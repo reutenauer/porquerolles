@@ -5,5 +5,5 @@ def open_grid(file)
 end
 
 RSpec.configure do |config|
-  config.filter_run :focus => true
+  # config.filter_run :focus => true # FIXME Kind of an embarrassment
 end
