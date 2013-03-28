@@ -10,8 +10,25 @@ require 'set'
 # TODO tree option, verbose option.
 # I’ll play with optparse later.
 
-class SudokuMain
+class Main
   def self.run(args)
+    params = Options.parse(args)
+
+    args.each do |arg|
+      solver = SudokuSolver.new arg
+      solver.print
+      if !solver.valid?
+        puts "Grid is not valid.  Exiting."
+        exit
+      end
+      solver.solve params
+      solver.print
+    end
+  end
+end
+
+class Options
+  def self.parse(args)
     params = { }
 
     # TODO Play with optparse now.
@@ -35,15 +52,6 @@ class SudokuMain
       end
     end
 
-    args.each do |arg|
-      solver = SudokuSolver.new arg
-      solver.print
-      if !solver.valid?
-        puts "Grid is not valid.  Exiting."
-        exit
-      end
-      solver.solve params
-      solver.print
-    end
+    params
   end
 end
