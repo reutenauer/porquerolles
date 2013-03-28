@@ -4,7 +4,7 @@ def run(file, options = "")
   sudokubin = File.expand_path('../../../bin/sudoku', __FILE__)
   griddir = File.expand_path('../../../grids', __FILE__)
 
-  `#{sudokubin} #{options} #{File.join(griddir, file)}` # Mutes command
+  system("#{sudokubin} #{options} #{File.join(griddir, file)}").should be_true
 end
 
 describe "Main routine" do
