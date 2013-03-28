@@ -5,7 +5,7 @@ describe Block do
 
   describe '#place_single' do
     it "works" do
-      solver.ingest(File.expand_path('../grids/guardian/2423.sdk', File.dirname(__FILE__)))
+      solver.ingest(open_grid('guardian/2423.sdk'))
       grid = solver.grid
       block = grid.blocks.first
 
@@ -16,7 +16,7 @@ describe Block do
 
     it "places one value on one single values" do
       solver = SudokuSolver.new
-      solver.ingest(File.expand_path('../grids/simple.sdk', File.dirname(__FILE__)))
+      solver.ingest(open_grid('simple.sdk'))
       grid = solver.grid
       block = grid.blocks.last
 
@@ -99,7 +99,7 @@ describe Grid do
     let(:grid) { solver.grid }
 
     it "find a link" do
-      solver.ingest(File.expand_path('X-wing.sdk', File.dirname(__FILE__)))
+      solver.ingest(open_grid('misc/X-wing.sdk'))
       solver.solve
       # TODO Write a matcher for that too
       grid.find_chains.include?([6, [[3, 8], [8, 8]], grid.columns[8]]).should == true
