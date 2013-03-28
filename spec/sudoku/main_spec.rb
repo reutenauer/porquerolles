@@ -16,7 +16,7 @@ describe "Main routine" do
     run('guardian/2423.sdk', '-c')
   end
 
-  it "runs main with the “guess” switch" do
+  it "runs main with the “guess” switch", :slow => true do
     run('maman.sdk', '-g')
   end
 
