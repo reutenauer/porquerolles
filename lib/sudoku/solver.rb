@@ -9,6 +9,7 @@ require 'debugger'
 module Sudoku
   class Solver
     attr_reader :grid
+    attr_reader :output
 
     def initialize(output = NullOutput.new)
       @output = output
@@ -18,7 +19,7 @@ module Sudoku
     end
 
     def ingest(filename)
-      @grid = Grid.new(parse_file(filename))
+      @grid = Grid.new(parse_file(filename), self)
     end
 
     def propagate

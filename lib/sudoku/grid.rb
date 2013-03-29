@@ -292,7 +292,7 @@ module Sudoku
   class Grid
     attr_reader :rows, :columns, :blocks
 
-    def initialize(grid = nil, output = NullOutput.new)
+    def initialize(grid = nil, solver = nil) # FIXME horrible.  Solver should never be nil anyway.
       if grid
         @matrix = grid
       else
@@ -304,7 +304,7 @@ module Sudoku
         end
       end
 
-      @output = output
+      @solver = solver
 
       # TODO: make that a class method!
       @rows = 9.times.map { |i| Row.new i, self }
@@ -450,7 +450,7 @@ module Sudoku
           group = inter.first # Can only be one, as upper_loc != lower_loc
           ch = [x, [upper_loc, lower_loc], group]
           chains << ch unless chains.map { |chain| [chain.first, chain[1].first, chain[1].last, chain.last] }.include? [x, upper_loc, lower_loc, group]
-          puts "One more chain, total #{chains.count}.  Latest chain [#{ch[0]}, #{ch[1].inspect}, #{ch[2].name}].  Total length #{upper_chain.count + 1}."
+          solver.output.puts "One more chain, total #{chains.count}.  Latest chain [#{ch[0]}, #{ch[1].inspect}, #{ch[2].name}].  Total length #{upper_chain.count + 1}." if @verbose
           return
         else
           next_upper_groups.each do |next_upper_group|
