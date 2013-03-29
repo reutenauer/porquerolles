@@ -16,7 +16,7 @@ module Sudoku
       def run(file, options = "")
         sudokubin = File.expand_path('../../../bin/sudoku', __FILE__)
 
-        system("#{sudokubin} #{options} #{File.join(griddir, file)}").should be_true
+        system("#{sudokubin} #{options} #{File.join(griddir, file)} >/dev/null").should be_true
       end
 
       it "runs main without any switch" do
