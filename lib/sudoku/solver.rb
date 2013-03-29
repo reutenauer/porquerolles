@@ -10,7 +10,8 @@ module Sudoku
   class Solver
     attr_reader :grid
 
-    def initialize
+    def initialize(output = NullOutput.new)
+      @output = output
       @grid = Grid.new
       @hypotheses = []
       @node = Tree.new
