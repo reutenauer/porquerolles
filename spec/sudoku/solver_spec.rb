@@ -3,11 +3,10 @@ require 'spec_helper'
 module Sudoku
   describe Solver do
     let(:solver) { Solver.new }
-    let(:grid_dir) { File.expand_path('../../../grids', __FILE__) }
 
     describe "#ingest" do
       it "ingests a grid from a file" do
-        solver.ingest(File.join(grid_dir, "guardian/2084.sdk"))
+        solver.ingest(read_grid_file('guardian/2084.sdk'))
       end
     end
 
