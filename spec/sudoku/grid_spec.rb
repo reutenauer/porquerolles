@@ -6,7 +6,7 @@ module Sudoku
 
     describe '#place_single' do
       it "works" do
-        solver.ingest(open_grid('guardian/2423.sdk'))
+        solver.ingest(read_grid_file('guardian/2423.sdk'))
         grid = solver.grid
         block = grid.blocks.first
 
@@ -17,7 +17,7 @@ module Sudoku
 
       it "places one value on one single values" do
         solver = Solver.new
-        solver.ingest(open_grid('simple.sdk'))
+        solver.ingest(read_grid_file('simple.sdk'))
         grid = solver.grid
         block = grid.blocks.last
 
@@ -100,14 +100,14 @@ module Sudoku
       let(:grid) { solver.grid }
 
       it "finds a link" do
-        solver.ingest(open_grid('misc/X-wing.sdk'))
+        solver.ingest(read_grid_file('misc/X-wing.sdk'))
         solver.solve
         # TODO Write a matcher for that too
         grid.find_chains.include?([6, [[3, 8], [8, 8]], grid.columns[8]]).should == true
       end
 
       it "does not crash" do
-        solver.ingest(open_grid('guardian/2423.sdk'))
+        solver.ingest(read_grid_file('guardian/2423.sdk'))
         solver.solve(:chains => true)
       end
     end
