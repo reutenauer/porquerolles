@@ -13,7 +13,7 @@ module Sudoku
 
     describe "#solve" do
       it "solves an easy grid" do
-        solver = Solver.new(open_grid('guardian/2423.sdk'))
+        solver.ingest(open_grid('guardian/2423.sdk'))
         # Not sure whether to test that.
         # expect { solver.solve }.to change(solver, :nb_cell_solved) by(57)
         solver.solve
@@ -22,7 +22,7 @@ module Sudoku
       end
 
       it "solves a hard grid", :slow => true do
-        solver = Solver.new(open_grid('maman.sdk'))
+        solver.ingest(open_grid('maman.sdk'))
         solver.solve
         solver.nb_cell_solved.should == 24
 
