@@ -96,6 +96,7 @@ module Sudoku
         exit -1
       end
 
+      # TODO Refactor that
       def self.set_cell(grid, i, j, x)
         x = nil if x == "."
         grid[[i, j]] = Cell.new(x)
