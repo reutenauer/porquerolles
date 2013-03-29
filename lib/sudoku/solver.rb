@@ -72,7 +72,7 @@ module Sudoku
     end
 
     def guess
-      @nb_hypotheses += 1
+      @nb_hypotheses += 1 # FIXME That’s ridiculous.  Use @hypotheses.count
       grid = @grid.copy
       coord_and_cell = @grid.random
       coord = coord_and_cell.first
