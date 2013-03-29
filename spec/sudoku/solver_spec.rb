@@ -22,6 +22,12 @@ module Sudoku
       end
     end
 
+    describe '#parse_file' do
+      it "parses the file" do
+        Solver.parse_file(File.expand_path('../../../grids/guardian/2084.sdk', __FILE__))
+      end
+    end
+
     describe "#solve" do
       it "solves an easy grid" do
         solver.ingest(read_grid_file('guardian/2423.sdk'))
