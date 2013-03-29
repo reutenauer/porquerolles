@@ -11,6 +11,8 @@ When /^I run with switch (-[a-z])$/ do |switch|
 end
 
 Then /^it should solve the sudoku$/ do
+  # TODO Rename that step, it’s not really about solving fully.
+  grid_dir = File.expand_path('../../../grids', __FILE__)
   sudokubin = File.expand_path('../../../bin/sudoku', __FILE__)
-  `#{sudokubin} #{@switches.join(' ')} #{@gridfile}`
+  system("#{sudokubin} #{@switches.join(' ')} #{File.join(grid_dir, @gridfile)} >/dev/null").should be_true
 end
