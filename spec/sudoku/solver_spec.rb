@@ -4,6 +4,18 @@ module Sudoku
   describe Solver do
     let(:solver) { Solver.new }
 
+    describe "#new" do
+      it "instantiates a new solver, outputting to /dev/null" do
+        Solver.new
+      end
+
+      let(:output) { double("output") }
+
+      it "instantiates a new solver, writing to some output" do
+        Solver.new(output)
+      end
+    end
+
     describe "#ingest" do
       it "ingests a grid from a file" do
         solver.ingest(read_grid_file('guardian/2084.sdk'))
