@@ -450,7 +450,7 @@ module Sudoku
           group = inter.first # Can only be one, as upper_loc != lower_loc
           ch = [x, [upper_loc, lower_loc], group]
           chains << ch unless chains.map { |chain| [chain.first, chain[1].first, chain[1].last, chain.last] }.include? [x, upper_loc, lower_loc, group]
-          solver.output.puts "One more chain, total #{chains.count}.  Latest chain [#{ch[0]}, #{ch[1].inspect}, #{ch[2].name}].  Total length #{upper_chain.count + 1}." if @verbose
+          solver.output.puts "One more chain, total #{chains.count}.  Latest chain [#{ch[0]}, #{ch[1].inspect}, #{ch[2].name}].  Total length #{upper_chain.count + 1}." if @solver.verbose?
           return
         else
           next_upper_groups.each do |next_upper_group|

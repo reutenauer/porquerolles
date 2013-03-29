@@ -22,6 +22,10 @@ module Sudoku
       @grid = Grid.new(parse_file(filename), self)
     end
 
+    def verbose?
+      @params[:verbose] if params
+    end
+
     def propagate
       @grid.each do |coord, cell|
         unless cell.solved?
