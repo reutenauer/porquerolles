@@ -47,15 +47,6 @@ module Sudoku
         # TODO Matcher for that!
         solver.nb_cell_solved.should == 81
       end
-
-      it "solves a hard grid", :slow => true do
-        solver.ingest(read_grid_file('maman.sdk'))
-        solver.solve
-        solver.nb_cell_solved.should == 24
-
-        solver.solve(:method => :guess)
-        solver.nb_cell_solved.should == 81
-      end
     end
   end
 end
