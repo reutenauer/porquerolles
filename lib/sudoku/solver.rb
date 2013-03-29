@@ -10,13 +10,8 @@ module Sudoku
   class Solver
     attr_reader :grid
 
-    def initialize(filename = nil)
-      if filename
-        ingest(filename)
-      else
-        @grid = Grid.new
-      end
-
+    def initialize
+      @grid = Grid.new
       @hypotheses = []
       @node = Tree.new
     end
