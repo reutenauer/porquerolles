@@ -23,9 +23,17 @@ module Sudoku
     end
 
     describe '#parse_file' do
+      let(:grid_dir) { File.expand_path('../../../grids', __FILE__) }
+      let(:gridfile) { File.join(grid_dir, 'guardian/2084.sdk') }
+
       it "parses the file" do
-        Solver.parse_file(File.expand_path('../../../grids/guardian/2084.sdk', __FILE__))
+        Solver.parse_file(gridfile)
         # TODO Test that the grid is correctly input
+      end
+
+      it "outputs a message" do
+        output.should_receive(:puts).with(gridfile)
+        Solver.parse_file(gridfile)
       end
     end
 
