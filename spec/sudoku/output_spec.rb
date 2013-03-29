@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 module Sudoku
   describe NullOutput do
     let(:output) { NullOutput.new }
