@@ -6,6 +6,7 @@ require 'rubygems'
 require 'set'
 require 'debugger'
 
+# TODO exit -1 when applicable.
 module Sudoku
   class Solver
     attr_reader :grid
