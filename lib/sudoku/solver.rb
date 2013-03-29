@@ -155,7 +155,7 @@ module Sudoku
           @output.puts "Entering guessing mode ..."
           until @grid.solved?
             begin
-	      Kernel.print "\rConsidered #{@nb_hypotheses} hypotheses so far.  Hypothesis depth: #{@hypotheses.count}."
+	      @output.print "\rConsidered #{@nb_hypotheses} hypotheses so far.  Hypothesis depth: #{@hypotheses.count}."
               guess
               deduce
               if @grid.deadlock?
