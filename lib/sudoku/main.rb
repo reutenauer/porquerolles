@@ -16,7 +16,8 @@ module Sudoku
       params = Options.parse(args)
 
       args.each do |arg|
-        solver = Solver.new arg
+        solver = Solver.new
+        solver.ingest(arg)
         solver.print
         if !solver.valid?
           puts "Grid is not valid.  Exiting."
