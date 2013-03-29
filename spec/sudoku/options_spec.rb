@@ -23,10 +23,9 @@ module Sudoku
         let(:solver) { Solver.new(output) }
 
         it "is verbose" do
-          pending("Need to learn more about expectations.")
           output.should_receive(:puts).with("One more chain, total 19.  Latest chain [6, [[3, 8], [8, 8]], Column 8].  Total length 3.")
           solver.ingest(read_grid_file('misc/X-wing.sdk'))
-          solver.solve(:verbose => true)
+          solver.solve(:verbose => true, :chains => true)
         end
       end
     end
