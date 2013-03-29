@@ -20,6 +20,13 @@ module Sudoku
         elsif f == '-g'
           params[:method] = :guess
           args.slice!(0)
+        elsif f == '-v'
+          params[:verbose] = true
+          args.slice!(0)
+        elsif f == '-q'
+          # Note: if we only use the key :verbose, the defaults are correct (i. e., quiet).
+          params[:verbose] = false
+          args.slice!(0)
         # No tree yet.
         end
       end
