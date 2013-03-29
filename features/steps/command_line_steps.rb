@@ -1,3 +1,4 @@
+# Shared with “solver.feature”.  Put something specific to command line? – TODO?
 Given /^grid "([^"]*)"$/ do |grid|
   @gridfile = grid
   @switches = []
