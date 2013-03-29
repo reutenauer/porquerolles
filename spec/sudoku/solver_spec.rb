@@ -1,5 +1,7 @@
 require 'spec_helper'
 
+# TODO Describe option passing!
+
 module Sudoku
   describe Solver do
     let(:output) { double("output").as_null_object }
