@@ -16,5 +16,18 @@ module Sudoku
         Options.parse(['-v', '-q', "dummy name"])[:verbose].should be_false
       end
     end
+
+    describe "options in action" do
+      describe "verbose" do
+        let(:output) { double('output').as_null_object }
+        let(:solver) { Solver.new(output) }
+
+        it "is verbose" do
+          pending("Need to refactor Solver first.")
+          output.should_receive(:puts).with("One more chain, total 19.  Latest chain [6, [[3, 8], [8, 8]], Column 8].  Total length 3.")
+          solver.solve
+        end
+      end
+    end
   end
 end
