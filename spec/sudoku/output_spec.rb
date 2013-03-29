@@ -6,7 +6,7 @@ module Sudoku
 
     describe "#puts" do
       it "outputs nothing" do
-        expect(STDOUT).to not_receive(:puts)
+        STDOUT.should_not_receive(:puts)
         output.puts("This is not a message.")
       end
     end
