@@ -25,6 +25,7 @@ module Sudoku
     describe '#parse_file' do
       it "parses the file" do
         Solver.parse_file(File.expand_path('../../../grids/guardian/2084.sdk', __FILE__))
+        # TODO Test that the grid is correctly input
       end
     end
 
