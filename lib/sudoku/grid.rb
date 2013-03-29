@@ -292,7 +292,7 @@ module Sudoku
   class Grid
     attr_reader :rows, :columns, :blocks
 
-    def initialize(grid = nil)
+    def initialize(grid = nil, output = NullOutput.new)
       if grid
         @matrix = grid
       else
@@ -303,6 +303,8 @@ module Sudoku
           end
         end
       end
+
+      @output = output
 
       # TODO: make that a class method!
       @rows = 9.times.map { |i| Row.new i, self }
