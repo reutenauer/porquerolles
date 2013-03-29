@@ -93,7 +93,7 @@ module Sudoku
       begin
         gridfile = File.open(filename, "r")
       rescue Errno::ENOENT
-        puts "Error: could not open file #{filename}."
+        @output.puts "Error: could not open file #{filename}."
         exit -1
       end
 
@@ -121,7 +121,7 @@ module Sudoku
       end
 
       if i != 9
-        puts "Error: could not input grid from file #{filename}."
+        @output.puts "Error: could not input grid from file #{filename}."
       end
 
       grid
@@ -152,7 +152,7 @@ module Sudoku
         deduce
         if method == :guess
           @nb_hypotheses = 0
-          puts "Entering guessing mode ..."
+          @output.puts "Entering guessing mode ..."
           until @grid.solved?
             begin
 	      Kernel.print "\rConsidered #{@nb_hypotheses} hypotheses so far.  Hypothesis depth: #{@hypotheses.count}."
@@ -173,13 +173,13 @@ module Sudoku
 	  # TODO...
         end
       rescue Paradox
-        puts "Sudoku insoluble."
+        @output.puts "Sudoku insoluble."
       end
-      puts "  Solved!" if method == :guess and nb_cell_solved == 81
+      @output.puts "  Solved!" if method == :guess and nb_cell_solved == 81
     end
 
     def print
-      puts @grid.display
+      @output.puts @grid.display
     end
   end
 end
