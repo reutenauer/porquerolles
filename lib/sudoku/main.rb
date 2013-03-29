@@ -12,11 +12,11 @@ require 'set'
 
 module Sudoku
   class Main
-    def self.run(args)
+    def self.run(args, output = NullOutput.new)
       params = Options.parse(args)
 
       args.each do |arg|
-        solver = Solver.new
+        solver = Solver.new(output)
         solver.ingest(arg)
         solver.print
         if !solver.valid?
