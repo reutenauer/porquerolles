@@ -2,14 +2,13 @@ require 'spec_helper'
 
 module Sudoku
   describe Solver do
-    let(:solver) { Solver.new }
+    let(:output) { double("output") }
+    let(:solver) { Solver.new(output) }
 
     describe "#new" do
       it "instantiates a new solver, outputting to /dev/null" do
         Solver.new
       end
-
-      let(:output) { double("output") }
 
       it "instantiates a new solver, writing to some output" do
         Solver.new(output)
@@ -27,13 +26,14 @@ module Sudoku
       let(:gridfile) { File.join(grid_dir, 'guardian/2084.sdk') }
 
       it "parses the file" do
-        Solver.parse_file(gridfile)
+        solver.parse_file(gridfile)
         # TODO Test that the grid is correctly input
       end
 
       it "outputs a message" do
+        pending("Need to refactor first by making parse_file an instance method.")
         output.should_receive(:puts).with(gridfile)
-        Solver.parse_file(gridfile)
+        solver.parse_file(gridfile)
       end
     end
 

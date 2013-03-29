@@ -18,7 +18,7 @@ module Sudoku
     end
 
     def ingest(filename)
-      @grid = Grid.new(Solver.parse_file(filename))
+      @grid = Grid.new(parse_file(filename))
     end
 
     def propagate
