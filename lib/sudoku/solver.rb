@@ -84,7 +84,7 @@ module Sudoku
     # group1.locations(x) is contained in group2.  Probably was there at some point.
 
     def parse_file(filename)
-      puts "Parsing file #{filename}."
+      @output.puts "Parsing file #{filename}."
       begin
         gridfile = File.open(filename, "r")
       rescue Errno::ENOENT

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 module Sudoku
   describe Solver do
-    let(:output) { double("output") }
+    let(:output) { double("output").as_null_object }
     let(:solver) { Solver.new(output) }
 
     describe "#new" do
@@ -31,8 +31,7 @@ module Sudoku
       end
 
       it "outputs a message" do
-        pending("Need to refactor first by making parse_file an instance method.")
-        output.should_receive(:puts).with(gridfile)
+        output.should_receive(:puts).with("Parsing file #{gridfile}.")
         solver.parse_file(gridfile)
       end
     end
