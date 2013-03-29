@@ -2,6 +2,15 @@ require 'spec_helper'
 
 module Sudoku
   describe Solver do
+    let(:solver) { Solver.new }
+    let(:grid_dir) { File.expand_path('../../../grids', __FILE__) }
+
+    describe "#ingest" do
+      it "ingests a grid from a file" do
+        solver.ingest(File.join(grid_dir, "guardian/2084.sdk"))
+      end
+    end
+
     describe "#solve" do
       it "solves an easy grid" do
         solver = Solver.new(open_grid('guardian/2423.sdk'))
