@@ -23,7 +23,7 @@ module Sudoku
     end
 
     def verbose?
-      @params[:verbose] if params
+      @params[:verbose] if @params
     end
 
     def propagate
