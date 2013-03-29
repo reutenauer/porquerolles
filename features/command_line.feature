@@ -11,7 +11,7 @@ Feature: Invoking the solver from the command line
 
   Scenario: With the chains switch
     Given grid "guardian/2423.sdk"
-    When I run witch switch -c
+    When I run with switch -c
     Then it should solve the sudoku
 
   Scenario: With the guess switch
@@ -33,5 +33,5 @@ Feature: Invoking the solver from the command line
 
   Scenario: With only chains
     Given grid "misc/X-wing.sdk"
-    When I run switch -c
+    When I run with switch -c
     Then it should solve the sudoku
