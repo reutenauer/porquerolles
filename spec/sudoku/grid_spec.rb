@@ -21,7 +21,7 @@ module Sudoku
         grid = solver.grid
         block = grid.blocks.last
 
-        pending
+        pending "This is too verbose; random experiments here"
         puts "Propagating ..."
         solver.propagate
         puts grid[6, 7].inspect
