@@ -199,7 +199,7 @@ module Sudoku
       # Possible methods: :deduction, :guess, :tree
       begin
         deduce
-        if method == :guess
+        if method == :guess && !solved?
           @nb_hypotheses = 0
           @output.puts "Entering guessing mode ..."
           until @grid.solved?
