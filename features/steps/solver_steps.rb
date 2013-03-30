@@ -11,5 +11,5 @@ Then /^the solver should solve the sudoku$/ do
   solver = Solver.new
   solver.ingest(File.expand_path("../../../grids/#{@gridfile}", __FILE__))
   solver.solve
-  solver.grid.solved?.should be_true
+  solver.should be_solved
 end
