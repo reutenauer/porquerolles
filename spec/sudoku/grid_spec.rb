@@ -22,6 +22,7 @@ module Sudoku
         block = grid.blocks.last
 
         solver.propagate
+        grid[6, 7].should_not be_solved
         grid[6, 7].should have(3).elements
 
         block.place_single(1)
