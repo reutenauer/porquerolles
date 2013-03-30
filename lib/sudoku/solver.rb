@@ -18,37 +18,36 @@ module Sudoku
       @grid = Grid.new
       @hypotheses = []
       @node = Tree.new
+      @params = { }
     end
 
     def parse_options(args)
-      params = { }
-
       OptionParser.new do |opts|
         opts.banner = "Usage: #{$0} [options] <file name>"
 
         opts.on('-s', "--[no]-singles", "Place single candidates") do |s|
-          params[:singles] = s
+          @params[:singles] = s
         end
 
         opts.on('-d', "--deduction", "Use deduction method") do
-          params[:method] = :deduction
+          @params[:method] = :deduction
         end
 
         opts.on('-c', "--[no-]chains", "Find chains") do |c|
-          params[:chains] = c
+          @params[:chains] = c
         end
 
         opts.on('-g', "--guess", "Use guess method") do
-          params[:method] = :guess
+          @params[:method] = :guess
         end
 
         opts.on('-v', "--[no-]verbose", "Be more verbose") do |v|
-          params[:verbose] = v
+          @params[:verbose] = v
         end
 
         opts.on('-q', "--[no-]quiet", "Be quieter") do |q|
           # Note: if we only use the key :verbose, the defaults are correct (i. e., quiet).
-          params[:verbose] = !q
+          @params[:verbose] = !q
         end
 
         # No tree yet.
@@ -60,8 +59,6 @@ module Sudoku
           @output.puts opts
         end
       end
-
-      params
     end
 
     def ingest(filename)
@@ -70,6 +67,10 @@ module Sudoku
 
     def verbose?
       @params[:verbose] if @params
+    end
+
+    def chains?
+      @params[:chains] if @params
     end
 
     def propagate
@@ -188,11 +189,9 @@ module Sudoku
       !@grid.paradox?
     end
 
-    def solve(params = { })
-      @params = params
-
+    def solve
       # Possible methods: :deduction, :guess, :tree
-      method = params[:method]
+      method = @params[:method]
       method = :deduction unless method
       begin
         deduce
