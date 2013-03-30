@@ -182,5 +182,9 @@ module Sudoku
     def print
       @output.puts @grid.display
     end
+
+    def solved?
+      grid.solved?
+    end
   end
 end
