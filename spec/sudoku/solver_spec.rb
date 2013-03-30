@@ -20,26 +20,29 @@ module Sudoku
 
     describe "#parse_options" do
       it "passes the verbose option" do
-        solver.parse_options(['-v'])[:verbose].should be_true
+        solver.parse_options(['-v'])
+        solver.should be_verbose
       end
 
       it "passes the quiet option, as “non-verbose”" do
-        solver.parse_options(['-q'])[:verbose].should be_false
+        solver.parse_options(['-q'])
+        solver.should_not be_verbose
       end
 
       it "passes the quiet option, overriding verbose" do
-        solver.parse_options(['-v', '-q'])[:verbose].should be_false
+        solver.parse_options(['-v', '-q'])
+        solver.should_not be_verbose
       end
 
       it "passes two options using the compact syntax" do
-        options = solver.parse_options(['-vc'])
-        options[:verbose].should be_true
-        options[:chains].should be_true
+        solver.parse_options(['-vc'])
+        solver.should be_verbose
+        solver.should be_chains
       end
 
       it "outputs a message when it encounters an unknown options" do
         output.should_receive(:puts).with("Error: invalid option: -f")
-        solver.parse_options(['-f', "dummy name"])
+        solver.parse_options(['-f'])
       end
     end
 
@@ -49,11 +52,10 @@ module Sudoku
         let(:solver) { Solver.new(output) }
 
         it "is verbose" do
+          solver.parse_options(['-q', '-c'])
+          solver.should_not be_verbose
           solver.solve(:verbose => true, :chains => true)
-          solver.should be_verbose
-          pending "needs refactoring between Grid and Solver" do
-            solver.setup(:verbose => true)
-          end
+          solver.should_not be_verbose
         end
 
         it "outputs extra messages" do
