@@ -21,16 +21,10 @@ module Sudoku
         grid = solver.grid
         block = grid.blocks.last
 
-        pending "This is too verbose; random experiments here"
-        puts "Propagating ..."
         solver.propagate
-        puts grid[6, 7].inspect
-        solver.print
+        grid[6, 7].count.should == 3
 
-        puts "place_single(1) ..."
         block.place_single(1)
-        puts grid[6, 7].inspect
-        solver.print
         grid[6, 7].value.should == 1
       end
     end
