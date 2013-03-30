@@ -23,6 +23,13 @@ module Sudoku
         let(:solver) { Solver.new(output) }
 
         it "is verbose" do
+          solver.solve(:verbose => true, :chains => true)
+          solver.should be_verbose
+          pending "needs refactoring between Grid and Solver"
+          solver.setup(:verbose => true)
+        end
+
+        it "outputs extra messages" do
           pending "chains does not work yet" do
             output.should_receive(:puts).with("One more chain, total 19.  Latest chain [6, [[3, 8], [8, 8]], Column 8].  Total length 3.")
             solver.ingest(read_grid_file('misc/X-wing.sdk'))
