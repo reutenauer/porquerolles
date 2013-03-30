@@ -20,25 +20,25 @@ module Sudoku
 
     describe "#parse_options" do
       it "passes the verbose option" do
-        Solver.parse_options(['-v'])[:verbose].should be_true
+        parse_options(['-v'])[:verbose].should be_true
       end
 
       it "passes the quiet option, as “non-verbose”" do
-        Solver.parse_options(['-q'])[:verbose].should be_false
+        parse_options(['-q'])[:verbose].should be_false
       end
 
       it "passes the quiet option, overriding verbose" do
-        Solver.parse_options(['-v', '-q'])[:verbose].should be_false
+        parse_options(['-v', '-q'])[:verbose].should be_false
       end
 
       it "passes two options using the compact syntax" do
-        options = Solver.parse_options(['-vc'])
+        options = parse_options(['-vc'])
         options[:verbose].should be_true
         options[:chains].should be_true
       end
 
       it "doesn’t hang on unknown options" do
-        Solver.parse_options(['-f', "dummy name"])
+        parse_options(['-f', "dummy name"])
       end
     end
 
