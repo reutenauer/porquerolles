@@ -10,13 +10,15 @@ require 'optparse'
 # TODO exit -1 when applicable.
 module Sudoku
   class Solver
-    attr_reader :grid
+    attr_accessor :grid
     attr_reader :output
     attr_writer :params
+    attr_reader :reference
 
     def initialize(output = NullOutput.new)
       @output = output
       @grid = Grid.new
+      @reference = Grid.new
       @hypotheses = []
       @node = Tree.new
       @params = { }
@@ -233,6 +235,13 @@ module Sudoku
 
     def solved?
       grid.solved?
+    end
+
+    def pre_solve
+      pre_solver = Solver.new
+      pre_solver.grid = @grid.copy
+      pre_solver.solve(:method => :guess)
+      @reference = pre_solver.grid
     end
 
     def run(args)
