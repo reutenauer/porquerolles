@@ -61,6 +61,17 @@ module Sudoku
       end
     end
 
+    describe "#method" do
+      it "returns :deduction by default" do
+        solver.method.should == :deduction
+      end
+
+      it "sets it to something on demand" do
+        solver.solve(:method => :guess)
+        solver.method.should == :guess
+      end
+    end
+
     describe '#parse_file' do
       let(:grid_dir) { File.expand_path('../../../grids', __FILE__) }
       let(:gridfile) { File.join(grid_dir, 'guardian/2084.sdk') }
