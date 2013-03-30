@@ -22,7 +22,7 @@ module Sudoku
         block = grid.blocks.last
 
         solver.propagate
-        grid[6, 7].count.should == 3
+        grid[6, 7].should have(3).elements
 
         block.place_single(1)
         grid[6, 7].value.should == 1
