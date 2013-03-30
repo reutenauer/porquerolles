@@ -10,6 +10,7 @@ end
 Then /^the solver should solve the sudoku$/ do
   solver = Solver.new
   solver.ingest(File.expand_path("../../../grids/#{@gridfile}", __FILE__))
+  solver.params = @params
   solver.solve
   solver.should be_solved
 end
