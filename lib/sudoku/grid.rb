@@ -13,7 +13,7 @@ class Set
   end
 
   def random
-    to_a[rand(to_a.count)]
+    to_a[rand(count)]
   end
 end
 
