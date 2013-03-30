@@ -7,7 +7,7 @@ module Sudoku
       it "passes the verbose option" do
         Options.parse(['-v', "dummy name"])[:verbose].should be_true
         pending "freezes for the moment"
-        Options.parse(['-v']).should work_as_well
+        Options.parse(['-f']).should work_as_well
       end
 
       it "passes the quiet option, as “non-verbose”" do
