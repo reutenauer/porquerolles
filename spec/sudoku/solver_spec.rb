@@ -85,5 +85,13 @@ module Sudoku
         solver.should be_solved
       end
     end
+
+    describe "#run" do
+    let(:griddir) { File.expand_path('../../../grids', __FILE__) }
+
+      it "runs a simple file" do
+        solver.run([File.join(griddir, 'simple.sdk')])
+      end
+    end
   end
 end
