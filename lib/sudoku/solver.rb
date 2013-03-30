@@ -190,7 +190,8 @@ module Sudoku
       !@grid.paradox?
     end
 
-    def solve
+    def solve(params = nil)
+      @params.merge!(params) if params
       # Possible methods: :deduction, :guess, :tree
       method = @params[:method]
       method = :deduction unless method
