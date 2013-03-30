@@ -43,9 +43,6 @@ module Sudoku
         end
       end
 
-      # TODO Play with optparse now.
-      # TODO “$0 -f grid/maman.sdk” freezes
-
       params
     end
   end
