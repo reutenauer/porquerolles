@@ -104,6 +104,13 @@ module Sudoku
       end
     end
 
+    describe "#reference" do
+      it "is a standard grid object" do
+        solver.reference.class.should == Grid
+        solver.should_not be_solved
+      end
+    end
+
     describe "#pre_solve" do
       it "computes a reference solution grid" do
         solver.ingest(read_grid_file('sotd/2013-02-05-diabolical.sdk'))
