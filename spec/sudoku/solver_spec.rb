@@ -37,7 +37,8 @@ module Sudoku
         options[:chains].should be_true
       end
 
-      it "doesn’t hang on unknown options" do
+      it "outputs a message when it encounters an unknown options" do
+        output.should_receive(:puts).with("Error: invalid option: -f")
         solver.parse_options(['-f', "dummy name"])
       end
     end
