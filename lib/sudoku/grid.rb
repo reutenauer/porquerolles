@@ -76,7 +76,7 @@ module Sudoku
       if x
         @values = Set.new([x.to_i])
       else
-        @values = Set.new(1.upto(9))
+        @values = Set.new(1..9)
       end
     end
 
@@ -119,7 +119,7 @@ module Sudoku
     end
 
     def copy
-      Cell.new.tap { |cell| cell.cross_out(1.upto(9).map.to_set - @values) }
+      Cell.new.tap { |cell| cell.cross_out((1..9).to_set - @values) }
     end
 
     def guess
@@ -174,14 +174,14 @@ module Sudoku
 
     def place(params = { })
       if params[:singles]
-        1.upto(9) do |x|
+        (1..9).each do |x|
           place_single(x)
         end
       end
 
       # Resolving cases where all the possible locations for x in group1 are included in group2
       # TODO Spec for that!
-      1.upto(9).each do |x|
+      (1..9).each do |x|
         locs = locations(x)
         [:row, :column, :block].each do |group_type| # TODO Group#intersecting_group_types
           areas = locs.map do |loc|
@@ -199,7 +199,7 @@ module Sudoku
       end
 
       locs = { }
-      1.upto(9).each do |x|
+      (1..9).each do |x|
         locs[x] = locations(x)
         raise Deadlock if locs[x].count == 0
       end
@@ -240,7 +240,7 @@ module Sudoku
     end
 
     def paradox?
-      1.upto(9).any? do |x|
+      (1..9).any? do |x|
         cells.map { |cell| cell if cell.solved? && cell.value == x }.compact.count > 1
       end
     end
