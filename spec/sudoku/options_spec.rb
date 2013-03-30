@@ -5,21 +5,19 @@ module Sudoku
   describe Options do
     describe "option passing" do
       it "passes the verbose option" do
-        Options.parse(['-v', "dummy name"])[:verbose].should be_true
-        pending "freezes for the moment"
-        Options.parse(['-f']).should work_as_well
+        Options.parse(['-v'])[:verbose].should be_true
       end
 
       it "passes the quiet option, as “non-verbose”" do
-        Options.parse(['-q', "dummy name"])[:verbose].should be_false
+        Options.parse(['-q'])[:verbose].should be_false
       end
 
       it "passes the quiet option, overriding verbose" do
-        Options.parse(['-v', '-q', "dummy name"])[:verbose].should be_false
+        Options.parse(['-v', '-q'])[:verbose].should be_false
       end
 
       it "passes two options using the compact syntax" do
-        options = Options.parse(['-vc', "dummy name"])
+        options = Options.parse(['-vc'])
         options[:verbose].should be_true
         options[:chains].should be_true
       end
