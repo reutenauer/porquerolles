@@ -19,15 +19,16 @@ module Sudoku
         solver = Solver.new
         solver.ingest(read_grid_file('simple.sdk'))
         grid = solver.grid
+        cell = grid[6, 7]
         block = grid.blocks.last
 
         solver.propagate
-        grid[6, 7].should_not be_solved
-        grid[6, 7].should have(3).elements
+        cell.should_not be_solved
+        cell.should have(3).elements
 
         block.place_single(1)
-        grid[6, 7].should be_solved
-        grid[6, 7].value.should == 1
+        cell.should be_solved
+        cell.value.should == 1
       end
 
       it "really does what it should" # Above example is absurd and evidence that things don’t really work well
