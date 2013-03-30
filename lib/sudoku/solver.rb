@@ -56,8 +56,8 @@ module Sudoku
         begin
           opts.parse!(args)
         rescue OptionParser::InvalidOption => message
-          puts "Error: #{message}"
-          puts opts
+          @output.puts "Error: #{message}"
+          @output.puts opts
         end
       end
 
