@@ -231,7 +231,7 @@ module Sudoku
       grid.solved?
     end
 
-    def run(args, output = NullOutput.new)
+    def run(args)
       parse_options(args)
 
       args.each do |arg|
