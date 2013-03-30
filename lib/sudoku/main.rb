@@ -13,7 +13,7 @@ require 'set'
 module Sudoku
   class Main
     def self.run(args, output = NullOutput.new)
-      params = Options.parse(args)
+      params = Solver.parse_options(args)
 
       args.each do |arg|
         solver = Solver.new(output)
