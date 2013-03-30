@@ -13,10 +13,10 @@ require 'set'
 module Sudoku
   class Main
     def self.run(args, output = NullOutput.new)
-      params = Solver.parse_options(args)
+      solver = Solver.new(output)
+      params = solver.parse_options(args)
 
       args.each do |arg|
-        solver = Solver.new(output)
         solver.ingest(arg)
         solver.print
         if !solver.valid?
