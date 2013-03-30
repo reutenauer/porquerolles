@@ -77,6 +77,12 @@ module Sudoku
     end
 
     describe "#solve" do
+      it "sets additional options" do
+        solver.should_not be_verbose
+        solver.solve(:verbose => true)
+        solver.should be_verbose
+      end
+
       it "solves an easy grid" do
         solver.ingest(read_grid_file('guardian/2423.sdk'))
         # Not sure whether to test that.
