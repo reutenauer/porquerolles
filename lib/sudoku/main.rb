@@ -14,7 +14,7 @@ module Sudoku
   class Main
     def self.run(args, output = NullOutput.new)
       solver = Solver.new(output)
-      params = solver.parse_options(args)
+      solver.parse_options(args)
 
       args.each do |arg|
         solver.ingest(arg)
@@ -23,7 +23,7 @@ module Sudoku
           puts "Grid is not valid.  Exiting."
           exit
         end
-        solver.solve params
+        solver.solve
         solver.print
       end
     end
