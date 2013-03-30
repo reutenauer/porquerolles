@@ -230,5 +230,20 @@ module Sudoku
     def solved?
       grid.solved?
     end
+
+    def run(args, output = NullOutput.new)
+      parse_options(args)
+
+      args.each do |arg|
+        ingest(arg)
+        print
+        unless valid?
+          puts "Grid is not valid.  Exiting."
+          exit
+        end
+        solve
+        print
+      end
+    end
   end
 end
