@@ -26,7 +26,6 @@ module Sudoku
       end
 
       it "doesn’t hang on unknown options" do
-        pending "needs implementation"
         Options.parse(['-f', "dummy name"])
       end
     end
