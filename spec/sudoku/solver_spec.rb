@@ -18,27 +18,27 @@ module Sudoku
       end
     end
 
-    describe "option passing" do
+    describe "#parse_options" do
       it "passes the verbose option" do
-        Options.parse(['-v'])[:verbose].should be_true
+        Solver.parse_options(['-v'])[:verbose].should be_true
       end
 
       it "passes the quiet option, as “non-verbose”" do
-        Options.parse(['-q'])[:verbose].should be_false
+        Solver.parse_options(['-q'])[:verbose].should be_false
       end
 
       it "passes the quiet option, overriding verbose" do
-        Options.parse(['-v', '-q'])[:verbose].should be_false
+        Solver.parse_options(['-v', '-q'])[:verbose].should be_false
       end
 
       it "passes two options using the compact syntax" do
-        options = Options.parse(['-vc'])
+        options = Solver.parse_options(['-vc'])
         options[:verbose].should be_true
         options[:chains].should be_true
       end
 
       it "doesn’t hang on unknown options" do
-        Options.parse(['-f', "dummy name"])
+        Solver.parse_options(['-f', "dummy name"])
       end
     end
 

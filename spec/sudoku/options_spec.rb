@@ -2,7 +2,7 @@
 require 'spec_helper'
 
 module Sudoku
-  describe Options do
+  describe "options" do
     describe "options in action" do
       describe "verbose" do
         let(:output) { double('output').as_null_object }
