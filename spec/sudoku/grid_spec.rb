@@ -27,6 +27,8 @@ module Sudoku
         block.place_single(1)
         grid[6, 7].value.should == 1
       end
+
+      it "really does what it should" # Above example is absurd and evidence that things don’t really work well
     end
   end
 
