@@ -20,7 +20,7 @@ module Sudoku
       @node = Tree.new
     end
 
-    def self.parse_options(args)
+    def parse_options(args)
       params = { }
 
       OptionParser.new do |opts|
