@@ -35,7 +35,12 @@ module Sudoku
 
         # No tree yet.
 
-        opts.parse!(args)
+        begin
+          opts.parse!(args)
+        rescue OptionParser::InvalidOption => message
+          puts "Error: #{message}"
+          puts opts
+        end
       end
 
       # TODO Play with optparse now.
