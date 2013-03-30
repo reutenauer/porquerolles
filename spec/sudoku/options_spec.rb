@@ -25,8 +25,9 @@ module Sudoku
         it "is verbose" do
           solver.solve(:verbose => true, :chains => true)
           solver.should be_verbose
-          pending "needs refactoring between Grid and Solver"
-          solver.setup(:verbose => true)
+          pending "needs refactoring between Grid and Solver" do
+            solver.setup(:verbose => true)
+          end
         end
 
         it "outputs extra messages" do
