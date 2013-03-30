@@ -12,7 +12,6 @@ module Sudoku
   class Solver
     attr_accessor :grid
     attr_reader :output
-    attr_writer :params
     attr_reader :reference
 
     def initialize(output = NullOutput.new)
