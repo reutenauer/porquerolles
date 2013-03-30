@@ -19,7 +19,6 @@ module Sudoku
       end
 
       it "passes two options using the compact syntax" do
-        pending "needs implementation"
         options = Options.parse(['-vc', "dummy name"])
         options[:verbose].should be_true
         options[:chains].should be_true
