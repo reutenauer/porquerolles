@@ -45,7 +45,7 @@ module Sudoku
         # expect { solver.solve }.to change(solver, :nb_cell_solved) by(57)
         solver.solve
         # TODO Matcher for that!
-        solver.nb_cell_solved.should == 81
+        solver.should be_solved
       end
     end
   end
