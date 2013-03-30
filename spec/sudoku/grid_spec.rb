@@ -25,6 +25,7 @@ module Sudoku
         grid[6, 7].should have(3).elements
 
         block.place_single(1)
+        grid[6, 7].should be_solved
         grid[6, 7].value.should == 1
       end
 
