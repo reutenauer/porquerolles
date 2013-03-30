@@ -10,7 +10,7 @@ module Sudoku
         grid = solver.grid
         block = grid.blocks.first
 
-        1.upto(9) do |x|
+        (1..9).each do |x|
           block.place_single(x)
         end
       end
