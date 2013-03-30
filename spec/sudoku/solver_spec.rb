@@ -67,6 +67,7 @@ module Sudoku
       end
 
       it "sets it to something on demand" do
+        solver.stub(:solved?).and_return(:true) # So that we’ll return immediately after the deduce phase
         solver.solve(:method => :guess)
         solver.method.should == :guess
       end
