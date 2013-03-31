@@ -12,6 +12,18 @@ module Sudoku
       end
     end
 
+    describe "#cross_out" do
+      it "crosses out as not a possible value" do
+        cell = Cell.new
+        cell.should have(9).possible_values
+        cell.cross_out(1)
+        cell.should have(8).possible_values
+        (2..8).each { |x| cell.cross_out(x) }
+        cell.should be_solved
+        cell.value.should == 9
+      end
+    end
+
     describe '#place_single' do
       it "works" do
         solver.ingest(read_grid_file('guardian/2423.sdk'))
