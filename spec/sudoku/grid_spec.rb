@@ -34,6 +34,12 @@ module Sudoku
         cell.should be_solved
         cell.value.should == 9
       end
+
+      it "is fussy if solver is referenced" do
+        solver.solve(:references => true)
+        solver.should_receive(:reference)
+        solver.grid[8, 8].cross_out(8)
+      end
     end
 
     describe '#place_single' do
