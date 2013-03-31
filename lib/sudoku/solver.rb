@@ -50,6 +50,10 @@ module Sudoku
           @params[:verbose] = !q
         end
 
+        opts.on('-r', "--[no-]references", "References to full solution") do |r|
+          @params[:references] = r
+        end
+
         # No tree yet.
 
         begin
@@ -71,6 +75,10 @@ module Sudoku
 
     def chains?
       @params[:chains] if @params
+    end
+
+    def referenced?
+      @params[:references]
     end
 
     def propagate
