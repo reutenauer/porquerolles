@@ -125,8 +125,8 @@ module Sudoku
 
     def guess
       @nb_hypotheses += 1 # FIXME That’s ridiculous.  Use @hypotheses.count
-      grid = @grid.copy
-      coord_and_cell = @grid.random
+      grid = @hypotheses.last.grid.copy
+      coord_and_cell = grid.random
       coord = coord_and_cell.first
       cell = coord_and_cell.last
       val = cell.guess
@@ -180,7 +180,7 @@ module Sudoku
     def backtrack
       raise Paradox if @hypotheses.count == 0
       hypothesis = @hypotheses.pop
-      @grid = hypothesis.grid
+      grid = hypothesis.grid
       coord = hypothesis.coord
       value = hypothesis.value
       cell = @grid.cell coord
@@ -202,14 +202,15 @@ module Sudoku
       begin
         deduce
         if method == :guess && !solved?
+          @hypotheses << Hypothesis.new(@grid, [9, 9], 0)
           @nb_hypotheses = 0
           @output.puts "Entering guessing mode ..."
           until @grid.solved?
             begin
 	      @output.print "\rConsidered #{@nb_hypotheses} hypotheses so far.  Hypothesis depth: #{@hypotheses.count}."
               guess
-              deduce
-              if @grid.deadlock?
+              @hypotheses.last.grid.deduce
+              if @hypotheses.last.grid.deadlock?
                 backtrack
               end
             rescue Deadlock

@@ -76,6 +76,8 @@ module Sudoku
   end
 
   class Cell
+    attr_writer :values
+
     def initialize(x = nil)
       if x
         @values = Set.new([x.to_i])
@@ -123,7 +125,7 @@ module Sudoku
     end
 
     def copy
-      Cell.new.tap { |cell| cell.cross_out((1..9).to_set - @values) }
+      Cell.new.tap { |cell| cell.values = @values.copy }
     end
 
     def guess
@@ -417,7 +419,7 @@ module Sudoku
     end
 
     def copy
-     Grid.new(
+     Grid.new(@output,
        Hash.new.tap do |hash|
          each do |coord, cell|
            hash[coord] = cell.copy
