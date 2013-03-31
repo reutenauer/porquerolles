@@ -41,6 +41,11 @@ module Sudoku
         pending "Ridiculous name"
       end
 
+      it "passes the “references” options" do
+        solver.parse_options(['-r'])
+        solver.should be_referenced
+      end
+
       it "outputs a message when it encounters an unknown options" do
         output.should_receive(:puts).with("Error: invalid option: -f")
         solver.parse_options(['-f'])
@@ -93,6 +98,12 @@ module Sudoku
         solver.should_not be_verbose
         solver.solve(:verbose => true)
         solver.should be_verbose
+      end
+
+      it "sets yet other options" do
+        solver.should_not be_referenced
+        solver.solve(:references => true)
+        solver.should be_referenced
       end
 
       it "solves an easy grid" do
