@@ -15,6 +15,10 @@ class Set
   def random
     to_a[rand(count)]
   end
+
+  def copy
+    Set.new(to_a.slice(0, count))
+  end
 end
 
 class Hash
