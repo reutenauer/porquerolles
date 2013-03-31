@@ -93,14 +93,16 @@ module Sudoku
       end
     end
 
-  describe "Bug fixed :-)" do
-    it "is works" do
-      solver = Solver.new(STDOUT)
-      solver.ingest(read_grid_file('sotd/2013-02-05-diabolical.sdk'))
-      solver.solve(:method => :guess)
-      solver.should be_solved
+    describe "#guess" do
+      it "solves with the :guess method (using pseudo-random number generator, 5 runs)" do
+        5.times do
+          solver = Solver.new
+          solver.ingest(read_grid_file('sotd/2013-02-05-diabolical.sdk'))
+          solver.solve(:method => :guess)
+          solver.should be_solved
+        end
+      end
     end
-  end
 
     describe "#solve" do
       it "sets additional options" do
