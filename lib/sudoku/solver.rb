@@ -12,12 +12,10 @@ module Sudoku
   class Solver
     attr_accessor :grid
     attr_reader :output
-    attr_reader :reference
 
     def initialize(output = NullOutput.new)
       @output = output
       @grid = Grid.new
-      @reference = Grid.new
       @hypotheses = []
       @node = Tree.new
       @params = { }
@@ -236,11 +234,13 @@ module Sudoku
       grid.solved?
     end
 
-    def pre_solve
-      pre_solver = Solver.new
-      pre_solver.grid = @grid.copy
-      pre_solver.solve(:method => :guess)
-      @reference = pre_solver.grid
+    def reference
+      unless @reference
+        pre_solver = Solver.new
+        pre_solver.grid = @grid.copy
+        pre_solver.solve(:method => :guess)
+        @reference = pre_solver.grid
+      end
     end
 
     def run(args)
