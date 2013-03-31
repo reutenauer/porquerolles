@@ -249,7 +249,7 @@ module Sudoku
     def reference
       unless @reference
         pre_solver = Solver.new
-        pre_solver.grid = @grid.copy
+        pre_solver.ingest(@grid)
         pre_solver.solve(:method => :guess)
         @reference = pre_solver.grid
       end
