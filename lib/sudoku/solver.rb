@@ -127,13 +127,7 @@ module Sudoku
       @nb_hypotheses += 1 # FIXME That’s ridiculous.  Use @hypotheses.count
       last_hyp = @hypotheses.last || @grid
       grid = last_hyp.grid.copy
-      if grid.solved?
-        puts "SUCCESS! (from guess, @hypotheses.count = #{@hypotheses.count})"
-        grid.print
-        exit(0)
-      end
       coord_and_cell = grid.random
-      debugger unless coord_and_cell
       coord = coord_and_cell.first
       cell = coord_and_cell.last
       val = cell.guess
@@ -185,19 +179,8 @@ module Sudoku
     end
 
     def backtrack
-      # raise Paradox if @hypotheses.count == 0
-      # hypothesis = @hypotheses.pop
-      # grid = hypothesis.grid
       hypothesis = @hypotheses.pop
       if hypothesis then grid = hypothesis.grid else grid = @grid end
-      Kernel.puts "SUCCESS! (from backtrack)" if grid.solved?
-      grid.print if grid.solved?
-      exit(0) if grid.solved? # Success!
-      # coord = hypothesis.coord
-      # value = hypothesis.value
-      # cell = grid.cell coord
-      # debugger unless cell
-      # cell.cross_out value
       backtrack if grid.paradox?
     end
 
@@ -229,10 +212,10 @@ module Sudoku
                 backtrack
               end
             rescue Deadlock
-              puts "Deadlock (2), backtracking ..."
               backtrack
             end
           end
+
           @output.puts "  Solved!" if method == :guess and grid.nb_cell_solved == 81
           @matrix = Hash.new.tap { |m| grid.each { |cr, cl| m[cr] = cl } }
         elsif method == :tree
