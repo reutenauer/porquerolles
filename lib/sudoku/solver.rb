@@ -9,25 +9,13 @@ require 'optparse'
 
 # TODO exit -1 when applicable.
 module Sudoku
-  class Solver
+  class Grid
     def grid
-      @grid
-    end
-
-    def grid=(grid)
-      @grid = grid
+      self
     end
 
     def output
       @output
-    end
-
-    def initialize(output = NullOutput.new)
-      @output = output
-      @grid = Grid.new
-      @hypotheses = []
-      @node = Tree.new
-      @params = { }
     end
 
     def parse_options(args)
@@ -75,7 +63,7 @@ module Sudoku
     end
 
     def ingest(filename)
-      @grid = Grid.new(parse_file(filename), self)
+      parse_file(filename)
     end
 
     def verbose?
@@ -162,12 +150,12 @@ module Sudoku
       end
 
       # TODO Refactor that
-      def self.set_cell(grid, i, j, x)
+      def self.set_cell(matrix, i, j, x)
         x = nil if x == "."
-        grid[[i, j]] = Cell.new(x)
+        matrix[[i, j]] = Cell.new(x)
       end
 
-      grid = Hash.new
+      matrix = Hash.new
       i = 0
       gridfile.each do |line| # TODO Rescue Errno::EISDIR
         if i == 9
@@ -177,7 +165,7 @@ module Sudoku
 
         if match.count == 9
           9.times do |j|
-            set_cell(grid, i, j, match[j])
+            set_cell(@matrix, i, j, match[j])
           end
 
           i = i + 1
@@ -187,8 +175,6 @@ module Sudoku
       if i != 9
         @output.puts "Error: could not input grid from file #{filename}."
       end
-
-      grid
     end
 
     def backtrack
@@ -247,10 +233,6 @@ module Sudoku
       @output.puts @grid.display
     end
 
-    def solved?
-      grid.solved?
-    end
-
     def reference
       unless @reference
         pre_solver = Solver.new
@@ -276,5 +258,8 @@ module Sudoku
         print
       end
     end
+  end
+
+  class Solver < Grid
   end
 end

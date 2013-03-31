@@ -306,9 +306,19 @@ module Sudoku
       @blocks
     end
 
-    def initialize(grid = nil, solver = nil) # FIXME horrible.  Solver should never be nil anyway.
-      if grid
-        @matrix = grid
+    # The new initialize for the merger of Grid and Solver
+    def initialize(output = NullOutput.new, matrix = nil) # Merging both signatures.
+      # From Solver
+      @output = output
+      @hypotheses = []
+      @node = Tree.new
+      @params = { }
+
+      @grid = self
+
+      # From Grid
+      if matrix # was: grid
+        @matrix = matrix
       else
         @matrix = Hash.new
         9.times do |i|
@@ -318,7 +328,7 @@ module Sudoku
         end
       end
 
-      @solver = solver
+      @solver = self
 
       # TODO: make that a class method!
       @rows = 9.times.map { |i| Row.new i, self }
@@ -381,7 +391,7 @@ module Sudoku
           if j % 3 == 0
             row = "#{row}|"
           end
-          row = "#{row}#{self[i, j].display}"
+          row = "#{row}#{cell([i, j]).display}"
         end
         row = "#{row}|"
         s = s + row + "\n"
@@ -432,9 +442,9 @@ module Sudoku
       coord = coord_and_cell.first
       cell = coord_and_cell.last
       cell.each do |val|
-        grid = copy
-        grid[coord].set_solved(val)
-        hypothesis = Hypothesis.new(grid, coord, val)
+        matrix = copy
+        matrix[coord].set_solved(val)
+        hypothesis = Hypothesis.new(matrix, coord, val)
         @node.add(hypothesis)
       end
 
