@@ -415,7 +415,9 @@ module Sudoku
         # cell if cell.count == m
       end.compact
 
-      cells[rand(cells.count)]
+      cs = cells[rand(cells.count)]
+      debugger unless cs
+      cs
     end
 
     def copy

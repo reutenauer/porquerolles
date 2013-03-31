@@ -125,8 +125,15 @@ module Sudoku
 
     def guess
       @nb_hypotheses += 1 # FIXME That’s ridiculous.  Use @hypotheses.count
-      grid = @hypotheses.last.grid.copy
+      last_hyp = @hypotheses.last || @grid
+      grid = last_hyp.grid.copy
+      if grid.solved?
+        puts "SUCCESS! (from guess)"
+        grid.print
+        exit(0)
+      end
       coord_and_cell = grid.random
+      debugger unless coord_and_cell
       coord = coord_and_cell.first
       cell = coord_and_cell.last
       val = cell.guess
@@ -181,11 +188,15 @@ module Sudoku
       raise Paradox if @hypotheses.count == 0
       hypothesis = @hypotheses.pop
       grid = hypothesis.grid
+      Kernel.puts "SUCCESS! (from backtrack)" if grid.solved?
+      grid.print if grid.solved?
+      exit(0) if grid.solved? # Success!
       coord = hypothesis.coord
       value = hypothesis.value
-      cell = @grid.cell coord
-      cell.cross_out value
-      backtrack if @grid.paradox?
+      cell = grid.cell coord
+      debugger unless cell
+      # cell.cross_out value
+      backtrack if grid.paradox?
     end
 
     def valid?
@@ -202,7 +213,6 @@ module Sudoku
       begin
         deduce
         if method == :guess && !solved?
-          @hypotheses << Hypothesis.new(@grid, [9, 9], 0)
           @nb_hypotheses = 0
           @output.puts "Entering guessing mode ..."
           until @grid.solved?
@@ -211,9 +221,11 @@ module Sudoku
               guess
               @hypotheses.last.grid.deduce
               if @hypotheses.last.grid.deadlock?
+                puts "Deadlock (1), backtracking ..."
                 backtrack
               end
             rescue Deadlock
+              puts "Deadlock (2), backtracking ..."
               backtrack
             end
           end
