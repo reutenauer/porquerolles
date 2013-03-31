@@ -42,6 +42,7 @@ module Sudoku
 
       it "passes the “references” options" do
         solver.parse_options(['-r'])
+        solver.ingest(read_grid_file('simple.sdk'))
         solver.should be_referenced
       end
 
@@ -144,6 +145,7 @@ module Sudoku
       end
 
       it "sets yet other options" do
+        solver.ingest(read_grid_file('simple.sdk'))
         solver.should_not be_referenced
         solver.solve(:references => true)
         solver.should be_referenced
@@ -158,6 +160,7 @@ module Sudoku
       end
 
       it "calls reference if called with references" do # OK, that’s a little cryptic ...
+       solver.ingest(read_grid_file('simple.sdk'))
        solver.should_receive(:reference)
        solver.solve(:references => true)
       end
