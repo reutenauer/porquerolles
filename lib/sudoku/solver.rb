@@ -241,6 +241,8 @@ module Sudoku
         pre_solver.solve(:method => :guess)
         @reference = pre_solver.grid
       end
+
+      @reference
     end
 
     def run(args)
