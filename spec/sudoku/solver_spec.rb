@@ -184,6 +184,7 @@ module Sudoku
         solver.should_not_receive(:deadlock?)
         solver.ingest(read_grid_file('sotd/2013-02-05-diabolical.sdk'))
         solver.solve(:verbose => true, :method => :guess, :chains => true)
+        pending "That’s silly"
       end
     end
   end
