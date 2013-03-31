@@ -71,6 +71,15 @@ module Sudoku
     describe "#ingest" do
       it "ingests a grid from a file" do
         solver.ingest(read_grid_file('guardian/2084.sdk'))
+        solver.should have(27).solved_cells
+      end
+
+      it "ingests a grid from a matrix" do
+        solver.ingest(read_grid_file('guardian/2084.sdk'))
+
+        solver2 = Solver.new
+        solver2.ingest(solver.matrix)
+        solver.should have(27).solved_cells
       end
     end
 

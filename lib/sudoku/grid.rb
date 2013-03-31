@@ -296,6 +296,8 @@ module Sudoku
   end
 
   class Grid
+    attr_reader :matrix
+
     def rows
       @rows
     end

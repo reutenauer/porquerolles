@@ -62,8 +62,16 @@ module Sudoku
       end
     end
 
-    def ingest(filename)
-      parse_file(filename)
+    def ingest(input)
+      if input.is_a? String
+        parse_file(input)
+      elsif input.is_a? Hash
+        @matrix = Hash.new.tap do |hash|
+          input.each do |coord, cell|
+            hash[coord] = cell.copy
+          end
+        end
+      end
     end
 
     def verbose?
@@ -109,6 +117,10 @@ module Sudoku
       @grid.each_value.inject(0) do |nsolved, cell|
         nsolved + if cell.solved? then 1 else 0 end
       end
+    end
+
+    def count
+      nb_cell_solved
     end
 
     def deduce
