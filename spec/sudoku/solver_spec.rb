@@ -118,6 +118,10 @@ module Sudoku
         solver.should_receive(:reference)
         solver.solve(:references => true)
        end
+
+       it "is not trivial" do
+          pending "address the ridiculous case when grid is fully solved"
+       end
     end
 
     describe "#reference" do
