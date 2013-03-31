@@ -147,10 +147,9 @@ module Sudoku
       end
 
       it "does not crash" do
-        pending "chains not working yet" do
-          solver.ingest(read_grid_file('guardian/2423.sdk'))
-          solver.solve(:chains => true)
-        end
+        solver.ingest(read_grid_file('guardian/2423.sdk'))
+        solver.solve(:chains => true)
+        pending "check that everything really works"
       end
     end
   end
