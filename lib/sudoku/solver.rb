@@ -128,7 +128,7 @@ module Sudoku
       last_hyp = @hypotheses.last || @grid
       grid = last_hyp.grid.copy
       if grid.solved?
-        puts "SUCCESS! (from guess)"
+        puts "SUCCESS! (from guess, @hypotheses.count = #{@hypotheses.count})"
         grid.print
         exit(0)
       end
@@ -215,14 +215,16 @@ module Sudoku
       begin
         deduce
         if method == :guess && !solved?
+          grid = @grid
           @nb_hypotheses = 0
           @output.puts "Entering guessing mode ..."
-          until @grid.solved?
+          until grid.solved?
             begin
 	      @output.print "\rConsidered #{@nb_hypotheses} hypotheses so far.  Hypothesis depth: #{@hypotheses.count}."
               guess
-              @hypotheses.last.grid.deduce
-              if @hypotheses.last.grid.deadlock?
+              grid = @hypotheses.last.grid
+              grid.deduce
+              if grid.deadlock?
                 puts "Deadlock (1), backtracking ..."
                 backtrack
               end
@@ -230,6 +232,7 @@ module Sudoku
               puts "Deadlock (2), backtracking ..."
               backtrack
             end
+          @output.puts "  Solved!" if method == :guess and grid.nb_cell_solved == 81
           end
         elsif method == :tree
           tree = @grid.tree
@@ -241,7 +244,6 @@ module Sudoku
       rescue Paradox
         @output.puts "Sudoku insoluble."
       end
-      @output.puts "  Solved!" if method == :guess and nb_cell_solved == 81
     end
 
     def print
