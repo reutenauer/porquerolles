@@ -391,7 +391,7 @@ module Sudoku
           if j % 3 == 0
             row = "#{row}|"
           end
-          row = "#{row}#{cell([i, j]).display}"
+          row = "#{row}#{self[i, j].display}"
         end
         row = "#{row}|"
         s = s + row + "\n"
