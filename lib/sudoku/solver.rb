@@ -78,7 +78,7 @@ module Sudoku
       @params[:verbose] if @params
     end
 
-    def chains?
+    def chained?
       @params[:chains] if @params
     end
 
@@ -128,7 +128,7 @@ module Sudoku
         old_nb_cell_solved = nb_cell_solved
         propagate
         place
-        find_chains if @params[:chains]
+        find_chains if chained?
         break if nb_cell_solved == old_nb_cell_solved
       end
 

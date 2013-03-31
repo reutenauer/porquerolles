@@ -37,8 +37,7 @@ module Sudoku
       it "passes two options using the compact syntax" do
         solver.parse_options(['-vc'])
         solver.should be_verbose
-        solver.should be_chains
-        pending "Ridiculous name"
+        solver.should be_chained
       end
 
       it "passes the “references” options" do
