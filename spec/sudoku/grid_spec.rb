@@ -16,6 +16,15 @@ module Sudoku
   describe Block do
     let(:solver) { Solver.new }
 
+    describe "#data?" do
+      it "refuses to do something useless" do
+        pending "not yet implemented" do
+          solver.stub(:data?).and_return(false)
+          solver.should crash
+        end
+      end
+    end
+
     describe "#set_solved" do
       it "is fussy if solver is referenced" do
         pending
