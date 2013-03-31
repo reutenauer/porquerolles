@@ -115,6 +115,7 @@ module Sudoku
       end
 
       it "calls reference if called with references" do # OK, that’s a little cryptic ...
+       pending
        solver.should_receive(:reference)
        solver.solve(:references => true)
       end
