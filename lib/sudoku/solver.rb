@@ -232,8 +232,9 @@ module Sudoku
               puts "Deadlock (2), backtracking ..."
               backtrack
             end
-          @output.puts "  Solved!" if method == :guess and grid.nb_cell_solved == 81
           end
+          @output.puts "  Solved!" if method == :guess and grid.nb_cell_solved == 81
+          @matrix = Hash.new.tap { |m| grid.each { |cr, cl| m[cr] = cl } }
         elsif method == :tree
           tree = @grid.tree
           tree.each do |node|
