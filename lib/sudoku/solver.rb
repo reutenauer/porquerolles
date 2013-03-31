@@ -206,6 +206,7 @@ module Sudoku
 
     def solve(params = nil)
       @params.merge!(params) if params
+      reference if referenced?
       # Possible methods: :deduction, :guess, :tree
       begin
         deduce
