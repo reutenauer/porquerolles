@@ -113,6 +113,11 @@ module Sudoku
         solver.solve
         solver.should be_solved
       end
+
+       it "calls reference if called with references" do # OK, that’s a little cryptic ...
+        solver.should_receive(:reference)
+        solver.solve(:references => true)
+       end
     end
 
     describe "#reference" do
