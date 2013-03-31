@@ -4,6 +4,14 @@ module Sudoku
   describe Block do
     let(:solver) { Solver.new }
 
+    describe "#set_solved" do
+      it "is fussy if solver is referenced" do
+        solver.solve(:references => true)
+        solver.should_receive(:reference) # Very weak test, but OK ...
+        solver.grid[1, 1].set_solved(1)
+      end
+    end
+
     describe '#place_single' do
       it "works" do
         solver.ingest(read_grid_file('guardian/2423.sdk'))
