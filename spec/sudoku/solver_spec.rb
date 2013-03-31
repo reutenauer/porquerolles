@@ -58,6 +58,14 @@ module Sudoku
           solver.solve(:verbose => true, :chains => true)
         end
       end
+
+      it "solves using the chains option" do
+        pending "chains does not yet work" do
+          solver.ingest(read_grid_file('misc/X-wing.sdk'))
+          solver.solve(:chains => true)
+          solver.should be_solved
+        end
+      end
     end
 
     describe "#ingest" do
