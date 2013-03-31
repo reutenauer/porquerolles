@@ -294,7 +294,17 @@ module Sudoku
   end
 
   class Grid
-    attr_reader :rows, :columns, :blocks
+    def rows
+      @rows
+    end
+
+    def columns
+      @columns
+    end
+
+    def blocks
+      @blocks
+    end
 
     def initialize(grid = nil, solver = nil) # FIXME horrible.  Solver should never be nil anyway.
       if grid

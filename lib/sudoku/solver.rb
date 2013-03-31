@@ -10,8 +10,17 @@ require 'optparse'
 # TODO exit -1 when applicable.
 module Sudoku
   class Solver
-    attr_accessor :grid
-    attr_reader :output
+    def grid
+      @grid
+    end
+
+    def grid=(grid)
+      @grid = grid
+    end
+
+    def output
+      @output
+    end
 
     def initialize(output = NullOutput.new)
       @output = output
