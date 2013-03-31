@@ -99,6 +99,22 @@ module Sudoku
         output.should_receive(:puts).with("Parsing file #{gridfile}.")
         solver.parse_file(gridfile)
       end
+
+      it "stores the file name somewhere" do
+        pending "not implemented" do
+          solver.parse_file(gridfile)
+          solver.filename.should == gridfile
+        end
+      end
+
+      it "stores the original grid somewhere" do
+        pending "not implemented" do
+          solver.parse_file(gridfile)
+          # TODO Matcher for that, as usual
+          solver.original_grid.class.should == Hash
+          solver.original_grid.all? { |k, v| v == solver.cell(k) }
+        end
+      end
     end
 
     describe "#guess" do
