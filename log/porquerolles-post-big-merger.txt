@@ -1,0 +1,1738 @@
+s002 2:48 ~/porquerolles % rspec
+**.*.F*.......F*.......*..*.......F***F
+
+Pending:
+  Set#copy returns a copy of self
+    # Need to use better equality test
+    # ./spec/sudoku/grid_spec.rb:5
+  Sudoku::Block#set_solved is fussy if solver is referenced
+    # No reason given
+    # ./spec/sudoku/grid_spec.rb:20
+  Sudoku::Block#cross_out is fussy if solver is referenced
+    # No reason given
+    # ./spec/sudoku/grid_spec.rb:39
+  Sudoku::Block#place_single really does what it should
+    # Not yet implemented
+    # ./spec/sudoku/grid_spec.rb:74
+  Sudoku::Grid#find_chains does not crash
+    # chains not working yet
+    # ./spec/sudoku/grid_spec.rb:149
+  Sudoku::Solver#parse_options passes two options using the compact syntax
+    # Ridiculous name
+    # ./spec/sudoku/solver_spec.rb:37
+  Sudoku::Solver#parse_options outputs extra messages when verbose
+    # chains does not work yet
+    # ./spec/sudoku/solver_spec.rb:54
+  Sudoku::Solver#solve calls reference if called with references
+    # No reason given
+    # ./spec/sudoku/solver_spec.rb:117
+  Sudoku::Solver#solve is not trivial
+    # address the ridiculous case when grid is fully solved
+    # ./spec/sudoku/solver_spec.rb:123
+  Sudoku::Solver#reference computes a reference solution grid
+    # Big merger
+    # ./spec/sudoku/solver_spec.rb:129
+
+Failures:
+
+  1) Sudoku::Block#place_single places one value on one single values
+     Failure/Error: solver.propagate
+     ArgumentError:
+       wrong number of arguments (1 for 2)
+     # ./lib/sudoku/grid.rb:363:in `[]'
+     # ./lib/sudoku/grid.rb:340:in `cell'
+     # ./lib/sudoku/grid.rb:151:in `block in cells'
+     # ./lib/sudoku/grid.rb:151:in `map'
+     # ./lib/sudoku/grid.rb:151:in `cells'
+     # ./lib/sudoku/grid.rb:167:in `values'
+     # ./lib/sudoku/solver.rb:85:in `block (2 levels) in propagate'
+     # ./lib/sudoku/solver.rb:84:in `each'
+     # ./lib/sudoku/solver.rb:84:in `block in propagate'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/solver.rb:82:in `propagate'
+     # ./spec/sudoku/grid_spec.rb:65:in `block (3 levels) in <module:Sudoku>'
+
+  2) Sudoku::Grid#find_chains finds a link
+     Failure/Error: solver.solve
+     ArgumentError:
+       wrong number of arguments (1 for 2)
+     # ./lib/sudoku/grid.rb:363:in `[]'
+     # ./lib/sudoku/grid.rb:340:in `cell'
+     # ./lib/sudoku/grid.rb:151:in `block in cells'
+     # ./lib/sudoku/grid.rb:151:in `map'
+     # ./lib/sudoku/grid.rb:151:in `cells'
+     # ./lib/sudoku/grid.rb:167:in `values'
+     # ./lib/sudoku/solver.rb:85:in `block (2 levels) in propagate'
+     # ./lib/sudoku/solver.rb:84:in `each'
+     # ./lib/sudoku/solver.rb:84:in `block in propagate'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/solver.rb:82:in `propagate'
+     # ./lib/sudoku/solver.rb:117:in `deduce'
+     # ./lib/sudoku/solver.rb:205:in `solve'
+     # ./spec/sudoku/grid_spec.rb:144:in `block (3 levels) in <module:Sudoku>'
+
+  3) Sudoku::Solver#solve solves an easy grid
+     Failure/Error: solver.solve
+     ArgumentError:
+       wrong number of arguments (1 for 2)
+     # ./lib/sudoku/grid.rb:363:in `[]'
+     # ./lib/sudoku/grid.rb:340:in `cell'
+     # ./lib/sudoku/grid.rb:151:in `block in cells'
+     # ./lib/sudoku/grid.rb:151:in `map'
+     # ./lib/sudoku/grid.rb:151:in `cells'
+     # ./lib/sudoku/grid.rb:167:in `values'
+     # ./lib/sudoku/solver.rb:85:in `block (2 levels) in propagate'
+     # ./lib/sudoku/solver.rb:84:in `each'
+     # ./lib/sudoku/solver.rb:84:in `block in propagate'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/solver.rb:82:in `propagate'
+     # ./lib/sudoku/solver.rb:117:in `deduce'
+     # ./lib/sudoku/solver.rb:205:in `solve'
+     # ./spec/sudoku/solver_spec.rb:113:in `block (3 levels) in <module:Sudoku>'
+
+  4) Sudoku::Solver#run runs a simple file
+     Failure/Error: solver.run([File.join(griddir, 'simple.sdk')])
+     ArgumentError:
+       wrong number of arguments (1 for 2)
+     # ./lib/sudoku/grid.rb:363:in `[]'
+     # ./lib/sudoku/grid.rb:364:in `[]'
+     # ./lib/sudoku/grid.rb:394:in `block (2 levels) in display'
+     # ./lib/sudoku/grid.rb:390:in `times'
+     # ./lib/sudoku/grid.rb:390:in `block in display'
+     # ./lib/sudoku/grid.rb:385:in `times'
+     # ./lib/sudoku/grid.rb:385:in `display'
+     # ./lib/sudoku/solver.rb:235:in `print'
+     # ./lib/sudoku/solver.rb:254:in `block in run'
+     # ./lib/sudoku/solver.rb:252:in `each'
+     # ./lib/sudoku/solver.rb:252:in `run'
+     # ./spec/sudoku/solver_spec.rb:143:in `block (3 levels) in <module:Sudoku>'
+
+Finished in 10.42 seconds
+39 examples, 4 failures, 10 pending
+
+Failed examples:
+
+rspec ./spec/sudoku/grid_spec.rb:58 # Sudoku::Block#place_single places one value on one single values
+rspec ./spec/sudoku/grid_spec.rb:142 # Sudoku::Grid#find_chains finds a link
+rspec ./spec/sudoku/solver_spec.rb:109 # Sudoku::Solver#solve solves an easy grid
+rspec ./spec/sudoku/solver_spec.rb:142 # Sudoku::Solver#run runs a simple file
+s002 2:48 ~/porquerolles % rspec
+**.*.F*.......F*.......*..*.......F***F
+
+Pending:
+  Set#copy returns a copy of self
+    # Need to use better equality test
+    # ./spec/sudoku/grid_spec.rb:5
+  Sudoku::Block#set_solved is fussy if solver is referenced
+    # No reason given
+    # ./spec/sudoku/grid_spec.rb:20
+  Sudoku::Block#cross_out is fussy if solver is referenced
+    # No reason given
+    # ./spec/sudoku/grid_spec.rb:39
+  Sudoku::Block#place_single really does what it should
+    # Not yet implemented
+    # ./spec/sudoku/grid_spec.rb:74
+  Sudoku::Grid#find_chains does not crash
+    # chains not working yet
+    # ./spec/sudoku/grid_spec.rb:149
+  Sudoku::Solver#parse_options passes two options using the compact syntax
+    # Ridiculous name
+    # ./spec/sudoku/solver_spec.rb:37
+  Sudoku::Solver#parse_options outputs extra messages when verbose
+    # chains does not work yet
+    # ./spec/sudoku/solver_spec.rb:54
+  Sudoku::Solver#solve calls reference if called with references
+    # No reason given
+    # ./spec/sudoku/solver_spec.rb:117
+  Sudoku::Solver#solve is not trivial
+    # address the ridiculous case when grid is fully solved
+    # ./spec/sudoku/solver_spec.rb:123
+  Sudoku::Solver#reference computes a reference solution grid
+    # Big merger
+    # ./spec/sudoku/solver_spec.rb:129
+
+Failures:
+
+  1) Sudoku::Block#place_single places one value on one single values
+     Failure/Error: solver.propagate
+     ArgumentError:
+       wrong number of arguments (1 for 2)
+     # ./lib/sudoku/grid.rb:363:in `[]'
+     # ./lib/sudoku/grid.rb:340:in `cell'
+     # ./lib/sudoku/grid.rb:151:in `block in cells'
+     # ./lib/sudoku/grid.rb:151:in `map'
+     # ./lib/sudoku/grid.rb:151:in `cells'
+     # ./lib/sudoku/grid.rb:167:in `values'
+     # ./lib/sudoku/solver.rb:85:in `block (2 levels) in propagate'
+     # ./lib/sudoku/solver.rb:84:in `each'
+     # ./lib/sudoku/solver.rb:84:in `block in propagate'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/solver.rb:82:in `propagate'
+     # ./spec/sudoku/grid_spec.rb:65:in `block (3 levels) in <module:Sudoku>'
+
+  2) Sudoku::Grid#find_chains finds a link
+     Failure/Error: solver.solve
+     ArgumentError:
+       wrong number of arguments (1 for 2)
+     # ./lib/sudoku/grid.rb:363:in `[]'
+     # ./lib/sudoku/grid.rb:340:in `cell'
+     # ./lib/sudoku/grid.rb:151:in `block in cells'
+     # ./lib/sudoku/grid.rb:151:in `map'
+     # ./lib/sudoku/grid.rb:151:in `cells'
+     # ./lib/sudoku/grid.rb:167:in `values'
+     # ./lib/sudoku/solver.rb:85:in `block (2 levels) in propagate'
+     # ./lib/sudoku/solver.rb:84:in `each'
+     # ./lib/sudoku/solver.rb:84:in `block in propagate'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/solver.rb:82:in `propagate'
+     # ./lib/sudoku/solver.rb:117:in `deduce'
+     # ./lib/sudoku/solver.rb:205:in `solve'
+     # ./spec/sudoku/grid_spec.rb:144:in `block (3 levels) in <module:Sudoku>'
+
+  3) Sudoku::Solver#solve solves an easy grid
+     Failure/Error: solver.solve
+     ArgumentError:
+       wrong number of arguments (1 for 2)
+     # ./lib/sudoku/grid.rb:363:in `[]'
+     # ./lib/sudoku/grid.rb:340:in `cell'
+     # ./lib/sudoku/grid.rb:151:in `block in cells'
+     # ./lib/sudoku/grid.rb:151:in `map'
+     # ./lib/sudoku/grid.rb:151:in `cells'
+     # ./lib/sudoku/grid.rb:167:in `values'
+     # ./lib/sudoku/solver.rb:85:in `block (2 levels) in propagate'
+     # ./lib/sudoku/solver.rb:84:in `each'
+     # ./lib/sudoku/solver.rb:84:in `block in propagate'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/solver.rb:82:in `propagate'
+     # ./lib/sudoku/solver.rb:117:in `deduce'
+     # ./lib/sudoku/solver.rb:205:in `solve'
+     # ./spec/sudoku/solver_spec.rb:113:in `block (3 levels) in <module:Sudoku>'
+
+  4) Sudoku::Solver#run runs a simple file
+     Failure/Error: solver.run([File.join(griddir, 'simple.sdk')])
+     ArgumentError:
+       wrong number of arguments (2 for 1)
+     # ./lib/sudoku/grid.rb:339:in `cell'
+     # ./lib/sudoku/grid.rb:394:in `block (2 levels) in display'
+     # ./lib/sudoku/grid.rb:390:in `times'
+     # ./lib/sudoku/grid.rb:390:in `block in display'
+     # ./lib/sudoku/grid.rb:385:in `times'
+     # ./lib/sudoku/grid.rb:385:in `display'
+     # ./lib/sudoku/solver.rb:235:in `print'
+     # ./lib/sudoku/solver.rb:254:in `block in run'
+     # ./lib/sudoku/solver.rb:252:in `each'
+     # ./lib/sudoku/solver.rb:252:in `run'
+     # ./spec/sudoku/solver_spec.rb:143:in `block (3 levels) in <module:Sudoku>'
+
+Finished in 11.34 seconds
+39 examples, 4 failures, 10 pending
+
+Failed examples:
+
+rspec ./spec/sudoku/grid_spec.rb:58 # Sudoku::Block#place_single places one value on one single values
+rspec ./spec/sudoku/grid_spec.rb:142 # Sudoku::Grid#find_chains finds a link
+rspec ./spec/sudoku/solver_spec.rb:109 # Sudoku::Solver#solve solves an easy grid
+rspec ./spec/sudoku/solver_spec.rb:142 # Sudoku::Solver#run runs a simple file
+s002 2:49 ~/porquerolles % rspec
+**.*.F*.......F*.......*..*.......F***F
+
+Pending:
+  Set#copy returns a copy of self
+    # Need to use better equality test
+    # ./spec/sudoku/grid_spec.rb:5
+  Sudoku::Block#set_solved is fussy if solver is referenced
+    # No reason given
+    # ./spec/sudoku/grid_spec.rb:20
+  Sudoku::Block#cross_out is fussy if solver is referenced
+    # No reason given
+    # ./spec/sudoku/grid_spec.rb:39
+  Sudoku::Block#place_single really does what it should
+    # Not yet implemented
+    # ./spec/sudoku/grid_spec.rb:74
+  Sudoku::Grid#find_chains does not crash
+    # chains not working yet
+    # ./spec/sudoku/grid_spec.rb:149
+  Sudoku::Solver#parse_options passes two options using the compact syntax
+    # Ridiculous name
+    # ./spec/sudoku/solver_spec.rb:37
+  Sudoku::Solver#parse_options outputs extra messages when verbose
+    # chains does not work yet
+    # ./spec/sudoku/solver_spec.rb:54
+  Sudoku::Solver#solve calls reference if called with references
+    # No reason given
+    # ./spec/sudoku/solver_spec.rb:117
+  Sudoku::Solver#solve is not trivial
+    # address the ridiculous case when grid is fully solved
+    # ./spec/sudoku/solver_spec.rb:123
+  Sudoku::Solver#reference computes a reference solution grid
+    # Big merger
+    # ./spec/sudoku/solver_spec.rb:129
+
+Failures:
+
+  1) Sudoku::Block#place_single places one value on one single values
+     Failure/Error: solver.propagate
+     ArgumentError:
+       wrong number of arguments (1 for 2)
+     # ./lib/sudoku/grid.rb:363:in `[]'
+     # ./lib/sudoku/grid.rb:340:in `cell'
+     # ./lib/sudoku/grid.rb:151:in `block in cells'
+     # ./lib/sudoku/grid.rb:151:in `map'
+     # ./lib/sudoku/grid.rb:151:in `cells'
+     # ./lib/sudoku/grid.rb:167:in `values'
+     # ./lib/sudoku/solver.rb:85:in `block (2 levels) in propagate'
+     # ./lib/sudoku/solver.rb:84:in `each'
+     # ./lib/sudoku/solver.rb:84:in `block in propagate'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/solver.rb:82:in `propagate'
+     # ./spec/sudoku/grid_spec.rb:65:in `block (3 levels) in <module:Sudoku>'
+
+  2) Sudoku::Grid#find_chains finds a link
+     Failure/Error: solver.solve
+     ArgumentError:
+       wrong number of arguments (1 for 2)
+     # ./lib/sudoku/grid.rb:363:in `[]'
+     # ./lib/sudoku/grid.rb:340:in `cell'
+     # ./lib/sudoku/grid.rb:151:in `block in cells'
+     # ./lib/sudoku/grid.rb:151:in `map'
+     # ./lib/sudoku/grid.rb:151:in `cells'
+     # ./lib/sudoku/grid.rb:167:in `values'
+     # ./lib/sudoku/solver.rb:85:in `block (2 levels) in propagate'
+     # ./lib/sudoku/solver.rb:84:in `each'
+     # ./lib/sudoku/solver.rb:84:in `block in propagate'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/solver.rb:82:in `propagate'
+     # ./lib/sudoku/solver.rb:117:in `deduce'
+     # ./lib/sudoku/solver.rb:205:in `solve'
+     # ./spec/sudoku/grid_spec.rb:144:in `block (3 levels) in <module:Sudoku>'
+
+  3) Sudoku::Solver#solve solves an easy grid
+     Failure/Error: solver.solve
+     ArgumentError:
+       wrong number of arguments (1 for 2)
+     # ./lib/sudoku/grid.rb:363:in `[]'
+     # ./lib/sudoku/grid.rb:340:in `cell'
+     # ./lib/sudoku/grid.rb:151:in `block in cells'
+     # ./lib/sudoku/grid.rb:151:in `map'
+     # ./lib/sudoku/grid.rb:151:in `cells'
+     # ./lib/sudoku/grid.rb:167:in `values'
+     # ./lib/sudoku/solver.rb:85:in `block (2 levels) in propagate'
+     # ./lib/sudoku/solver.rb:84:in `each'
+     # ./lib/sudoku/solver.rb:84:in `block in propagate'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/solver.rb:82:in `propagate'
+     # ./lib/sudoku/solver.rb:117:in `deduce'
+     # ./lib/sudoku/solver.rb:205:in `solve'
+     # ./spec/sudoku/solver_spec.rb:113:in `block (3 levels) in <module:Sudoku>'
+
+  4) Sudoku::Solver#run runs a simple file
+     Failure/Error: solver.run([File.join(griddir, 'simple.sdk')])
+     ArgumentError:
+       wrong number of arguments (1 for 2)
+     # ./lib/sudoku/grid.rb:363:in `[]'
+     # ./lib/sudoku/grid.rb:340:in `cell'
+     # ./lib/sudoku/grid.rb:394:in `block (2 levels) in display'
+     # ./lib/sudoku/grid.rb:390:in `times'
+     # ./lib/sudoku/grid.rb:390:in `block in display'
+     # ./lib/sudoku/grid.rb:385:in `times'
+     # ./lib/sudoku/grid.rb:385:in `display'
+     # ./lib/sudoku/solver.rb:235:in `print'
+     # ./lib/sudoku/solver.rb:254:in `block in run'
+     # ./lib/sudoku/solver.rb:252:in `each'
+     # ./lib/sudoku/solver.rb:252:in `run'
+     # ./spec/sudoku/solver_spec.rb:143:in `block (3 levels) in <module:Sudoku>'
+
+Finished in 17.22 seconds
+39 examples, 4 failures, 10 pending
+
+Failed examples:
+
+rspec ./spec/sudoku/grid_spec.rb:58 # Sudoku::Block#place_single places one value on one single values
+rspec ./spec/sudoku/grid_spec.rb:142 # Sudoku::Grid#find_chains finds a link
+rspec ./spec/sudoku/solver_spec.rb:109 # Sudoku::Solver#solve solves an easy grid
+rspec ./spec/sudoku/solver_spec.rb:142 # Sudoku::Solver#run runs a simple file
+s002 2:50 ~/porquerolles % rspec
+**.*.F*.......F*.......*..*.......F***F
+
+Pending:
+  Set#copy returns a copy of self
+    # Need to use better equality test
+    # ./spec/sudoku/grid_spec.rb:5
+  Sudoku::Block#set_solved is fussy if solver is referenced
+    # No reason given
+    # ./spec/sudoku/grid_spec.rb:20
+  Sudoku::Block#cross_out is fussy if solver is referenced
+    # No reason given
+    # ./spec/sudoku/grid_spec.rb:39
+  Sudoku::Block#place_single really does what it should
+    # Not yet implemented
+    # ./spec/sudoku/grid_spec.rb:74
+  Sudoku::Grid#find_chains does not crash
+    # chains not working yet
+    # ./spec/sudoku/grid_spec.rb:149
+  Sudoku::Solver#parse_options passes two options using the compact syntax
+    # Ridiculous name
+    # ./spec/sudoku/solver_spec.rb:37
+  Sudoku::Solver#parse_options outputs extra messages when verbose
+    # chains does not work yet
+    # ./spec/sudoku/solver_spec.rb:54
+  Sudoku::Solver#solve calls reference if called with references
+    # No reason given
+    # ./spec/sudoku/solver_spec.rb:117
+  Sudoku::Solver#solve is not trivial
+    # address the ridiculous case when grid is fully solved
+    # ./spec/sudoku/solver_spec.rb:123
+  Sudoku::Solver#reference computes a reference solution grid
+    # Big merger
+    # ./spec/sudoku/solver_spec.rb:129
+
+Failures:
+
+  1) Sudoku::Block#place_single places one value on one single values
+     Failure/Error: cell = grid[6, 7]
+     NoMethodError:
+       undefined method `[]' for #<Sudoku::Solver:0x00000100b0f7d8>
+     # ./spec/sudoku/grid_spec.rb:62:in `block (3 levels) in <module:Sudoku>'
+
+  2) Sudoku::Grid#find_chains finds a link
+     Failure/Error: solver.solve
+     NoMethodError:
+       undefined method `[]' for #<Sudoku::Solver:0x00000100c957b0>
+     # ./lib/sudoku/grid.rb:340:in `cell'
+     # ./lib/sudoku/grid.rb:151:in `block in cells'
+     # ./lib/sudoku/grid.rb:151:in `map'
+     # ./lib/sudoku/grid.rb:151:in `cells'
+     # ./lib/sudoku/grid.rb:167:in `values'
+     # ./lib/sudoku/solver.rb:85:in `block (2 levels) in propagate'
+     # ./lib/sudoku/solver.rb:84:in `each'
+     # ./lib/sudoku/solver.rb:84:in `block in propagate'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/solver.rb:82:in `propagate'
+     # ./lib/sudoku/solver.rb:117:in `deduce'
+     # ./lib/sudoku/solver.rb:205:in `solve'
+     # ./spec/sudoku/grid_spec.rb:144:in `block (3 levels) in <module:Sudoku>'
+
+  3) Sudoku::Solver#solve solves an easy grid
+     Failure/Error: solver.solve
+     NoMethodError:
+       undefined method `[]' for #<Sudoku::Solver:0x00000100cfd9c8>
+     # ./lib/sudoku/grid.rb:340:in `cell'
+     # ./lib/sudoku/grid.rb:151:in `block in cells'
+     # ./lib/sudoku/grid.rb:151:in `map'
+     # ./lib/sudoku/grid.rb:151:in `cells'
+     # ./lib/sudoku/grid.rb:167:in `values'
+     # ./lib/sudoku/solver.rb:85:in `block (2 levels) in propagate'
+     # ./lib/sudoku/solver.rb:84:in `each'
+     # ./lib/sudoku/solver.rb:84:in `block in propagate'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/solver.rb:82:in `propagate'
+     # ./lib/sudoku/solver.rb:117:in `deduce'
+     # ./lib/sudoku/solver.rb:205:in `solve'
+     # ./spec/sudoku/solver_spec.rb:113:in `block (3 levels) in <module:Sudoku>'
+
+  4) Sudoku::Solver#run runs a simple file
+     Failure/Error: solver.run([File.join(griddir, 'simple.sdk')])
+     NoMethodError:
+       undefined method `[]' for #<Sudoku::Solver:0x000001009d6538>
+     # ./lib/sudoku/grid.rb:340:in `cell'
+     # ./lib/sudoku/grid.rb:394:in `block (2 levels) in display'
+     # ./lib/sudoku/grid.rb:390:in `times'
+     # ./lib/sudoku/grid.rb:390:in `block in display'
+     # ./lib/sudoku/grid.rb:385:in `times'
+     # ./lib/sudoku/grid.rb:385:in `display'
+     # ./lib/sudoku/solver.rb:235:in `print'
+     # ./lib/sudoku/solver.rb:254:in `block in run'
+     # ./lib/sudoku/solver.rb:252:in `each'
+     # ./lib/sudoku/solver.rb:252:in `run'
+     # ./spec/sudoku/solver_spec.rb:143:in `block (3 levels) in <module:Sudoku>'
+
+Finished in 11.56 seconds
+39 examples, 4 failures, 10 pending
+
+Failed examples:
+
+rspec ./spec/sudoku/grid_spec.rb:58 # Sudoku::Block#place_single places one value on one single values
+rspec ./spec/sudoku/grid_spec.rb:142 # Sudoku::Grid#find_chains finds a link
+rspec ./spec/sudoku/solver_spec.rb:109 # Sudoku::Solver#solve solves an easy grid
+rspec ./spec/sudoku/solver_spec.rb:142 # Sudoku::Solver#run runs a simple file
+s002 2:51 ~/porquerolles % rspec
+**.*.F*.......F*.......*..*.......F***F
+
+Pending:
+  Set#copy returns a copy of self
+    # Need to use better equality test
+    # ./spec/sudoku/grid_spec.rb:5
+  Sudoku::Block#set_solved is fussy if solver is referenced
+    # No reason given
+    # ./spec/sudoku/grid_spec.rb:20
+  Sudoku::Block#cross_out is fussy if solver is referenced
+    # No reason given
+    # ./spec/sudoku/grid_spec.rb:39
+  Sudoku::Block#place_single really does what it should
+    # Not yet implemented
+    # ./spec/sudoku/grid_spec.rb:74
+  Sudoku::Grid#find_chains does not crash
+    # chains not working yet
+    # ./spec/sudoku/grid_spec.rb:149
+  Sudoku::Solver#parse_options passes two options using the compact syntax
+    # Ridiculous name
+    # ./spec/sudoku/solver_spec.rb:37
+  Sudoku::Solver#parse_options outputs extra messages when verbose
+    # chains does not work yet
+    # ./spec/sudoku/solver_spec.rb:54
+  Sudoku::Solver#solve calls reference if called with references
+    # No reason given
+    # ./spec/sudoku/solver_spec.rb:117
+  Sudoku::Solver#solve is not trivial
+    # address the ridiculous case when grid is fully solved
+    # ./spec/sudoku/solver_spec.rb:123
+  Sudoku::Solver#reference computes a reference solution grid
+    # Big merger
+    # ./spec/sudoku/solver_spec.rb:129
+
+Failures:
+
+  1) Sudoku::Block#place_single places one value on one single values
+     Failure/Error: solver.propagate
+     ArgumentError:
+       wrong number of arguments (1 for 2)
+     # ./lib/sudoku/solver.rb:266:in `[]'
+     # ./lib/sudoku/grid.rb:340:in `cell'
+     # ./lib/sudoku/grid.rb:151:in `block in cells'
+     # ./lib/sudoku/grid.rb:151:in `map'
+     # ./lib/sudoku/grid.rb:151:in `cells'
+     # ./lib/sudoku/grid.rb:167:in `values'
+     # ./lib/sudoku/solver.rb:85:in `block (2 levels) in propagate'
+     # ./lib/sudoku/solver.rb:84:in `each'
+     # ./lib/sudoku/solver.rb:84:in `block in propagate'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/solver.rb:82:in `propagate'
+     # ./spec/sudoku/grid_spec.rb:65:in `block (3 levels) in <module:Sudoku>'
+
+  2) Sudoku::Grid#find_chains finds a link
+     Failure/Error: solver.solve
+     ArgumentError:
+       wrong number of arguments (1 for 2)
+     # ./lib/sudoku/solver.rb:266:in `[]'
+     # ./lib/sudoku/grid.rb:340:in `cell'
+     # ./lib/sudoku/grid.rb:151:in `block in cells'
+     # ./lib/sudoku/grid.rb:151:in `map'
+     # ./lib/sudoku/grid.rb:151:in `cells'
+     # ./lib/sudoku/grid.rb:167:in `values'
+     # ./lib/sudoku/solver.rb:85:in `block (2 levels) in propagate'
+     # ./lib/sudoku/solver.rb:84:in `each'
+     # ./lib/sudoku/solver.rb:84:in `block in propagate'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/solver.rb:82:in `propagate'
+     # ./lib/sudoku/solver.rb:117:in `deduce'
+     # ./lib/sudoku/solver.rb:205:in `solve'
+     # ./spec/sudoku/grid_spec.rb:144:in `block (3 levels) in <module:Sudoku>'
+
+  3) Sudoku::Solver#solve solves an easy grid
+     Failure/Error: solver.solve
+     ArgumentError:
+       wrong number of arguments (1 for 2)
+     # ./lib/sudoku/solver.rb:266:in `[]'
+     # ./lib/sudoku/grid.rb:340:in `cell'
+     # ./lib/sudoku/grid.rb:151:in `block in cells'
+     # ./lib/sudoku/grid.rb:151:in `map'
+     # ./lib/sudoku/grid.rb:151:in `cells'
+     # ./lib/sudoku/grid.rb:167:in `values'
+     # ./lib/sudoku/solver.rb:85:in `block (2 levels) in propagate'
+     # ./lib/sudoku/solver.rb:84:in `each'
+     # ./lib/sudoku/solver.rb:84:in `block in propagate'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/solver.rb:82:in `propagate'
+     # ./lib/sudoku/solver.rb:117:in `deduce'
+     # ./lib/sudoku/solver.rb:205:in `solve'
+     # ./spec/sudoku/solver_spec.rb:113:in `block (3 levels) in <module:Sudoku>'
+
+  4) Sudoku::Solver#run runs a simple file
+     Failure/Error: solver.run([File.join(griddir, 'simple.sdk')])
+     ArgumentError:
+       wrong number of arguments (1 for 2)
+     # ./lib/sudoku/solver.rb:266:in `[]'
+     # ./lib/sudoku/grid.rb:340:in `cell'
+     # ./lib/sudoku/grid.rb:394:in `block (2 levels) in display'
+     # ./lib/sudoku/grid.rb:390:in `times'
+     # ./lib/sudoku/grid.rb:390:in `block in display'
+     # ./lib/sudoku/grid.rb:385:in `times'
+     # ./lib/sudoku/grid.rb:385:in `display'
+     # ./lib/sudoku/solver.rb:235:in `print'
+     # ./lib/sudoku/solver.rb:254:in `block in run'
+     # ./lib/sudoku/solver.rb:252:in `each'
+     # ./lib/sudoku/solver.rb:252:in `run'
+     # ./spec/sudoku/solver_spec.rb:143:in `block (3 levels) in <module:Sudoku>'
+
+Finished in 10.21 seconds
+39 examples, 4 failures, 10 pending
+
+Failed examples:
+
+rspec ./spec/sudoku/grid_spec.rb:58 # Sudoku::Block#place_single places one value on one single values
+rspec ./spec/sudoku/grid_spec.rb:142 # Sudoku::Grid#find_chains finds a link
+rspec ./spec/sudoku/solver_spec.rb:109 # Sudoku::Solver#solve solves an easy grid
+rspec ./spec/sudoku/solver_spec.rb:142 # Sudoku::Solver#run runs a simple file
+s002 2:53 ~/porquerolles % rspec spec/sudoku/grid_spec.rb 
+**.*.F*.......F*
+
+Pending:
+  Set#copy returns a copy of self
+    # Need to use better equality test
+    # ./spec/sudoku/grid_spec.rb:5
+  Sudoku::Block#set_solved is fussy if solver is referenced
+    # No reason given
+    # ./spec/sudoku/grid_spec.rb:20
+  Sudoku::Block#cross_out is fussy if solver is referenced
+    # No reason given
+    # ./spec/sudoku/grid_spec.rb:39
+  Sudoku::Block#place_single really does what it should
+    # Not yet implemented
+    # ./spec/sudoku/grid_spec.rb:74
+  Sudoku::Grid#find_chains does not crash
+    # chains not working yet
+    # ./spec/sudoku/grid_spec.rb:149
+
+Failures:
+
+  1) Sudoku::Block#place_single places one value on one single values
+     Failure/Error: solver.propagate
+     ArgumentError:
+       wrong number of arguments (1 for 2)
+     # ./lib/sudoku/solver.rb:266:in `[]'
+     # ./lib/sudoku/grid.rb:340:in `cell'
+     # ./lib/sudoku/grid.rb:151:in `block in cells'
+     # ./lib/sudoku/grid.rb:151:in `map'
+     # ./lib/sudoku/grid.rb:151:in `cells'
+     # ./lib/sudoku/grid.rb:167:in `values'
+     # ./lib/sudoku/solver.rb:85:in `block (2 levels) in propagate'
+     # ./lib/sudoku/solver.rb:84:in `each'
+     # ./lib/sudoku/solver.rb:84:in `block in propagate'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/solver.rb:82:in `propagate'
+     # ./spec/sudoku/grid_spec.rb:65:in `block (3 levels) in <module:Sudoku>'
+
+  2) Sudoku::Grid#find_chains finds a link
+     Failure/Error: solver.solve
+     ArgumentError:
+       wrong number of arguments (1 for 2)
+     # ./lib/sudoku/solver.rb:266:in `[]'
+     # ./lib/sudoku/grid.rb:340:in `cell'
+     # ./lib/sudoku/grid.rb:151:in `block in cells'
+     # ./lib/sudoku/grid.rb:151:in `map'
+     # ./lib/sudoku/grid.rb:151:in `cells'
+     # ./lib/sudoku/grid.rb:167:in `values'
+     # ./lib/sudoku/solver.rb:85:in `block (2 levels) in propagate'
+     # ./lib/sudoku/solver.rb:84:in `each'
+     # ./lib/sudoku/solver.rb:84:in `block in propagate'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/solver.rb:82:in `propagate'
+     # ./lib/sudoku/solver.rb:117:in `deduce'
+     # ./lib/sudoku/solver.rb:205:in `solve'
+     # ./spec/sudoku/grid_spec.rb:144:in `block (3 levels) in <module:Sudoku>'
+
+Finished in 0.09228 seconds
+16 examples, 2 failures, 5 pending
+
+Failed examples:
+
+rspec ./spec/sudoku/grid_spec.rb:58 # Sudoku::Block#place_single places one value on one single values
+rspec ./spec/sudoku/grid_spec.rb:142 # Sudoku::Grid#find_chains finds a link
+s002 2:53 ~/porquerolles % rspec spec/sudoku/grid_spec.rb
+**.*.F*.......F*
+
+Pending:
+  Set#copy returns a copy of self
+    # Need to use better equality test
+    # ./spec/sudoku/grid_spec.rb:5
+  Sudoku::Block#set_solved is fussy if solver is referenced
+    # No reason given
+    # ./spec/sudoku/grid_spec.rb:20
+  Sudoku::Block#cross_out is fussy if solver is referenced
+    # No reason given
+    # ./spec/sudoku/grid_spec.rb:39
+  Sudoku::Block#place_single really does what it should
+    # Not yet implemented
+    # ./spec/sudoku/grid_spec.rb:74
+  Sudoku::Grid#find_chains does not crash
+    # chains not working yet
+    # ./spec/sudoku/grid_spec.rb:149
+
+Failures:
+
+  1) Sudoku::Block#place_single places one value on one single values
+     Failure/Error: cell = grid.cell(6, 7)
+     ArgumentError:
+       wrong number of arguments (2 for 1)
+     # ./lib/sudoku/grid.rb:339:in `cell'
+     # ./spec/sudoku/grid_spec.rb:62:in `block (3 levels) in <module:Sudoku>'
+
+  2) Sudoku::Grid#find_chains finds a link
+     Failure/Error: solver.solve
+     ArgumentError:
+       wrong number of arguments (1 for 2)
+     # ./lib/sudoku/solver.rb:266:in `[]'
+     # ./lib/sudoku/grid.rb:340:in `cell'
+     # ./lib/sudoku/grid.rb:151:in `block in cells'
+     # ./lib/sudoku/grid.rb:151:in `map'
+     # ./lib/sudoku/grid.rb:151:in `cells'
+     # ./lib/sudoku/grid.rb:167:in `values'
+     # ./lib/sudoku/solver.rb:85:in `block (2 levels) in propagate'
+     # ./lib/sudoku/solver.rb:84:in `each'
+     # ./lib/sudoku/solver.rb:84:in `block in propagate'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/solver.rb:82:in `propagate'
+     # ./lib/sudoku/solver.rb:117:in `deduce'
+     # ./lib/sudoku/solver.rb:205:in `solve'
+     # ./spec/sudoku/grid_spec.rb:144:in `block (3 levels) in <module:Sudoku>'
+
+Finished in 0.13062 seconds
+16 examples, 2 failures, 5 pending
+
+Failed examples:
+
+rspec ./spec/sudoku/grid_spec.rb:58 # Sudoku::Block#place_single places one value on one single values
+rspec ./spec/sudoku/grid_spec.rb:142 # Sudoku::Grid#find_chains finds a link
+s002 2:53 ~/porquerolles % rspec spec/sudoku/grid_spec.rb
+**.*.F*.......F*
+
+Pending:
+  Set#copy returns a copy of self
+    # Need to use better equality test
+    # ./spec/sudoku/grid_spec.rb:5
+  Sudoku::Block#set_solved is fussy if solver is referenced
+    # No reason given
+    # ./spec/sudoku/grid_spec.rb:20
+  Sudoku::Block#cross_out is fussy if solver is referenced
+    # No reason given
+    # ./spec/sudoku/grid_spec.rb:39
+  Sudoku::Block#place_single really does what it should
+    # Not yet implemented
+    # ./spec/sudoku/grid_spec.rb:74
+  Sudoku::Grid#find_chains does not crash
+    # chains not working yet
+    # ./spec/sudoku/grid_spec.rb:149
+
+Failures:
+
+  1) Sudoku::Block#place_single places one value on one single values
+     Failure/Error: solver.propagate
+     ArgumentError:
+       wrong number of arguments (1 for 2)
+     # ./lib/sudoku/solver.rb:266:in `[]'
+     # ./lib/sudoku/grid.rb:340:in `cell'
+     # ./lib/sudoku/grid.rb:151:in `block in cells'
+     # ./lib/sudoku/grid.rb:151:in `map'
+     # ./lib/sudoku/grid.rb:151:in `cells'
+     # ./lib/sudoku/grid.rb:167:in `values'
+     # ./lib/sudoku/solver.rb:85:in `block (2 levels) in propagate'
+     # ./lib/sudoku/solver.rb:84:in `each'
+     # ./lib/sudoku/solver.rb:84:in `block in propagate'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/solver.rb:82:in `propagate'
+     # ./spec/sudoku/grid_spec.rb:65:in `block (3 levels) in <module:Sudoku>'
+
+  2) Sudoku::Grid#find_chains finds a link
+     Failure/Error: solver.solve
+     ArgumentError:
+       wrong number of arguments (1 for 2)
+     # ./lib/sudoku/solver.rb:266:in `[]'
+     # ./lib/sudoku/grid.rb:340:in `cell'
+     # ./lib/sudoku/grid.rb:151:in `block in cells'
+     # ./lib/sudoku/grid.rb:151:in `map'
+     # ./lib/sudoku/grid.rb:151:in `cells'
+     # ./lib/sudoku/grid.rb:167:in `values'
+     # ./lib/sudoku/solver.rb:85:in `block (2 levels) in propagate'
+     # ./lib/sudoku/solver.rb:84:in `each'
+     # ./lib/sudoku/solver.rb:84:in `block in propagate'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/solver.rb:82:in `propagate'
+     # ./lib/sudoku/solver.rb:117:in `deduce'
+     # ./lib/sudoku/solver.rb:205:in `solve'
+     # ./spec/sudoku/grid_spec.rb:144:in `block (3 levels) in <module:Sudoku>'
+
+Finished in 0.07788 seconds
+16 examples, 2 failures, 5 pending
+
+Failed examples:
+
+rspec ./spec/sudoku/grid_spec.rb:58 # Sudoku::Block#place_single places one value on one single values
+rspec ./spec/sudoku/grid_spec.rb:142 # Sudoku::Grid#find_chains finds a link
+s002 2:54 ~/porquerolles % rspec spec/sudoku/grid_spec.rb
+**.*.F*.......F*
+
+Pending:
+  Set#copy returns a copy of self
+    # Need to use better equality test
+    # ./spec/sudoku/grid_spec.rb:5
+  Sudoku::Block#set_solved is fussy if solver is referenced
+    # No reason given
+    # ./spec/sudoku/grid_spec.rb:20
+  Sudoku::Block#cross_out is fussy if solver is referenced
+    # No reason given
+    # ./spec/sudoku/grid_spec.rb:39
+  Sudoku::Block#place_single really does what it should
+    # Not yet implemented
+    # ./spec/sudoku/grid_spec.rb:74
+  Sudoku::Grid#find_chains does not crash
+    # chains not working yet
+    # ./spec/sudoku/grid_spec.rb:149
+
+Failures:
+
+  1) Sudoku::Block#place_single places one value on one single values
+     Failure/Error: solver.propagate
+     ArgumentError:
+       wrong number of arguments (1 for 2)
+     # ./lib/sudoku/solver.rb:266:in `[]'
+     # ./lib/sudoku/grid.rb:340:in `cell'
+     # ./lib/sudoku/grid.rb:151:in `block in cells'
+     # ./lib/sudoku/grid.rb:151:in `map'
+     # ./lib/sudoku/grid.rb:151:in `cells'
+     # ./lib/sudoku/grid.rb:167:in `values'
+     # ./lib/sudoku/solver.rb:85:in `block (2 levels) in propagate'
+     # ./lib/sudoku/solver.rb:84:in `each'
+     # ./lib/sudoku/solver.rb:84:in `block in propagate'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/solver.rb:82:in `propagate'
+     # ./spec/sudoku/grid_spec.rb:65:in `block (3 levels) in <module:Sudoku>'
+
+  2) Sudoku::Grid#find_chains finds a link
+     Failure/Error: solver.solve
+     ArgumentError:
+       wrong number of arguments (1 for 2)
+     # ./lib/sudoku/solver.rb:266:in `[]'
+     # ./lib/sudoku/grid.rb:340:in `cell'
+     # ./lib/sudoku/grid.rb:151:in `block in cells'
+     # ./lib/sudoku/grid.rb:151:in `map'
+     # ./lib/sudoku/grid.rb:151:in `cells'
+     # ./lib/sudoku/grid.rb:167:in `values'
+     # ./lib/sudoku/solver.rb:85:in `block (2 levels) in propagate'
+     # ./lib/sudoku/solver.rb:84:in `each'
+     # ./lib/sudoku/solver.rb:84:in `block in propagate'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/grid.rb:348:in `each'
+     # ./lib/sudoku/solver.rb:82:in `propagate'
+     # ./lib/sudoku/solver.rb:117:in `deduce'
+     # ./lib/sudoku/solver.rb:205:in `solve'
+     # ./spec/sudoku/grid_spec.rb:144:in `block (3 levels) in <module:Sudoku>'
+
+Finished in 0.08193 seconds
+16 examples, 2 failures, 5 pending
+
+Failed examples:
+
+rspec ./spec/sudoku/grid_spec.rb:58 # Sudoku::Block#place_single places one value on one single values
+rspec ./spec/sudoku/grid_spec.rb:142 # Sudoku::Grid#find_chains finds a link
+s002 2:54 ~/porquerolles % rspec spec/sudoku/grid_spec.rb
+**.*..*........F
+
+Pending:
+  Set#copy returns a copy of self
+    # Need to use better equality test
+    # ./spec/sudoku/grid_spec.rb:5
+  Sudoku::Block#set_solved is fussy if solver is referenced
+    # No reason given
+    # ./spec/sudoku/grid_spec.rb:20
+  Sudoku::Block#cross_out is fussy if solver is referenced
+    # No reason given
+    # ./spec/sudoku/grid_spec.rb:39
+  Sudoku::Block#place_single really does what it should
+    # Not yet implemented
+    # ./spec/sudoku/grid_spec.rb:74
+
+Failures:
+
+  1) Sudoku::Grid#find_chains does not crash FIXED
+     Expected pending 'chains not working yet' to fail. No Error was raised.
+     # ./spec/sudoku/grid_spec.rb:150:in `block (3 levels) in <module:Sudoku>'
+
+Finished in 2.6 seconds
+16 examples, 1 failure, 4 pending
+
+Failed examples:
+
+rspec ./spec/sudoku/grid_spec.rb:149 # Sudoku::Grid#find_chains does not crash
+s002 2:59 ~/porquerolles % rspec
+**.*..*........F.......*..*........***.
+
+Pending:
+  Set#copy returns a copy of self
+    # Need to use better equality test
+    # ./spec/sudoku/grid_spec.rb:5
+  Sudoku::Block#set_solved is fussy if solver is referenced
+    # No reason given
+    # ./spec/sudoku/grid_spec.rb:20
+  Sudoku::Block#cross_out is fussy if solver is referenced
+    # No reason given
+    # ./spec/sudoku/grid_spec.rb:39
+  Sudoku::Block#place_single really does what it should
+    # Not yet implemented
+    # ./spec/sudoku/grid_spec.rb:74
+  Sudoku::Solver#parse_options passes two options using the compact syntax
+    # Ridiculous name
+    # ./spec/sudoku/solver_spec.rb:37
+  Sudoku::Solver#parse_options outputs extra messages when verbose
+    # chains does not work yet
+    # ./spec/sudoku/solver_spec.rb:54
+  Sudoku::Solver#solve calls reference if called with references
+    # No reason given
+    # ./spec/sudoku/solver_spec.rb:117
+  Sudoku::Solver#solve is not trivial
+    # address the ridiculous case when grid is fully solved
+    # ./spec/sudoku/solver_spec.rb:123
+  Sudoku::Solver#reference computes a reference solution grid
+    # Big merger
+    # ./spec/sudoku/solver_spec.rb:129
+
+Failures:
+
+  1) Sudoku::Grid#find_chains does not crash FIXED
+     Expected pending 'chains not working yet' to fail. No Error was raised.
+     # ./spec/sudoku/grid_spec.rb:150:in `block (3 levels) in <module:Sudoku>'
+
+Finished in 15.88 seconds
+39 examples, 1 failure, 9 pending
+
+Failed examples:
+
+rspec ./spec/sudoku/grid_spec.rb:149 # Sudoku::Grid#find_chains does not crash
+s002 3:01 ~/porquerolles % bin/sudoku grids/simple.sdk 
+Parsing file grids/simple.sdk.
++---+---+---+
+|8.6|.7.|45.|
+|7..|..4|693|
+|..4|...|8.7|
++---+---+---+
+|..1|8.7|2.6|
+|.6.|4.2|.7.|
+|2.7|3.6|1..|
++---+---+---+
+|4.3|...|9..|
+|612|5..|..4|
+|.58|.4.|3.2|
++---+---+---+
++---+---+---+
+|896|273|451|
+|725|184|693|
+|134|965|827|
++---+---+---+
+|541|897|236|
+|369|412|578|
+|287|356|149|
++---+---+---+
+|473|628|915|
+|612|539|784|
+|958|741|362|
++---+---+---+
+s002 3:01 ~/porquerolles % bin/sudoku grids/diabolical.sdk 
+Parsing file grids/diabolical.sdk.
++---+---+---+
+|.43|..8|...|
+|...|...|3..|
+|786|..3|4..|
++---+---+---+
+|2..|.84|...|
+|.6.|...|.5.|
+|...|93.|..2|
++---+---+---+
+|..9|3..|561|
+|..7|...|...|
+|...|1..|72.|
++---+---+---+
++---+---+---+
+|143|658|297|
+|952|471|386|
+|786|293|415|
++---+---+---+
+|291|584|673|
+|364|712|859|
+|578|936|142|
++---+---+---+
+|829|347|561|
+|617|825|934|
+|435|169|728|
++---+---+---+
+s002 3:01 ~/porquerolles % git commit -am 'Big merger done.'
+[master 07ab66c] Big merger done.
+ 2 files changed, 28 insertions(+), 33 deletions(-)
+s002 3:01 ~/porquerolles % git log
+commit 07ab66c92d72573b16df7a909f590d76be0fc01e
+Author: Arthur Reutenauer <arthur.reutenauer@normalesup.org>
+Date:   Sun Mar 31 03:01:51 2013 +0100
+
+    Big merger done.
+
+commit fccf5b74a6cd0d4b9f61d4a35299d0b0a1eb61f1
+Author: Arthur Reutenauer <arthur.reutenauer@normalesup.org>
+Date:   Sun Mar 31 02:35:05 2013 +0100
+
+    Pre-emptively made a spec pending.
+
+commit fd1de6f7d7780d73d14fe2ffd74215470bfa1a0d
+Author: Arthur Reutenauer <arthur.reutenauer@normalesup.org>
+Date:   Sun Mar 31 02:30:55 2013 +0100
+
+    Preparing for the big merger ...
+
+commit 5a639b24cc35ca3172f7be3153f104bd398ce111
+Author: Arthur Reutenauer <arthur.reutenauer@normalesup.org>
+Date:   Sun Mar 31 02:24:48 2013 +0100
+
+    Restoring a working state.
+
+commit b08b1d263f5892b5a6c4a9711d3ea9d0ef491473
+Author: Arthur Reutenauer <arthur.reutenauer@normalesup.org>
+Date:   Sun Mar 31 00:53:44 2013 +0000
+
+    New spec in Grid: #cross_out should be fussy as well.
+
+commit d0f9dab9a6f4d3a3e17a18cb462a01dc63a36e6b
+Author: Arthur Reutenauer <arthur.reutenauer@normalesup.org>
+Date:   Sun Mar 31 00:49:44 2013 +0000
+
+    ... with its implementation.
+
+commit 41320ff3fc11043fafa7581eb7adb82085902365
+Author: Arthur Reutenauer <arthur.reutenauer@normalesup.org>
+Date:   Sun Mar 31 00:49:23 2013 +0000
+
+    Little let for Set#copy.
+
+commit abab05ff94b762343109b706142cd84da31f5cc9
+Author: Arthur Reutenauer <arthur.reutenauer@normalesup.org>
+Date:   Sun Mar 31 00:40:51 2013 +0000
+
+    Added spec for Cell#cross_out.
+
+commit 556b62cdb7f8f12f7e7e1d80fb3c0573ebba9865
+Author: Arthur Reutenauer <arthur.reutenauer@normalesup.org>
+Date:   Sun Mar 31 00:23:45 2013 +0000
+
+    Indent.
+s002 3:02 ~/porquerolles % git hsow
+git: 'hsow' is not a git command. See 'git --help'.
+
+Did you mean this?
+	show
+s002 3:02 ~/porquerolles % git show
+commit 07ab66c92d72573b16df7a909f590d76be0fc01e
+Author: Arthur Reutenauer <arthur.reutenauer@normalesup.org>
+Date:   Sun Mar 31 03:01:51 2013 +0100
+
+    Big merger done.
+
+diff --git a/lib/sudoku/grid.rb b/lib/sudoku/grid.rb
+index acfacc2..a6f8023 100644
+commit 07ab66c92d72573b16df7a909f590d76be0fc01e
+Author: Arthur Reutenauer <arthur.reutenauer@normalesup.org>
+Date:   Sun Mar 31 03:01:51 2013 +0100
+
+    Big merger done.
+
+diff --git a/lib/sudoku/grid.rb b/lib/sudoku/grid.rb
+index acfacc2..a6f8023 100644
+--- a/lib/sudoku/grid.rb
++++ b/lib/sudoku/grid.rb
+@@ -306,9 +306,19 @@ module Sudoku
+       @blocks
+     end
+ 
+-    def initialize(grid = nil, solver = nil) # FIXME horrible.  Solver should never be nil anyway.
+-      if grid
+-        @matrix = grid
++    # The new initialize for the merger of Grid and Solver
++    def initialize(output = NullOutput.new, matrix = nil) # Merging both signatures.
++      # From Solver
++      @output = output
++      @hypotheses = []
++      @node = Tree.new
++      @params = { }
++
++      @grid = self
++
++      # From Grid
++      if matrix # was: grid
++        @matrix = matrix
+       else
+         @matrix = Hash.new
+         9.times do |i|
+@@ -318,7 +328,7 @@ module Sudoku
+         end
+       end
+ 
+-      @solver = solver
++      @solver = self
+ 
+       # TODO: make that a class method!
+       @rows = 9.times.map { |i| Row.new i, self }
+@@ -381,7 +391,7 @@ module Sudoku
+           if j % 3 == 0
+             row = "#{row}|"
+           end
+-          row = "#{row}#{self[i, j].display}"
++          row = "#{row}#{cell([i, j]).display}"
+         end
+         row = "#{row}|"
+         s = s + row + "\n"
+@@ -432,9 +442,9 @@ module Sudoku
+       coord = coord_and_cell.first
+commit 07ab66c92d72573b16df7a909f590d76be0fc01e
+Author: Arthur Reutenauer <arthur.reutenauer@normalesup.org>
+Date:   Sun Mar 31 03:01:51 2013 +0100
+
+    Big merger done.
+
+diff --git a/lib/sudoku/grid.rb b/lib/sudoku/grid.rb
+index acfacc2..a6f8023 100644
+--- a/lib/sudoku/grid.rb
++++ b/lib/sudoku/grid.rb
+@@ -306,9 +306,19 @@ module Sudoku
+       @blocks
+     end
+ 
+-    def initialize(grid = nil, solver = nil) # FIXME horrible.  Solver should never be nil anyway.
+-      if grid
+-        @matrix = grid
++    # The new initialize for the merger of Grid and Solver
++    def initialize(output = NullOutput.new, matrix = nil) # Merging both signatures.
++      # From Solver
++      @output = output
++      @hypotheses = []
++      @node = Tree.new
++      @params = { }
++
++      @grid = self
++
++      # From Grid
++      if matrix # was: grid
++        @matrix = matrix
+       else
+         @matrix = Hash.new
+         9.times do |i|
+@@ -318,7 +328,7 @@ module Sudoku
+         end
+       end
+ 
+-      @solver = solver
++      @solver = self
+ 
+       # TODO: make that a class method!
+       @rows = 9.times.map { |i| Row.new i, self }
+@@ -381,7 +391,7 @@ module Sudoku
+           if j % 3 == 0
+             row = "#{row}|"
+           end
+-          row = "#{row}#{self[i, j].display}"
++          row = "#{row}#{cell([i, j]).display}"
+         end
+         row = "#{row}|"
+         s = s + row + "\n"
+@@ -432,9 +442,9 @@ module Sudoku
+       coord = coord_and_cell.first
+commit 07ab66c92d72573b16df7a909f590d76be0fc01e
+Author: Arthur Reutenauer <arthur.reutenauer@normalesup.org>
+Date:   Sun Mar 31 03:01:51 2013 +0100
+
+    Big merger done.
+
+diff --git a/lib/sudoku/grid.rb b/lib/sudoku/grid.rb
+index acfacc2..a6f8023 100644
+--- a/lib/sudoku/grid.rb
++++ b/lib/sudoku/grid.rb
+@@ -306,9 +306,19 @@ module Sudoku
+       @blocks
+     end
+ 
+-    def initialize(grid = nil, solver = nil) # FIXME horrible.  Solver should never be nil anyway.
+-      if grid
+-        @matrix = grid
++    # The new initialize for the merger of Grid and Solver
++    def initialize(output = NullOutput.new, matrix = nil) # Merging both signatures.
++      # From Solver
++      @output = output
++      @hypotheses = []
++      @node = Tree.new
++      @params = { }
++
++      @grid = self
++
++      # From Grid
++      if matrix # was: grid
++        @matrix = matrix
+       else
+         @matrix = Hash.new
+         9.times do |i|
+@@ -318,7 +328,7 @@ module Sudoku
+         end
+       end
+ 
+-      @solver = solver
++      @solver = self
+ 
+       # TODO: make that a class method!
+       @rows = 9.times.map { |i| Row.new i, self }
+@@ -381,7 +391,7 @@ module Sudoku
+           if j % 3 == 0
+             row = "#{row}|"
+           end
+-          row = "#{row}#{self[i, j].display}"
++          row = "#{row}#{cell([i, j]).display}"
+         end
+         row = "#{row}|"
+         s = s + row + "\n"
+@@ -432,9 +442,9 @@ module Sudoku
+       coord = coord_and_cell.first
+       cell = coord_and_cell.last
+       cell.each do |val|
+-        grid = copy
+-        grid[coord].set_solved(val)
+-        hypothesis = Hypothesis.new(grid, coord, val)
++        matrix = copy
++        matrix[coord].set_solved(val)
++        hypothesis = Hypothesis.new(matrix, coord, val)
+         @node.add(hypothesis)
+       end
+ 
+diff --git a/lib/sudoku/solver.rb b/lib/sudoku/solver.rb
+index 96a3fa1..95f0a10 100644
+--- a/lib/sudoku/solver.rb
++++ b/lib/sudoku/solver.rb
+@@ -9,27 +9,15 @@ require 'optparse'
+ 
+ # TODO exit -1 when applicable.
+ module Sudoku
+-  class Solver
++  class Grid
+     def grid
+-      @grid
+-    end
+-
+-    def grid=(grid)
+-      @grid = grid
++      self
+     end
+ 
+     def output
+       @output
+     end
+ 
+-    def initialize(output = NullOutput.new)
+-      @output = output
+-      @grid = Grid.new
+-      @hypotheses = []
+-      @node = Tree.new
+-      @params = { }
+-    end
+-
+     def parse_options(args)
+       OptionParser.new do |opts|
+         opts.banner = "Usage: #{$0} [options] <file name>"
+@@ -75,7 +63,7 @@ module Sudoku
+     end
+ 
+     def ingest(filename)
+-      @grid = Grid.new(parse_file(filename), self)
++      parse_file(filename)
+     end
+ 
+     def verbose?
+@@ -162,12 +150,12 @@ module Sudoku
+       end
+ 
+       # TODO Refactor that
+-      def self.set_cell(grid, i, j, x)
++      def self.set_cell(matrix, i, j, x)
+         x = nil if x == "."
+-        grid[[i, j]] = Cell.new(x)
++        matrix[[i, j]] = Cell.new(x)
+       end
+ 
+-      grid = Hash.new
++      matrix = Hash.new
+       i = 0
+       gridfile.each do |line| # TODO Rescue Errno::EISDIR
+         if i == 9
+@@ -177,7 +165,7 @@ module Sudoku
+ 
+         if match.count == 9
+           9.times do |j|
+-            set_cell(grid, i, j, match[j])
++            set_cell(@matrix, i, j, match[j])
+           end
+ 
+           i = i + 1
+@@ -187,8 +175,6 @@ module Sudoku
+       if i != 9
+         @output.puts "Error: could not input grid from file #{filename}."
+       end
+-
+-      grid
+     end
+ 
+     def backtrack
+@@ -247,10 +233,6 @@ module Sudoku
+       @output.puts @grid.display
+     end
+ 
+-    def solved?
+-      grid.solved?
+-    end
+-
+     def reference
+       unless @reference
+         pre_solver = Solver.new
+@@ -277,4 +259,7 @@ module Sudoku
+       end
+     end
+   end
++
++  class Solver < Grid
++  end
+ end
+
+commit 07ab66c92d72573b16df7a909f590d76be0fc01e
+Author: Arthur Reutenauer <arthur.reutenauer@normalesup.org>
+Date:   Sun Mar 31 03:01:51 2013 +0100
+
+    Big merger done.
+
+diff --git a/lib/sudoku/grid.rb b/lib/sudoku/grid.rb
+index acfacc2..a6f8023 100644
+--- a/lib/sudoku/grid.rb
++++ b/lib/sudoku/grid.rb
+@@ -306,9 +306,19 @@ module Sudoku
+       @blocks
+     end
+ 
+-    def initialize(grid = nil, solver = nil) # FIXME horrible.  Solver should never be nil anyway.
+-      if grid
+-        @matrix = grid
++    # The new initialize for the merger of Grid and Solver
++    def initialize(output = NullOutput.new, matrix = nil) # Merging both signatures.
++      # From Solver
++      @output = output
++      @hypotheses = []
++      @node = Tree.new
++      @params = { }
++
++      @grid = self
++
++      # From Grid
++      if matrix # was: grid
++        @matrix = matrix
+       else
+         @matrix = Hash.new
+         9.times do |i|
+@@ -318,7 +328,7 @@ module Sudoku
+         end
+       end
+ 
+-      @solver = solver
++      @solver = self
+ 
+       # TODO: make that a class method!
+       @rows = 9.times.map { |i| Row.new i, self }
+@@ -381,7 +391,7 @@ module Sudoku
+           if j % 3 == 0
+             row = "#{row}|"
+           end
+-          row = "#{row}#{self[i, j].display}"
++          row = "#{row}#{cell([i, j]).display}"
+         end
+         row = "#{row}|"
+         s = s + row + "\n"
+@@ -432,9 +442,9 @@ module Sudoku
+       coord = coord_and_cell.first
+       cell = coord_and_cell.last
+       cell.each do |val|
+-        grid = copy
+-        grid[coord].set_solved(val)
+-        hypothesis = Hypothesis.new(grid, coord, val)
++        matrix = copy
++        matrix[coord].set_solved(val)
++        hypothesis = Hypothesis.new(matrix, coord, val)
+         @node.add(hypothesis)
+       end
+ 
+diff --git a/lib/sudoku/solver.rb b/lib/sudoku/solver.rb
+index 96a3fa1..95f0a10 100644
+--- a/lib/sudoku/solver.rb
++++ b/lib/sudoku/solver.rb
+@@ -9,27 +9,15 @@ require 'optparse'
+ 
+ # TODO exit -1 when applicable.
+ module Sudoku
+-  class Solver
++  class Grid
+     def grid
+-      @grid
+-    end
+-
+-    def grid=(grid)
+-      @grid = grid
++      self
+     end
+ 
+     def output
+       @output
+     end
+ 
+-    def initialize(output = NullOutput.new)
+-      @output = output
+-      @grid = Grid.new
+-      @hypotheses = []
+-      @node = Tree.new
+-      @params = { }
+-    end
+-
+     def parse_options(args)
+       OptionParser.new do |opts|
+         opts.banner = "Usage: #{$0} [options] <file name>"
+@@ -75,7 +63,7 @@ module Sudoku
+     end
+ 
+     def ingest(filename)
+-      @grid = Grid.new(parse_file(filename), self)
++      parse_file(filename)
+     end
+ 
+     def verbose?
+@@ -162,12 +150,12 @@ module Sudoku
+       end
+ 
+       # TODO Refactor that
+-      def self.set_cell(grid, i, j, x)
++      def self.set_cell(matrix, i, j, x)
+         x = nil if x == "."
+-        grid[[i, j]] = Cell.new(x)
++        matrix[[i, j]] = Cell.new(x)
+       end
+ 
+-      grid = Hash.new
++      matrix = Hash.new
+       i = 0
+       gridfile.each do |line| # TODO Rescue Errno::EISDIR
+         if i == 9
+@@ -177,7 +165,7 @@ module Sudoku
+ 
+         if match.count == 9
+           9.times do |j|
+-            set_cell(grid, i, j, match[j])
++            set_cell(@matrix, i, j, match[j])
+           end
+ 
+           i = i + 1
+@@ -187,8 +175,6 @@ module Sudoku
+       if i != 9
+         @output.puts "Error: could not input grid from file #{filename}."
+       end
+-
+-      grid
+     end
+ 
+     def backtrack
+@@ -247,10 +233,6 @@ module Sudoku
+       @output.puts @grid.display
+     end
+ 
+-    def solved?
+-      grid.solved?
+-    end
+-
+     def reference
+       unless @reference
+         pre_solver = Solver.new
+@@ -277,4 +259,7 @@ module Sudoku
+       end
+     end
+   end
++
++  class Solver < Grid
++  end
+ end
+s002 3:03 ~/porquerolles % rspec                            
+**.*..*........F.......*..*........***.
+
+Pending:
+  Set#copy returns a copy of self
+    # Need to use better equality test
+    # ./spec/sudoku/grid_spec.rb:5
+  Sudoku::Block#set_solved is fussy if solver is referenced
+    # No reason given
+    # ./spec/sudoku/grid_spec.rb:20
+  Sudoku::Block#cross_out is fussy if solver is referenced
+    # No reason given
+    # ./spec/sudoku/grid_spec.rb:39
+  Sudoku::Block#place_single really does what it should
+    # Not yet implemented
+    # ./spec/sudoku/grid_spec.rb:74
+  Sudoku::Solver#parse_options passes two options using the compact syntax
+    # Ridiculous name
+    # ./spec/sudoku/solver_spec.rb:37
+  Sudoku::Solver#parse_options outputs extra messages when verbose
+    # chains does not work yet
+    # ./spec/sudoku/solver_spec.rb:54
+  Sudoku::Solver#solve calls reference if called with references
+    # No reason given
+    # ./spec/sudoku/solver_spec.rb:117
+  Sudoku::Solver#solve is not trivial
+    # address the ridiculous case when grid is fully solved
+    # ./spec/sudoku/solver_spec.rb:123
+  Sudoku::Solver#reference computes a reference solution grid
+    # Big merger
+    # ./spec/sudoku/solver_spec.rb:129
+
+Failures:
+
+  1) Sudoku::Grid#find_chains does not crash FIXED
+     Expected pending 'chains not working yet' to fail. No Error was raised.
+     # ./spec/sudoku/grid_spec.rb:150:in `block (3 levels) in <module:Sudoku>'
+
+Finished in 13.97 seconds
+39 examples, 1 failure, 9 pending
+
+Failed examples:
+
+rspec ./spec/sudoku/grid_spec.rb:149 # Sudoku::Grid#find_chains does not crash
+s002 3:04 ~/porquerolles % git commit -am 'Restored one line of the old code.'
+[master d7d2318] Restored one line of the old code.
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+s002 3:04 ~/porquerolles % !b
+bin/sudoku grids/diabolical.sdk
+Parsing file grids/diabolical.sdk.
++---+---+---+
+|.43|..8|...|
+|...|...|3..|
+|786|..3|4..|
++---+---+---+
+|2..|.84|...|
+|.6.|...|.5.|
+|...|93.|..2|
++---+---+---+
+|..9|3..|561|
+|..7|...|...|
+|...|1..|72.|
++---+---+---+
++---+---+---+
+|143|658|297|
+|952|471|386|
+|786|293|415|
++---+---+---+
+|291|584|673|
+|364|712|859|
+|578|936|142|
++---+---+---+
+|829|347|561|
+|617|825|934|
+|435|169|728|
++---+---+---+
+s002 3:04 ~/porquerolles % bin/sudoku grids/m
+Parsing file grids/m.
+Error: could not open file grids/m.
+s002 3:04 ~/porquerolles % bin/sudoku grids/maman.sdk 
+Parsing file grids/maman.sdk.
++---+---+---+
+|1..|..7|.9.|
+|.3.|.2.|..8|
+|..9|6..|5..|
++---+---+---+
+|..5|3..|9..|
+|.1.|.8.|..2|
+|6..|..4|...|
++---+---+---+
+|3..|...|.1.|
+|.4.|...|..7|
+|..7|...|3..|
++---+---+---+
++---+---+---+
+|1..|..7|.9.|
+|.3.|.2.|..8|
+|..9|6..|5..|
++---+---+---+
+|..5|3..|9..|
+|.1.|.8.|..2|
+|6..|..4|...|
++---+---+---+
+|3..|...|.1.|
+|.41|...|..7|
+|..7|...|3..|
++---+---+---+
+s002 3:04 ~/porquerolles % bin/sudoku -g grids/maman.sdk
+Parsing file grids/maman.sdk.
++---+---+---+
+|1..|..7|.9.|
+|.3.|.2.|..8|
+|..9|6..|5..|
++---+---+---+
+|..5|3..|9..|
+|.1.|.8.|..2|
+|6..|..4|...|
++---+---+---+
+|3..|...|.1.|
+|.4.|...|..7|
+|..7|...|3..|
++---+---+---+
+Entering guessing mode ...
+Considered 48 hypotheses so far.  Hypothesis depth: 47.  Solved!
++---+---+---+
+|592|174|386|
+|317|658|492|
+|486|923|751|
++---+---+---+
+|143|867|925|
+|765|392|814|
+|928|541|637|
++---+---+---+
+|671|239|548|
+|834|715|269|
+|259|486|173|
++---+---+---+
+s002 3:06 ~/porquerolles % cucumber 
+Feature: Invoking the solver from the command line
+  
+  As a command-line user
+  I want to run the solver from my familiar environment with different switches
+  so that I can explore all the options
+
+  Scenario: Without any switch                     # features/command_line.feature:7
+    Given grid "simple.sdk"                        # features/steps/command_line_steps.rb:2
+    When I run with no switch                      # features/steps/command_line_steps.rb:7
+    Then it should do its best to solve the sudoku # features/steps/command_line_steps.rb:14
+
+  Scenario: With the chains switch                 # features/command_line.feature:12
+    Given grid "guardian/2423.sdk"                 # features/steps/command_line_steps.rb:2
+    When I run with switch -c                      # features/steps/command_line_steps.rb:10
+    Then it should do its best to solve the sudoku # features/steps/command_line_steps.rb:14
+
+  Scenario: With the guess switch                  # features/command_line.feature:17
+    Given grid "maman.sdk"                         # features/steps/command_line_steps.rb:2
+    When I run with switch -g                      # features/steps/command_line_steps.rb:10
+    Then it should do its best to solve the sudoku # features/steps/command_line_steps.rb:14
+
+  Scenario: With both chains and guess             # features/command_line.feature:22
+    Given grid "misc/X-wing.sdk"                   # features/steps/command_line_steps.rb:2
+    When I run with switch -c                      # features/steps/command_line_steps.rb:10
+    And I run with switch -g                       # features/steps/command_line_steps.rb:10
+/Users/arthur/porquerolles/lib/sudoku/grid.rb:368:in `row_of': undefined method `first' for nil:NilClass (NoMethodError)
+	from /Users/arthur/porquerolles/lib/sudoku/grid.rb:380:in `groups_of'
+	from /Users/arthur/porquerolles/lib/sudoku/grid.rb:469:in `find_chains'
+	from /Users/arthur/porquerolles/lib/sudoku/grid.rb:504:in `block (2 levels) in find_chains'
+	from /Users/arthur/porquerolles/lib/sudoku/grid.rb:500:in `each'
+	from /Users/arthur/porquerolles/lib/sudoku/grid.rb:500:in `block in find_chains'
+	from /Users/arthur/porquerolles/lib/sudoku/grid.rb:499:in `each'
+	from /Users/arthur/porquerolles/lib/sudoku/grid.rb:499:in `find_chains'
+	from /Users/arthur/porquerolles/lib/sudoku/solver.rb:119:in `deduce'
+	from /Users/arthur/porquerolles/lib/sudoku/solver.rb:211:in `solve'
+	from /Users/arthur/porquerolles/lib/sudoku/solver.rb:257:in `block in run'
+	from /Users/arthur/porquerolles/lib/sudoku/solver.rb:250:in `each'
+	from /Users/arthur/porquerolles/lib/sudoku/solver.rb:250:in `run'
+	from /Users/arthur/porquerolles/bin/sudoku:8:in `<main>'
+    Then it should do its best to solve the sudoku # features/steps/command_line_steps.rb:14
+      expected: true value
+           got: false (RSpec::Expectations::ExpectationNotMetError)
+      ./features/steps/command_line_steps.rb:18:in `/^it should do its best to solve the sudoku$/'
+      features/command_line.feature:26:in `Then it should do its best to solve the sudoku'
+
+  Scenario: With the singles and chains switch     # features/command_line.feature:28
+    Given grid "misc/X-wing.sdk"                   # features/steps/command_line_steps.rb:2
+    When I run with switch -s                      # features/steps/command_line_steps.rb:10
+    And I run with switch -c                       # features/steps/command_line_steps.rb:10
+    Then it should do its best to solve the sudoku # features/steps/command_line_steps.rb:14
+
+  Scenario: With only chains                       # features/command_line.feature:34
+    Given grid "misc/X-wing.sdk"                   # features/steps/command_line_steps.rb:2
+    When I run with switch -c                      # features/steps/command_line_steps.rb:10
+    Then it should do its best to solve the sudoku # features/steps/command_line_steps.rb:14
+
+Feature: Unnamed
+  
+  Not sure what I’m testing here exactly.
+
+  Scenario: The solver solves               # features/solver.feature:5
+    Given grid "maman.sdk"                  # features/steps/command_line_steps.rb:2
+    When I use the guess method             # features/steps/solver_steps.rb:5
+    Then the solver should solve the sudoku # features/steps/solver_steps.rb:10
+      expected solved? to return true, got false (RSpec::Expectations::ExpectationNotMetError)
+      ./features/steps/solver_steps.rb:14:in `/^the solver should solve the sudoku$/'
+      features/solver.feature:8:in `Then the solver should solve the sudoku'
+
+Failing Scenarios:
+cucumber features/command_line.feature:22 # Scenario: With both chains and guess
+cucumber features/solver.feature:5 # Scenario: The solver solves
+
+7 scenarios (2 failed, 5 passed)
+23 steps (2 failed, 21 passed)
+1m48.768s
+s002 3:12 ~/porquerolles % bin/sudoku -g grids/maman.sdk 
+Parsing file grids/maman.sdk.
++---+---+---+
+|1..|..7|.9.|
+|.3.|.2.|..8|
+|..9|6..|5..|
++---+---+---+
+|..5|3..|9..|
+|.1.|.8.|..2|
+|6..|..4|...|
++---+---+---+
+|3..|...|.1.|
+|.4.|...|..7|
+|..7|...|3..|
++---+---+---+
+Entering guessing mode ...
+Considered 48 hypotheses so far.  Hypothesis depth: 47.  Solved!
++---+---+---+
+|392|457|861|
+|764|128|593|
+|185|963|724|
++---+---+---+
+|826|791|345|
+|971|534|286|
+|453|682|179|
++---+---+---+
+|249|815|637|
+|618|379|452|
+|537|246|918|
++---+---+---+
+s002 3:14 ~/porquerolles % 
