@@ -247,14 +247,16 @@ module Sudoku
     end
 
     def reference
-      unless @reference
+      if @reference
+        @reference
+      elsif solved?
+        @reference = self
+      else
         pre_solver = Solver.new
         pre_solver.ingest(@grid)
         pre_solver.solve(:method => :guess)
         @reference = pre_solver.grid
       end
-
-      @reference
     end
 
     def run(args)

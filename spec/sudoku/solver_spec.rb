@@ -165,7 +165,9 @@ module Sudoku
       end
 
       it "is not trivial" do
-         pending "address the ridiculous case when grid is fully solved"
+        solver.ingest(read_grid_file('simple.sdk'))
+        solver.solve
+        solver.reference.object_id.should == solver.object_id # FIXME ugly
       end
     end
 
