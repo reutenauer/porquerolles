@@ -114,14 +114,14 @@ module Sudoku
         solver.should be_solved
       end
 
-       it "calls reference if called with references" do # OK, that’s a little cryptic ...
-        solver.should_receive(:reference)
-        solver.solve(:references => true)
-       end
+      it "calls reference if called with references" do # OK, that’s a little cryptic ...
+       solver.should_receive(:reference)
+       solver.solve(:references => true)
+      end
 
-       it "is not trivial" do
-          pending "address the ridiculous case when grid is fully solved"
-       end
+      it "is not trivial" do
+         pending "address the ridiculous case when grid is fully solved"
+      end
     end
 
     describe "#reference" do
