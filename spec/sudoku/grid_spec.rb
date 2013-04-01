@@ -27,7 +27,8 @@ module Sudoku
 
     describe "#set_solved" do
       it "is fussy if solver is referenced" do
-        pending
+        pending "needs refactoring"
+        solver.ingest(read_grid_file('simple.sdk'))
         solver.solve(:references => true)
         solver.should_receive(:reference) # Very weak test, but OK ...
         solver.grid[1, 1].set_solved(1)
@@ -46,7 +47,8 @@ module Sudoku
       end
 
       it "is fussy if solver is referenced" do
-        pending
+        pending "needs refactoring"
+        solver.ingest(read_grid_file('simple.sdk'))
         solver.solve(:references => true)
         solver.should_receive(:reference)
         solver.grid[8, 8].cross_out(8)
