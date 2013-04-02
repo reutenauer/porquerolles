@@ -191,6 +191,13 @@ module Sudoku
         grid.find_chains.include?([6, [[3, 8], [8, 8]], grid.columns[8]]).should == true
       end
 
+      it "uses that link" do
+        solver.ingest(read_grid_file('misc/X-wing.sdk'))
+        solver.solve(:chains => true)
+        grid[0, 8].should be_solved
+        grid[0, 8].value.should == 6
+      end
+
       it "does not crash" do
         solver.ingest(read_grid_file('guardian/2423.sdk'))
         solver.solve(:chains => true)
