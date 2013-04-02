@@ -251,6 +251,13 @@ module Sudoku
         solver.should be_referenced
       end
 
+      it "passes the “well-formed” options" do
+        pending "not implemented" do
+          solver_parse_options(['-w'])
+          solver.should be_checked
+        end
+      end
+
       it "outputs a message when it encounters an unknown options" do
         output.should_receive(:puts).with("Error: invalid option: -f")
         solver.parse_options(['-f'])
