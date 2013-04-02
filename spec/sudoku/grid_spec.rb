@@ -48,7 +48,8 @@ module Sudoku
     describe "#data?" do
       it "refuses to do something useless" do
         solver.stub(:data?).and_return(false)
-        expect { solver.solve }.to raise_error(NoGridInput)
+        solver.should_receive(:raise).with(NoGridInput)
+        solver.solve
       end
     end
 
