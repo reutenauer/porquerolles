@@ -7,23 +7,23 @@ Feature: Invoking the solver from the command line
   Scenario: Without any switch
     Given grid "simple.sdk"
     When I run with no switch
-    Then it should do its best to solve the sudoku
+    Then it should solve the sudoku
 
   Scenario: With the chains switch
     Given grid "guardian/2423.sdk"
     When I run with switch -c
-    Then it should do its best to solve the sudoku
+    Then it should solve the sudoku
 
   Scenario: With the guess switch
     Given grid "maman.sdk"
     When I run with switch -g
-    Then it should do its best to solve the sudoku
+    Then it should solve the sudoku
 
   Scenario: With both chains and guess
     Given grid "misc/X-wing.sdk"
     When I run with switch -c
     And I run with switch -g
-    Then it should do its best to solve the sudoku
+    Then it should solve the sudoku
 
   Scenario: With the singles and chains switch
     Given grid "misc/X-wing.sdk"
