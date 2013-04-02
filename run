@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH << 'lib'
+
+def run(filename)
+  solver = Sudoku::Grid.new(filename)
+  solver.safe_solve(:chains => true, :references => true)
+end
+
+run(ARGV.first)
