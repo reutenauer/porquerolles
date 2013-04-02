@@ -577,8 +577,6 @@ module Sudoku
           hash[coord] = cell.copy
         end
       end
-
-      @data = true
     end
 
     def verbose?
@@ -712,7 +710,7 @@ module Sudoku
     end
 
     def data?
-      @data
+      @original_grid
     end
 
     def solve(params = nil)
