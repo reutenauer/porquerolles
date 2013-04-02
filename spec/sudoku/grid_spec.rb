@@ -330,8 +330,8 @@ module Sudoku
       it "returns true for a valid grid" do
         solver.ingest(read_grid_file('simple.sdk'))
         solver.setup(:validating => true)
-        solver.solve
         output.should_receive(:puts).with("Grid is valid.")
+        solver.solve
       end
     end
 
