@@ -320,18 +320,20 @@ module Sudoku
       end
     end
 
+    describe "#setup" do
+      it "sets some options" do
+        solver.ingest(read_grid_file('simple.sdk'))
+        solver.should_not be_referenced
+        solver.solve(:references => true)
+        solver.should be_referenced
+      end
+    end
+
     describe "#solve" do
       it "sets additional options" do
         solver.should_not be_verbose
         solver.solve(:verbose => true)
         solver.should be_verbose
-      end
-
-      it "sets yet other options" do
-        solver.ingest(read_grid_file('simple.sdk'))
-        solver.should_not be_referenced
-        solver.solve(:references => true)
-        solver.should be_referenced
       end
 
       it "solves an easy grid" do

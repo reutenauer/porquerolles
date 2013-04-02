@@ -692,6 +692,10 @@ module Sudoku
       @params[:method] || :deduction
     end
 
+    def setup(params = nil)
+      @params.merge!(params) if params
+    end
+
     def solve(params = nil)
       @params.merge!(params) if params
       reference if referenced?
