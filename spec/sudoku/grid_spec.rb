@@ -53,16 +53,6 @@ module Sudoku
       end
     end
 
-    describe "#set_solved" do
-      it "is fussy if solver is referenced" do
-        pending "needs refactoring"
-        solver.ingest(read_grid_file('simple.sdk'))
-        solver.solve(:references => true)
-        solver.should_receive(:reference) # Very weak test, but OK ...
-        solver.grid[1, 1].set_solved(1)
-      end
-    end
-
     describe "#cross_out" do
       it "crosses out as not a possible value" do
         cell = Cell.new
@@ -72,14 +62,6 @@ module Sudoku
         (2..8).each { |x| cell.cross_out(x) }
         cell.should be_solved
         cell.value.should == 9
-      end
-
-      it "is fussy if solver is referenced" do
-        pending "needs refactoring"
-        solver.ingest(read_grid_file('simple.sdk'))
-        solver.solve(:references => true)
-        solver.should_receive(:reference)
-        solver.grid[8, 8].cross_out(8)
       end
     end
 
