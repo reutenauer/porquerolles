@@ -724,40 +724,48 @@ module Sudoku
     def solve(params = nil)
       raise NoGridInput unless data?
 
-      @params.merge!(params) if params
-      reference if referenced?
-      # Possible methods: :deduction, :guess, :tree
-      begin
-        deduce
-        if method == :guess && !solved?
-          grid = self
-          @nb_hypotheses = 0
-          @output.puts "Entering guessing mode ..."
-          until grid.solved?
-            begin
-	      @output.print "\rConsidered #{@nb_hypotheses} hypotheses so far.  Hypothesis depth: #{@hypotheses.count}."
-              guess
-              grid = @hypotheses.last.grid
-              grid.deduce
-              if grid.deadlock?
-                puts "Deadlock (1), backtracking ..."
+      if validating?
+        if valid?
+          @output.puts "Grid is valid."
+        else
+          @output.puts "Grid is invalid."
+        end
+      else
+        @params.merge!(params) if params
+        reference if referenced?
+        # Possible methods: :deduction, :guess, :tree
+        begin
+          deduce
+          if method == :guess && !solved?
+            grid = self
+            @nb_hypotheses = 0
+            @output.puts "Entering guessing mode ..."
+            until grid.solved?
+              begin
+                @output.print "\rConsidered #{@nb_hypotheses} hypotheses so far.  Hypothesis depth: #{@hypotheses.count}."
+                guess
+                grid = @hypotheses.last.grid
+                grid.deduce
+                if grid.deadlock?
+                  puts "Deadlock (1), backtracking ..."
+                  backtrack
+                end
+              rescue Deadlock
                 backtrack
               end
-            rescue Deadlock
-              backtrack
             end
-          end
 
-          @output.puts "  Solved!" if method == :guess and grid.nb_cell_solved == 81
-          @matrix = Hash.new.tap { |m| grid.each { |cr, cl| m[cr] = cl } }
-        elsif method == :tree
-          tree.each do |node|
-            node.grid.tree
+            @output.puts "  Solved!" if method == :guess and grid.nb_cell_solved == 81
+            @matrix = Hash.new.tap { |m| grid.each { |cr, cl| m[cr] = cl } }
+          elsif method == :tree
+            tree.each do |node|
+              node.grid.tree
+            end
+            # TODO...
           end
-	  # TODO...
+        rescue Paradox
+          @output.puts "Sudoku insoluble."
         end
-      rescue Paradox
-        @output.puts "Sudoku insoluble."
       end
     end
 
