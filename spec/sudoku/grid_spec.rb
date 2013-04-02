@@ -309,12 +309,10 @@ module Sudoku
       end
 
       it "stores the original grid somewhere" do
-        pending "not implemented" do
-          solver.parse_file(gridfile)
-          # TODO Matcher for that, as usual
-          solver.original_grid.class.should == Hash
-          solver.original_grid.all? { |k, v| v == solver.cell(k) }
-        end
+        solver.ingest(gridfile)
+        # TODO Matcher for that, as usual
+        solver.original_grid.class.should == Hash
+        solver.original_grid.all? { |k, v| v == solver.cell(k) }
       end
     end
 
