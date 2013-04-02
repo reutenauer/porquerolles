@@ -316,7 +316,7 @@ module Sudoku
       end
     end
 
-    describe "#guess", :focus => true do
+    describe "#guess" do
       it "solves with the :guess method (using pseudo-random number generator, 5 runs)", :slow => true do
         5.times do
           solver = Grid.new
