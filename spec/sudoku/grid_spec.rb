@@ -270,7 +270,7 @@ module Sudoku
       it "passes the “well-formed” options" do
         pending "not implemented" do
           solver_parse_options(['-w'])
-          solver.should be_checked
+          solver.should be_validating
         end
       end
 
@@ -318,6 +318,20 @@ module Sudoku
         solver.stub(:solved?).and_return(:true) # So that we’ll return immediately after the deduce phase
         solver.setup(:method => :guess)
         solver.method.should == :guess
+      end
+    end
+
+    describe "#validating?" do
+      it "only checks for validity if @params[:validating] is set" do
+        solver.ingest(read_grid_file('simple.sdk'))
+        solver.setup(:validating => true)
+        solver.solve
+        solver.should_not be_solved
+      end
+
+      it "returns true for a valid grid" do
+        solver.setup(:validating => true)
+        output.should_receive("Grid is valid.")
       end
     end
 
