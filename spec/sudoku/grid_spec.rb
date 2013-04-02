@@ -192,10 +192,8 @@ module Sudoku
       end
 
       it "does not crash" do
-        pending "actually it does crash for the moment" do
-          solver.ingest(read_grid_file('guardian/2423.sdk'))
-          solver.solve(:chains => true)
-        end
+        solver.ingest(read_grid_file('guardian/2423.sdk'))
+        solver.solve(:chains => true)
       end
 
       it "does not returns chains for groups when group.locations(x).count = 1!" do
@@ -384,6 +382,7 @@ module Sudoku
 
       it "catches some nasty inconsistencies" do
         solver.ingest(read_grid_file('sotd/2013-02-05-diabolical.sdk'))
+        solver.stub_chain(:reference, :cell, :value).and_return(3)
         expect { solver.solve(:references => true, :chains => true) }.to raise_error(DiffersFromReference)
       end
     end
@@ -398,11 +397,9 @@ module Sudoku
 
     describe "#deadlock?" do
       it "never uses deadlock?" do
-        pending "Check why it breaks (raising Deadlock), and remove deadlock?, the method" do
-          solver.should_not_receive(:deadlock?)
-          solver.ingest(read_grid_file('sotd/2013-02-05-diabolical.sdk'))
-          solver.solve(:verbose => true, :method => :guess, :chains => true)
-        end
+        solver.should_not_receive(:deadlock?)
+        solver.ingest(read_grid_file('sotd/2013-02-05-diabolical.sdk'))
+        solver.solve(:verbose => true, :method => :guess, :chains => true)
       end
     end
 
