@@ -250,11 +250,9 @@ module Sudoku
       end
 
       it "outputs extra messages when verbose" do
-        pending "chains does not work yet" do
-          output.should_receive(:puts).with("One more chain, total 19.  Latest chain [6, [[3, 8], [8, 8]], Column 8].  Total length 3.")
-          solver.ingest(read_grid_file('misc/X-wing.sdk'))
-          solver.solve(:verbose => true, :chains => true)
-        end
+        output.should_receive(:puts).with("One more chain, total 17.  Latest chain [6, [[3, 8], [8, 8]], Column 8].  Total length 3.")
+        solver.ingest(read_grid_file('misc/X-wing.sdk'))
+        solver.solve(:verbose => true, :chains => true)
       end
 
       it "solves using the chains option" do
