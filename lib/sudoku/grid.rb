@@ -782,5 +782,13 @@ module Sudoku
         print
       end
     end
+
+    def safe_solve(params = nil, debug = false)
+      begin
+        solve(params)
+      rescue DiffersFromReferences
+        debugger if debug
+      end
+    end
   end
 end

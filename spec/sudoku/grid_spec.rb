@@ -391,5 +391,13 @@ module Sudoku
         end
       end
     end
+
+    describe "#safe_solve" do
+      it "never raises" do
+        solver.ingest(read_grid_file('sotd/2013-02-05-diabolical.sdk'))
+        solver.safe_solve
+        solver.should_not be_solved
+      end
+    end
   end
 end
