@@ -8,7 +8,7 @@ When /^I use the ([a-z]*) method$/ do |method|
 end
 
 Then /^the solver should solve the sudoku$/ do
-  solver = Solver.new
+  solver = Grid.new
   solver.ingest(File.expand_path("../../../grids/#{@gridfile}", __FILE__))
   solver.solve(@params)
   solver.should be_solved
