@@ -103,8 +103,6 @@ module Sudoku
         cell.should be_solved
         cell.value.should == 1
       end
-
-      it "really does what it should" # Above example is absurd and evidence that things don’t really work well
     end
 
     describe "#min" do
