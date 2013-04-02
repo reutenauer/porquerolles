@@ -205,18 +205,14 @@ module Sudoku
         solver.solve(:chains => true)
       end
 
-      it "does still not crash", :focus => true do
-        solver = Grid.new(STDOUT)
+      it "does still not crash" do
         solver.ingest(read_grid_file('misc/X-wing-3.sdk'))
-        solver.setup(:verbose => true, :references => true) # TEMP
         solver.solve(:chains => true)
       end
 
       it "does not crash, even on the third attempt" do
-        pending "and it does crash here too" do
-          solver.ingest(read_grid_file('misc/X-wing-4.sdk'))
-          solver.solve(:chains => true)
-        end
+        solver.ingest(read_grid_file('misc/X-wing-4.sdk'))
+        solver.solve(:chains => true)
       end
 
       it "does not returns chains for groups when group.locations(x).count = 1!" do

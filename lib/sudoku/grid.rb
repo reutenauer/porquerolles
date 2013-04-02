@@ -336,17 +336,8 @@ module Sudoku
 
     def cross_out(coord, values)
       c = cell(coord)
-      c0 = c.count
       c.cross_out(values)
-      c1 = c.count
-
-      if coord == [7, 2] && c0 != c1
-        puts "value count changed for cell [7, 2]: current values are #{c.inspect}"
-      end
-      if referenced? && c.solved? && reference.cell(coord).value != c.value
-        debugger
-        raise DiffersFromReference
-      end
+      raise DiffersFromReference if referenced? && c.solved? && reference.cell(coord).value != c.value
     end
 
     def cell(loc)
@@ -485,16 +476,9 @@ module Sudoku
         inter = next_upper_groups.intersection(next_lower_groups)
         if inter.count > 0 && upper_group != lower_group
           group = inter.first # Can only be one, as upper_loc != lower_loc
-          unless group == links[2].first.first
-            ch = [x, [upper_loc, lower_loc], group]
-            chains << ch unless (chains.map { |chain| [chain.first, chain[1].first, chain[1].last, chain.last] }.include?([x, upper_loc, lower_loc, group]) || upper_loc == lower_loc)
-            @output.puts "One more chain, total #{chains.count}.  Latest chain [#{ch[0]}, #{ch[1].inspect}, #{ch[2].name}].  Total length #{upper_chain.count + 1}." if verbose?
-            if chains.count == 17
-              upper_chain = links[2].first.map { |group| group.name }
-              lower_chain = links[2].last.map { |group| group.name }
-              @output.puts "Adding chain [#{links[0]}, #{links[1]}, [#{upper_chain}, #{lower_chain}]] for group #{group.name}"
-            end
-          end
+          ch = [x, [upper_loc, lower_loc], group]
+          chains << ch unless chains.map { |chain| [chain.first, chain[1].first, chain[1].last, chain.last] }.include?([x, upper_loc, lower_loc, group]) || upper_loc == lower_loc
+          @output.puts "One more chain, total #{chains.count}.  Latest chain [#{ch[0]}, #{ch[1].inspect}, #{ch[2].name}].  Total length #{upper_chain.count + 1}." if verbose?
           return
         else
           next_upper_groups.each do |next_upper_group|
@@ -628,7 +612,6 @@ module Sudoku
         lower_loc = chain[1].last
         group = chain[2]
         group.each do |coord|
-          debugger if coord == [7, 2]
           next if coord == upper_loc || coord == lower_loc
           cross_out(coord, x)
         end
