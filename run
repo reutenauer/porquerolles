@@ -7,7 +7,7 @@ require 'sudoku'
 def run(filename)
   solver = Sudoku::Grid.new(STDOUT)
   solver.ingest(filename)
-  solver.safe_solve(:chains => true, :references => true)
+  solver.safe_solve({ :chains => true, :references => true }, true)
 end
 
 run(ARGV.first)
