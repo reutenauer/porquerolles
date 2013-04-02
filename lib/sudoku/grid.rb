@@ -547,6 +547,10 @@ module Sudoku
           @params[:references] = r
         end
 
+        opts.on('-w', "--[no-]well-formed", "Check if grid is well-formed.") do |w|
+          @params[:validating] = w
+        end
+
         # No tree yet.
 
         begin
@@ -589,6 +593,10 @@ module Sudoku
 
     def referenced?
       @params[:references]
+    end
+
+    def validating?
+      @params[:validating]
     end
 
     def propagate
