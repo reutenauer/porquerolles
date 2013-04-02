@@ -303,19 +303,7 @@ module Sudoku
   end
 
   class Grid
-    attr_reader :matrix
-
-    def rows
-      @rows
-    end
-
-    def columns
-      @columns
-    end
-
-    def blocks
-      @blocks
-    end
+    attr_reader :matrix, :rows, :columns, :blocks
 
     # The new initialize for the merger of Grid and Solver
     def initialize(output = NullOutput.new, matrix = nil) # Merging both signatures.
@@ -324,8 +312,6 @@ module Sudoku
       @hypotheses = []
       @node = Tree.new
       @params = { }
-
-      @grid = self
 
       # From Grid
       if matrix # was: grid
@@ -338,8 +324,6 @@ module Sudoku
           end
         end
       end
-
-      @solver = self
 
       # TODO: make that a class method!
       @rows = 9.times.map { |i| Row.new i, self }
@@ -485,7 +469,7 @@ module Sudoku
           group = inter.first # Can only be one, as upper_loc != lower_loc
           ch = [x, [upper_loc, lower_loc], group]
           chains << ch unless chains.map { |chain| [chain.first, chain[1].first, chain[1].last, chain.last] }.include? [x, upper_loc, lower_loc, group]
-          @solver.output.puts "One more chain, total #{chains.count}.  Latest chain [#{ch[0]}, #{ch[1].inspect}, #{ch[2].name}].  Total length #{upper_chain.count + 1}." if @solver.verbose?
+          @output.puts "One more chain, total #{chains.count}.  Latest chain [#{ch[0]}, #{ch[1].inspect}, #{ch[2].name}].  Total length #{upper_chain.count + 1}." if verbose?
           return
         else
           next_upper_groups.each do |next_upper_group|
@@ -519,14 +503,6 @@ module Sudoku
       end
 
       chains
-    end
-
-    def grid
-      self
-    end
-
-    def output
-      @output
     end
 
     def parse_options(args)
@@ -598,9 +574,9 @@ module Sudoku
     end
 
     def propagate
-      @grid.each do |coord, cell|
+      each do |coord, cell|
         unless cell.solved?
-          @grid.groups.each do |group|
+          groups.each do |group|
             cell.cross_out(group.values(cell)) if group.include? coord
           end
         end
@@ -608,24 +584,24 @@ module Sudoku
     end
 
     def place
-      @grid.groups.each { |group| group.place(@params) }
+      groups.each { |group| group.place(@params) }
     end
 
     def find_chains_solver
-      @grid.find_chains.each do |chain|
+      find_chains.each do |chain|
         x = chain[0]
         upper_loc = chain[1].first
         lower_loc = chain[1].last
         group = chain[2]
         group.each do |coord|
           next if coord == upper_loc || coord == lower_loc
-          @grid.cell(coord).cross_out(x)
+          cell(coord).cross_out(x)
         end
       end
     end
 
     def nb_cell_solved
-      @grid.each_value.inject(0) do |nsolved, cell|
+      each_value.inject(0) do |nsolved, cell|
         nsolved + if cell.solved? then 1 else 0 end
       end
     end
@@ -635,7 +611,7 @@ module Sudoku
     end
 
     def deduce
-      until @grid.solved?
+      until solved?
         old_nb_cell_solved = nb_cell_solved
         propagate
         place
@@ -643,22 +619,18 @@ module Sudoku
         break if nb_cell_solved == old_nb_cell_solved
       end
 
-      raise Paradox if @grid.paradox?
+      raise Paradox if paradox?
     end
 
     def guess
       @nb_hypotheses += 1 # FIXME That’s ridiculous.  Use @hypotheses.count
-      last_hyp = @hypotheses.last || @grid
-      grid = last_hyp.grid.copy
+      last_hyp_grid = if @hypotheses.count > 0 then @hypotheses.last.grid else self end
+      grid = last_hyp_grid.copy
       coord_and_cell = grid.random
       coord = coord_and_cell.first
       cell = coord_and_cell.last
       val = cell.guess
       @hypotheses << Hypothesis.new(grid, coord, val)
-    end
-
-    def tree
-      @grid.tree
     end
 
     # TODO Method to cross out value x from group1 when there is a group2 such that
@@ -703,12 +675,12 @@ module Sudoku
 
     def backtrack
       hypothesis = @hypotheses.pop
-      if hypothesis then grid = hypothesis.grid else grid = @grid end
+      if hypothesis then grid = hypothesis.grid else grid = self end
       backtrack if grid.paradox?
     end
 
     def valid?
-      !@grid.paradox?
+      !paradox?
     end
 
     def method
@@ -722,7 +694,7 @@ module Sudoku
       begin
         deduce
         if method == :guess && !solved?
-          grid = @grid
+          grid = self
           @nb_hypotheses = 0
           @output.puts "Entering guessing mode ..."
           until grid.solved?
@@ -743,7 +715,6 @@ module Sudoku
           @output.puts "  Solved!" if method == :guess and grid.nb_cell_solved == 81
           @matrix = Hash.new.tap { |m| grid.each { |cr, cl| m[cr] = cl } }
         elsif method == :tree
-          tree = @grid.tree
           tree.each do |node|
             node.grid.tree
           end
@@ -755,7 +726,7 @@ module Sudoku
     end
 
     def print
-      @output.puts @grid.display
+      @output.puts display
     end
 
     def reference
@@ -765,9 +736,9 @@ module Sudoku
         @reference = self
       else
         pre_solver = Grid.new
-        pre_solver.ingest(@grid.matrix)
+        pre_solver.ingest(matrix)
         pre_solver.solve(:method => :guess)
-        @reference = pre_solver.grid
+        @reference = pre_solver
       end
     end
 

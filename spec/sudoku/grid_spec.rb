@@ -59,8 +59,7 @@ module Sudoku
     describe '#place_single' do
       it "works" do
         solver.ingest(read_grid_file('guardian/2423.sdk'))
-        grid = solver.grid
-        block = grid.blocks.first
+        block = solver.blocks.first
 
         (1..9).each do |x|
           block.place_single(x)
@@ -70,7 +69,7 @@ module Sudoku
       it "places one value on one single values" do
         solver = Grid.new
         solver.ingest(read_grid_file('simple.sdk'))
-        grid = solver.grid
+        grid = solver
         cell = grid[6, 7]
         block = grid.blocks.last
 
@@ -149,7 +148,7 @@ module Sudoku
 
     describe "#find_chains" do
       let(:solver) { Grid.new }
-      let(:grid) { solver.grid }
+      let(:grid) { solver }
 
       it "finds a link" do
         solver.ingest(read_grid_file('misc/X-wing.sdk'))
@@ -289,7 +288,7 @@ module Sudoku
       end
     end
 
-    describe "#guess" do
+    describe "#guess", :focus => true do
       it "solves with the :guess method (using pseudo-random number generator, 5 runs)" do
         5.times do
           solver = Grid.new
