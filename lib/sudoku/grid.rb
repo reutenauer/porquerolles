@@ -337,7 +337,6 @@ module Sudoku
     end
 
     def cross_out(coord, values)
-      reference if referenced? # FIXME Ugly
       c = cell(coord)
       c.cross_out(values)
       raise DiffersFromReference if referenced? && c.solved? && reference.cell(coord) != c.value
@@ -759,7 +758,7 @@ module Sudoku
         @reference = self
       else
         pre_solver = Grid.new
-        pre_solver.ingest(matrix)
+        pre_solver.ingest(@original_grid)
         pre_solver.solve(:method => :guess)
         @reference = pre_solver
       end
