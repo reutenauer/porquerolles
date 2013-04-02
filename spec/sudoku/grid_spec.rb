@@ -268,10 +268,8 @@ module Sudoku
       end
 
       it "passes the “well-formed” options" do
-        pending "not implemented" do
-          solver_parse_options(['-w'])
-          solver.should be_validating
-        end
+        solver.parse_options(['-w'])
+        solver.should be_validating
       end
 
       it "outputs a message when it encounters an unknown options" do
@@ -330,8 +328,10 @@ module Sudoku
       end
 
       it "returns true for a valid grid" do
+        solver.ingest(read_grid_file('simple.sdk'))
         solver.setup(:validating => true)
-        output.should_receive("Grid is valid.")
+        solver.solve
+        output.should_receive(:puts).with("Grid is valid.")
       end
     end
 
