@@ -367,6 +367,11 @@ module Sudoku
         solver.should_not be_solved
         pending "Reference should be a matrix anyway"
       end
+
+      it "catches some nasty inconsistencies" do
+        solver.ingest(read_grid_file('sotd/2013-02-05-diabolical.sdk'))
+        expect { solver.solve(:references => true, :chains => true) }.to raise_error(DiffersFromReference)
+      end
     end
 
     describe "#run" do
