@@ -31,3 +31,75 @@ Considered 122 hypotheses so far.  Hypothesis depth: 3.Sudoku insoluble.
 |567|142|389|
 +---+---+---+
 mac-pros-mac-pro 18:06 % ~/perso/porquerolles-base     
+
+---
+2013-04-03 mid.  Also that:
+s002 0:29 ~/porquerolles % bin/sudoku -scg grids/misc/X-wing-2.sdk 
+Parsing file grids/misc/X-wing-2.sdk.
++---+---+---+
+|857|912|..6|
+|291|346|758|
+|346|785|192|
++---+---+---+
+|124|56.|9.3|
+|76.|...|.25|
+|9.5|.2.|6.1|
++---+---+---+
+|412|6..|5.7|
+|67.|25.|.1.|
+|5..|.7.|26.|
++---+---+---+
++---+---+---+
+|857|912|..6|
+|291|346|758|
+|346|785|192|
++---+---+---+
+|124|56.|9.3|
+|76.|...|.25|
+|9.5|.2.|6.1|
++---+---+---+
+|412|6..|5.7|
+|67.|25.|.1.|
+|5..|.7.|26.|
++---+---+---+
+s002 0:29 ~/porquerolles % 
+
+s002 0:30 ~/porquerolles % bin/sudoku --singles grids/misc/X-wing-2.sdk
+Error: invalid option: --singles
+Usage: bin/sudoku [options] <file name>
+    -s, --[no]-singles               Place single candidates
+    -d, --deduction                  Use deduction method
+    -c, --[no-]chains                Find chains
+    -g, --guess                      Use guess method
+    -v, --[no-]verbose               Be more verbose
+    -q, --[no-]quiet                 Be quieter
+    -r, --[no-]references            References to full solution
+    -w, --[no-]well-formed           Check if grid is well-formed.
+Parsing file grids/misc/X-wing-2.sdk.
++---+---+---+
+|857|912|..6|
+|291|346|758|
+|346|785|192|
++---+---+---+
+|124|56.|9.3|
+|76.|...|.25|
+|9.5|.2.|6.1|
++---+---+---+
+|412|6..|5.7|
+|67.|25.|.1.|
+|5..|.7.|26.|
++---+---+---+
++---+---+---+
+|857|912|..6|
+|291|346|758|
+|346|785|192|
++---+---+---+
+|124|56.|9.3|
+|76.|...|.25|
+|9.5|.2.|6.1|
++---+---+---+
+|412|6..|5.7|
+|67.|25.|.1.|
+|5..|.7.|26.|
++---+---+---+
+s002 0:30 ~/porquerolles % 
