@@ -220,6 +220,10 @@ module Sudoku
       it "does not returns chains for groups when group.locations(x).count = 1!" do
         pending "Test hard to write"
       end
+
+      it "does not return chains when the upper_group = lower_group" do
+        pending "Test hard to write too"
+      end
     end
   end
 
