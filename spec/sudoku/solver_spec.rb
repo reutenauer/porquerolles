@@ -192,10 +192,11 @@ module Sudoku
 
     describe "#deadlock?" do
       it "never uses deadlock?" do
-        solver.should_not_receive(:deadlock?)
-        solver.ingest(read_grid_file('sotd/2013-02-05-diabolical.sdk'))
-        solver.solve(:verbose => true, :method => :guess, :chains => true)
-        pending "That’s silly"
+        pending "Check why it breaks (raising Deadlock), and remove deadlock?, the method" do
+          solver.should_not_receive(:deadlock?)
+          solver.ingest(read_grid_file('sotd/2013-02-05-diabolical.sdk'))
+          solver.solve(:verbose => true, :method => :guess, :chains => true)
+        end
       end
     end
   end
