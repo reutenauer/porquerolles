@@ -786,7 +786,7 @@ module Sudoku
     def safe_solve(params = nil, debug = false)
       begin
         solve(params)
-      rescue DiffersFromReferences
+      rescue DiffersFromReference
         debugger if debug
       end
     end
