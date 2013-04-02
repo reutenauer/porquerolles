@@ -310,7 +310,7 @@ module Sudoku
     end
 
     describe "#guess", :focus => true do
-      it "solves with the :guess method (using pseudo-random number generator, 5 runs)" do
+      it "solves with the :guess method (using pseudo-random number generator, 5 runs)", :slow => true do
         5.times do
           solver = Grid.new
           solver.ingest(read_grid_file('sotd/2013-02-05-diabolical.sdk'))
