@@ -205,7 +205,7 @@ module Sudoku
             area = @grid.send("#{group_type}_of", locs.first)
             area.each do |coord|
               next if locs.include? coord
-              @grid.cell(coord).cross_out(x)
+              @grid.cross_out(coord, x)
             end
           end
         end
@@ -219,9 +219,7 @@ module Sudoku
       unsolved = locs.separate { |x, l| l.count > 1 }
 
       locs.each do |x, l|
-        cell = @grid.cell(l.first)
-        raise "No ‘cell’ in Group.place.  This should not happen." unless cell
-        cell.set_solved(x)
+        @grid.set_solved(l.first, x)
       end
 
       unsolved_values = unsolved.each_key.to_set
@@ -231,7 +229,7 @@ module Sudoku
         if these_locs.count == subset.count
           values_to_cross_out = unsolved_values - subset
           these_locs.each do |coord|
-            @grid.cell(coord).cross_out(values_to_cross_out)
+            @grid.cross_out(coord, values_to_cross_out)
           end
         end
       end
@@ -241,12 +239,12 @@ module Sudoku
       locs = locations(x)
       if locs.count == 1
         loc = locs.first
-        @grid.cell(loc).set_solved(x)
+        @grid.set_solved(loc, x)
         # Propagate to all the groups containing loc.
         groups = @grid.groups_of(loc)
         groups.each do |group|
           group.each do |coord|
-            @grid.cell(coord).cross_out(x) unless coord == loc
+            @grid.cross_out(coord, x) unless coord == loc
           end
         end
       end

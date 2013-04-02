@@ -345,9 +345,11 @@ module Sudoku
       end
 
       it "calls reference if called with references" do # OK, that’s a little cryptic ...
-       solver.ingest(read_grid_file('simple.sdk'))
-       solver.should_receive(:reference)
-       solver.solve(:references => true)
+       pending "Renegociation of responsibilities" do
+         solver.ingest(read_grid_file('simple.sdk'))
+         solver.should_receive(:reference)
+         solver.solve(:references => true)
+        end
       end
 
       it "is not trivial" do
