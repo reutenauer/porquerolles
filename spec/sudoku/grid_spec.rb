@@ -319,13 +319,11 @@ module Sudoku
     end
 
     describe "#guess" do
-      it "solves with the :guess method (using pseudo-random number generator, 5 runs)", :slow => true do
-        5.times do
-          solver = Grid.new
-          solver.ingest(read_grid_file('sotd/2013-02-05-diabolical.sdk'))
-          solver.solve(:method => :guess)
-          solver.should be_solved
-        end
+      it "solves with the :guess method" do
+        solver = Grid.new
+        solver.ingest(read_grid_file('sotd/2013-02-05-diabolical.sdk'))
+        solver.solve(:method => :guess)
+        solver.should be_solved
       end
     end
 
