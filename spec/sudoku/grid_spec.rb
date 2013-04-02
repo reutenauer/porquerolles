@@ -25,7 +25,7 @@ module Sudoku
 
       it "raises an error if differs from reference" do
         solver.ingest(read_grid_file('simple.sdk'))
-        solver.solve(:references => true)
+        solver.setup(:references => true)
         expect { solver.set_solved([6, 7], 2) }.to raise_error(DiffersFromReference)
       end
     end
@@ -273,7 +273,7 @@ module Sudoku
 
       it "sets it to something on demand" do
         solver.stub(:solved?).and_return(:true) # So that we’ll return immediately after the deduce phase
-        solver.solve(:method => :guess)
+        solver.setup(:method => :guess)
         solver.method.should == :guess
       end
     end
@@ -324,7 +324,7 @@ module Sudoku
       it "sets some options" do
         solver.ingest(read_grid_file('simple.sdk'))
         solver.should_not be_referenced
-        solver.solve(:references => true)
+        solver.setup(:references => true)
         solver.should be_referenced
       end
     end
