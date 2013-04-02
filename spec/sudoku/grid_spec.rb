@@ -191,6 +191,10 @@ module Sudoku
           solver.solve(:chains => true)
         end
       end
+
+      it "does not returns chains for groups when group.locations(x).count = 1!" do
+        pending "Test hard to write"
+      end
     end
   end
 
