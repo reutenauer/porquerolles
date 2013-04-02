@@ -31,7 +31,18 @@ module Sudoku
     end
 
     describe "#cross_out" do
-      it "works roughly the same way as #set_solved"
+      it "works roughly the same way as #set_solved" do
+        solver.ingest(read_grid_file('simple.sdk'))
+        solver.propagate
+        expect { solver.cross_out([6, 7], Set.new([6, 8])) }.to change(solver, :count).by(1)
+      end
+
+      it "raises an error if differs from reference" do
+        solver.ingest(read_grid_file('simple.sdk'))
+        solver.setup(:references => true)
+        solver.propagate
+        expect { solver.cross_out([6, 7], Set.new([1, 8])) }.to raise_error(DiffersFromReference)
+      end
     end
 
     describe "#data?" do

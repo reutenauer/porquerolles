@@ -336,6 +336,13 @@ module Sudoku
       cell(coord).set_solved(value)
     end
 
+    def cross_out(coord, values)
+      reference if referenced? # FIXME Ugly
+      c = cell(coord)
+      c.cross_out(values)
+      raise DiffersFromReference if referenced? && c.solved? && reference.cell(coord) != c.value
+    end
+
     def cell(loc)
       @matrix[loc]
     end
