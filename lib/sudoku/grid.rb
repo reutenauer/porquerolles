@@ -330,14 +330,14 @@ module Sudoku
     end
 
     def set_solved(coord, value)
-      raise DiffersFromReference if referenced? && reference.cell(coord) != value
+      raise DiffersFromReference if referenced? && reference.cell(coord).value != value
       cell(coord).set_solved(value)
     end
 
     def cross_out(coord, values)
       c = cell(coord)
       c.cross_out(values)
-      raise DiffersFromReference if referenced? && c.solved? && reference.cell(coord) != c.value
+      raise DiffersFromReference if referenced? && c.solved? && reference.cell(coord).value != c.value
     end
 
     def cell(loc)
