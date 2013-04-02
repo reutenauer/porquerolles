@@ -6,9 +6,8 @@ describe Set do
     it "returns a copy of self" do
       set = Set.new([1, 2, 3])
       set2 = set.copy
-      set2.object_id.should_not == set.object_id
-      set2.to_a.should =~ set.to_a
-      pending "Need to use better equality test"
+      set2.should_not be_equal set
+      set2.should == set
     end
   end
 end
