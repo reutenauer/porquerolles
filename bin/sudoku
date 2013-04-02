@@ -4,5 +4,5 @@ $LOAD_PATH << File.expand_path('../../lib', __FILE__)
 
 require 'sudoku'
 
-solver = Sudoku::Solver.new(STDOUT)
+solver = Sudoku::Grid.new(STDOUT)
 solver.run(ARGV)
