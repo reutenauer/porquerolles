@@ -52,10 +52,7 @@ module Sudoku
       end
 
       it "refuses to do something even more useless" do
-        pending "blah" do
-          solver.ingest(nil)
-          expect { solver.solve }.to raise_error(NoGridInput) # Would create a trivial matrix before
-        end
+        expect { solver.ingest(nil) }.to raise_error(NoGridInput) # Would create a trivial matrix before
       end
     end
 

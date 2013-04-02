@@ -568,6 +568,8 @@ module Sudoku
             hash[coord] = cell.copy
           end
         end
+      else
+        raise NoGridInput
       end
 
       @original_grid = Hash.new.tap do |hash|
