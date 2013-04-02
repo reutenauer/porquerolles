@@ -791,13 +791,13 @@ module Sudoku
 
       args.each do |arg|
         ingest(arg)
-        print
+        print unless validating?
         unless valid?
           puts "Grid is not valid.  Exiting."
           exit
         end
         solve
-        print
+        print unless validating?
       end
     end
 

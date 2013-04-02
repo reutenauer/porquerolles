@@ -333,6 +333,16 @@ module Sudoku
         output.should_receive(:puts).with("Grid is valid.")
         solver.solve
       end
+
+      it "does not print the ASCII-art grid for a validating run" do
+        solver.ingest(read_grid_file('simple.sdk'))
+        solver.setup(:validating => true)
+        # output.should_not_receive(:puts).with("+---+---+---+")
+        # output.should_not_receive(:puts).with("+---+---+---+\n|8.6|.7.|45.|\n|7..|..4|693|\n|..4|...|8.7|\n+---+---+---+\n|..1|8.7|2.6|\n|.6.|4.2|.7.|\n|2.7|3.6|1..|\n+---+---+---+\n|4.3|...|9..|\n|612|5..|..4|\n|.58|.4.|3.2|\n+---+---+---+\n")
+        output.should_not_receive(:puts).with(solver.display)
+        solver.solve
+        pending "Doesn’t actually test what is should, it seems."
+      end
     end
 
     describe '#parse_file' do
