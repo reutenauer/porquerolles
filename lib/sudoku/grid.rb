@@ -83,7 +83,7 @@ module Sudoku
   end
 
   class Cell
-    attr_writer :values
+    attr_accessor :values
 
     def initialize(x = nil)
       if x
@@ -331,13 +331,31 @@ module Sudoku
 
     def set_solved(coord, value)
       raise DiffersFromReference if referenced? && reference.cell(coord).value != value
+      c = cell(coord)
+      # @output.print "Changing cell (set_solved): values before #{c.values.inspect}, " if coord == [0, 2]
+      v0 = c.values.copy
       cell(coord).set_solved(value)
+      v1 = c.values.copy
+      if coord == [6, 1] && v0.count != v1.count
+        @output.puts "cell values changed: before #{v0.inspect}, after #{v1.inspect}."
+      end
+      # @output.puts "after #{c.values.inspect}." if coord == [0, 2]
     end
 
     def cross_out(coord, values)
       c = cell(coord)
+      v0 = c.values.copy
+      @output.print "Changing cell (cross_out): values before #{c.values.inspect}, " if coord == [6, 1]
       c.cross_out(values)
-      raise DiffersFromReference if referenced? && c.solved? && reference.cell(coord).value != c.value
+      v1 = c.values.copy
+      @output.puts "after #{c.values.inspect}." if coord == [6, 1]
+      if coord == [6, 1] && v0.count != v1.count
+        # @output.puts "cell values changed: before #{v0.inspect}, after #{v1.inspect}."
+      end
+      if referenced? && c.solved? && reference.cell(coord).value != c.value
+        debugger
+        raise DiffersFromReference
+      end
     end
 
     def cell(loc)
@@ -474,11 +492,18 @@ module Sudoku
         next_lower_groups = groups_of(lower_loc) - all_lower_groups
 
         inter = next_upper_groups.intersection(next_lower_groups)
-        if inter.count > 0
+        if inter.count > 0 && upper_group != lower_group
           group = inter.first # Can only be one, as upper_loc != lower_loc
           ch = [x, [upper_loc, lower_loc], group]
           chains << ch unless chains.map { |chain| [chain.first, chain[1].first, chain[1].last, chain.last] }.include? [x, upper_loc, lower_loc, group]
           @output.puts "One more chain, total #{chains.count}.  Latest chain [#{ch[0]}, #{ch[1].inspect}, #{ch[2].name}].  Total length #{upper_chain.count + 1}." if verbose?
+          if chains.count == 8
+            display_link = [links[0], links[1]]
+            uc = links[2].first.map { |group| group.name }
+            lc = links[2].last.map { |group| group.name }
+            display_link[2] = [uc, lc]
+            @output.puts "Full link element: #{display_link}"
+          end
           return
         else
           next_upper_groups.each do |next_upper_group|
@@ -486,6 +511,7 @@ module Sudoku
             if next_upper_locs.count == 1
               next_upper_loc = next_upper_locs.first
               next_lower_groups.each do |next_lower_group|
+                next if next_upper_group == next_lower_group
                 next_lower_locs = next_lower_group.locations(x) - Set.new([lower_loc])
                 if next_lower_locs.count == 1
                   next_lower_loc = next_lower_locs.first
@@ -594,7 +620,7 @@ module Sudoku
       each do |coord, cell|
         unless cell.solved?
           groups.each do |group|
-            cell.cross_out(group.values(cell)) if group.include? coord
+            cross_out(coord, group.values(cell)) if group.include? coord
           end
         end
       end
@@ -611,8 +637,15 @@ module Sudoku
         lower_loc = chain[1].last
         group = chain[2]
         group.each do |coord|
+          # puts "Change in #{group.name}" if group.include?([6, 1]) && x == 2
+          if coord == [6, 1] && x == 2
+            puts "Changing bad cell!"
+            debugger
+          end
           next if coord == upper_loc || coord == lower_loc
-          cell(coord).cross_out(x)
+          # FUCK!
+          # cell(coord).cross_out(x)
+          cross_out(coord, x)
         end
       end
     end
