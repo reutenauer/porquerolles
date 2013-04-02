@@ -203,6 +203,20 @@ module Sudoku
         solver.solve(:chains => true)
       end
 
+      it "does still not crash" do
+        pending "actually it does crash" do
+          solver.ingest(read_grid_file('misc/X-wing-3.sdk'))
+          solver.solve(:chains => true)
+        end
+      end
+
+      it "does not crash, even on the third attempt" do
+        pending "and it does crash here too" do
+          solver.ingest(read_grid_file('misc/X-wing-4.sdk'))
+          solver.solve(:chains => true)
+        end
+      end
+
       it "does not returns chains for groups when group.locations(x).count = 1!" do
         pending "Test hard to write"
       end
