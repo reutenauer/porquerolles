@@ -50,6 +50,13 @@ module Sudoku
         solver.should_receive(:raise).with(NoGridInput)
         solver.solve
       end
+
+      it "refuses to do somethin even more useless" do
+        pending "blah" do
+          solver.ingest(nil)
+          expect { solver.solve }.to raise_error(NoGridInput) # Would create a trivial matrix before
+        end
+      end
     end
 
     describe "#set_solved" do
