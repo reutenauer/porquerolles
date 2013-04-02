@@ -53,6 +53,14 @@ module Sudoku
       end
     end
 
+    describe "#set_solved" do
+      it "delegates to Cell" do
+        cell = solver[1, 1]
+        cell.should_receive(:set_solved).with(1) # Very weak test, but OK ...
+        solver.set_solved([1, 1], 1)
+      end
+    end
+
     describe "#cross_out" do
       it "crosses out as not a possible value" do
         cell = Cell.new
@@ -62,6 +70,12 @@ module Sudoku
         (2..8).each { |x| cell.cross_out(x) }
         cell.should be_solved
         cell.value.should == 9
+      end
+
+      it "delegates to Cell" do
+        cell = solver[8, 8]
+        cell.should_receive(:cross_out).with(8)
+        solver.cross_out([8, 8], 8)
       end
     end
 
