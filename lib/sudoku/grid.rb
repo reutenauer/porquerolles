@@ -303,7 +303,7 @@ module Sudoku
   end
 
   class Grid
-    attr_reader :matrix, :rows, :columns, :blocks
+    attr_reader :matrix, :rows, :columns, :blocks, :filename
 
     # The new initialize for the merger of Grid and Solver
     def initialize(output = NullOutput.new, matrix = nil) # Merging both signatures.
@@ -563,6 +563,7 @@ module Sudoku
 
     def ingest(input)
       if input.is_a? String
+        @filename = input
         parse_file(input)
       elsif input.is_a? Hash
         @matrix = Hash.new.tap do |hash|

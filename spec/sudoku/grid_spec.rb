@@ -304,10 +304,8 @@ module Sudoku
       end
 
       it "stores the file name somewhere" do
-        pending "not implemented" do
-          solver.parse_file(gridfile)
-          solver.filename.should == gridfile
-        end
+        solver.ingest(gridfile)
+        solver.filename.should == gridfile
       end
 
       it "stores the original grid somewhere" do
