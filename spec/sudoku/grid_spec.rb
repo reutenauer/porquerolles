@@ -114,6 +114,12 @@ module Sudoku
     end
   end
 
+  describe Group do
+    describe "#locations" do
+      it "is memoized"
+    end
+  end
+
   describe "Convenience methods" do
     context "with an empty grid" do
       let(:grid) { Grid.new }
