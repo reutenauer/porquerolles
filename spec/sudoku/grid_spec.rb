@@ -195,7 +195,7 @@ module Sudoku
         solver.ingest(read_grid_file('misc/X-wing.sdk'))
         solver.solve(:chains => true)
         grid[0, 8].should be_solved
-        grid[0, 8].value.should == 6
+        grid[0, 8].value.should == 8
       end
 
       it "does not crash" do
