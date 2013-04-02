@@ -30,6 +30,10 @@ module Sudoku
       end
     end
 
+    describe "#cross_out" do
+      it "works roughly the same way as #set_solved"
+    end
+
     describe "#data?" do
       it "refuses to do something useless" do
         pending "not yet implemented" do
