@@ -4,4 +4,7 @@ module Sudoku
 
   class Paradox < Exception
   end
+
+  class DiffersFromReference < Exception
+  end
 end

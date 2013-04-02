@@ -17,6 +17,19 @@ module Sudoku
   describe Block do
     let(:solver) { Grid.new }
 
+    describe "#set_solved" do
+      it "marks a cell as solved" do
+        solver.ingest(read_grid_file('simple.sdk'))
+        expect { solver.set_solved([6, 7], 1) }.to change(solver, :count).by(1)
+      end
+
+      it "raises an error if differs from reference" do
+        solver.ingest(read_grid_file('simple.sdk'))
+        solver.solve(:references => true)
+        expect { solver.set_solved([6, 7], 2) }.to raise_error(DiffersFromReference)
+      end
+    end
+
     describe "#data?" do
       it "refuses to do something useless" do
         pending "not yet implemented" do

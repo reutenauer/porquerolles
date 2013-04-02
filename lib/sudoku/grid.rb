@@ -331,6 +331,11 @@ module Sudoku
       @blocks = 9.times.map { |k| Block.new k, self }
     end
 
+    def set_solved(coord, value)
+      raise DiffersFromReference if referenced? && reference.cell(coord) != value
+      cell(coord).set_solved(value)
+    end
+
     def cell(loc)
       @matrix[loc]
     end
