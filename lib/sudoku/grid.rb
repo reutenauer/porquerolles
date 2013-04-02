@@ -764,7 +764,7 @@ module Sudoku
       elsif solved?
         @reference = self
       else
-        pre_solver = Solver.new
+        pre_solver = Grid.new
         pre_solver.ingest(@grid.matrix)
         pre_solver.solve(:method => :guess)
         @reference = pre_solver.grid
