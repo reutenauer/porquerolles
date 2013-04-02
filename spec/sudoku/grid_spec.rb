@@ -84,6 +84,10 @@ module Sudoku
 
       it "really does what it should" # Above example is absurd and evidence that things don’t really work well
     end
+
+    describe "#min" do
+      it "is memoized"
+    end
   end
 
   describe "Convenience methods" do
