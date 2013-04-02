@@ -7,4 +7,7 @@ module Sudoku
 
   class DiffersFromReference < Exception
   end
+
+  class NoGridInput < Exception
+  end
 end

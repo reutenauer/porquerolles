@@ -47,10 +47,8 @@ module Sudoku
 
     describe "#data?" do
       it "refuses to do something useless" do
-        pending "not yet implemented" do
-          solver.stub(:data?).and_return(false)
-          solver.should crash
-        end
+        solver.stub(:data?).and_return(false)
+        expect { solver.solve }.to raise_error(NoGridInput)
       end
     end
 
@@ -338,6 +336,7 @@ module Sudoku
 
     describe "#solve" do
       it "sets additional options" do
+        solver.ingest(read_grid_file('simple.sdk'))
         solver.should_not be_verbose
         solver.solve(:verbose => true)
         solver.should be_verbose

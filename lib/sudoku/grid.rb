@@ -577,6 +577,8 @@ module Sudoku
           hash[coord] = cell.copy
         end
       end
+
+      @data = true
     end
 
     def verbose?
@@ -709,7 +711,13 @@ module Sudoku
       @params.merge!(params) if params
     end
 
+    def data?
+      @data
+    end
+
     def solve(params = nil)
+      raise NoGridInput unless data?
+
       @params.merge!(params) if params
       reference if referenced?
       # Possible methods: :deduction, :guess, :tree
