@@ -201,9 +201,9 @@ module Sudoku
       subsets.each do |subset|
         values = possible_values(subset)
         if values.count == subset.count
-          other_locations = cells - subset
+          other_locations = cells - subset.to_a
           other_locations.each do |loc|
-            @grid.cross_out(subset)
+            @grid.cross_out(@grid.coord(loc), subset)
           end
         end
       end
