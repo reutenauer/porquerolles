@@ -185,6 +185,12 @@ module Sudoku
       end.compact.to_set
     end
 
+    def possible_values(cells)
+      cells.inject(Set.new) do |set, cell|
+        set + cell.values
+      end
+    end
+
     def place(params = { })
       if params[:singles]
         (1..9).each do |x|
