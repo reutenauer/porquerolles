@@ -677,11 +677,11 @@ module Sudoku
 
     def deduce
       until solved?
-        old_nb_cell_solved = nb_cell_solved
+        old_count = grand_count
         propagate
         place
         find_chains_solver if chained?
-        break if nb_cell_solved == old_nb_cell_solved
+        break if grand_count == old_count
       end
 
       raise Paradox if paradox?
