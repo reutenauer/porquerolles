@@ -376,10 +376,9 @@ module Sudoku
         let(:ascii_art) { "+---+---+---+\n|8.6|.7.|45.|\n|7..|..4|693|\n|..4|...|8.7|\n+---+---+---+\n|..1|8.7|2.6|\n|.6.|4.2|.7.|\n|2.7|3.6|1..|\n+---+---+---+\n|4.3|...|9..|\n|612|5..|..4|\n|.58|.4.|3.2|\n+---+---+---+\n" }
 
         it "does print the ASCII-art grid for a normal run." do
-          solver.ingest(read_grid_file('simple.sdk'))
           solver.setup(:validating => false)
           output.should_receive(:puts).with(ascii_art)
-          solver.solve
+          solver.run([read_grid_file('simple.sdk')])
         end
 
         it "does not print the ASCII-art grid for a validating run" do
