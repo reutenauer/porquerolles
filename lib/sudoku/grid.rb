@@ -417,6 +417,12 @@ module Sudoku
       Set.new([row_of(coord), column_of(coord), block_of(coord)])
     end
 
+    def grand_count
+      each_value.inject(0) do |total, cell|
+        total + cell.count
+      end
+    end
+
     def display
       s = ""
       9.times do |i|
