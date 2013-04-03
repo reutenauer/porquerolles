@@ -230,10 +230,8 @@ module Sudoku
       it "uses that link" do
         solver.ingest(read_grid_file('misc/X-wing.sdk'))
         solver.solve(:chains => true)
-        grid[0, 8].cross_out(4)
         grid[0, 8].should be_solved
         grid[0, 8].value.should == 8
-        pending "Fix above test"
       end
 
       it "does not crash" do
