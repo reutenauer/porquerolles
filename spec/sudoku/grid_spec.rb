@@ -180,6 +180,13 @@ module Sudoku
     context "with an empty grid" do
       let(:grid) { Grid.new }
 
+      describe "#coord" do
+        it "returns the coordinates of a cell" do
+          cell = grid[2, 3]
+          grid.coord(cell).should == [2, 3]
+        end
+      end
+
       describe "#row_of" do
         it "finds the row of one cell" do
           grid.row_of([2, 3]).should == grid.rows[2]
