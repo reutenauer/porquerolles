@@ -421,6 +421,28 @@ module Sudoku
       end
     end
 
+    describe "#grand_count" do
+      before(:all) do
+        @grid = Grid.new
+      end
+
+      it "adds number of all possible values in each cells" do
+        @grid.grand_count.should == 729
+      end
+
+      it "crosses out a few values from a few cells" do
+        expect do
+          (0..2).each { |x| @grid[x, x].cross_out(Set.new(3..5)) }
+        end.to
+        change(@grid, :grand_count).by(9) # should now be 720
+      end
+
+      it "set a few cells as solved" do
+        (6..8).each { |x| @grid[x, 8 - x].set_solved(x) } # reduces further by 3 × 8
+        @grid.grand_count.should == 696
+      end
+    end
+
     describe "#setup" do
       it "sets some options" do
         solver.ingest(read_grid_file('simple.sdk'))
