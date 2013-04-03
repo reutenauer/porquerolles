@@ -191,6 +191,24 @@ module Sudoku
       end
     end
 
+    def resolve_location_subsets
+      unsolved_locations = cells.select do |cell|
+        !cell.solved?
+      end.to_set
+
+      subsets = unsolved_locations.subsets
+
+      subsets.each do |subset|
+        values = possible_values(subset)
+        if values.count == subset.count
+          other_locations = cells - subset
+          other_locations.each do |loc|
+            @grid.cross_out(subset)
+          end
+        end
+      end
+    end
+
     def place(params = { })
       if params[:singles]
         (1..9).each do |x|
