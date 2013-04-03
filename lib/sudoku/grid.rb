@@ -368,6 +368,12 @@ module Sudoku
       @matrix[loc]
     end
 
+    def coord(cell)
+      each do |cr, cl|
+        return cr if cell == cl
+      end
+    end
+
     def groups
       @rows + @columns + @blocks
     end
