@@ -739,6 +739,11 @@ module Sudoku
       end
     end
 
+    def parse_inline(string)
+      array = string.split('')
+      array.inject(0) { |index, x| set_solved([index / 9, index % 9], x.to_i) if x != '0'; index + 1 }
+    end
+
     def backtrack
       hypothesis = @hypotheses.pop
       if hypothesis then grid = hypothesis.grid else grid = self end
