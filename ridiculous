@@ -29,3 +29,37 @@ Considered 4288 hypotheses so far.  Hypothesis depth: 5.  Solved!
 |267|158|349|
 +---+---+---+
 s001 17:18 ~/porquerolles % 
+
+Another run:
+
+s017 18:45 ~/porquerolles % bin/sudoku -g grids/maman.sdk
+Parsing file grids/maman.sdk.
++---+---+---+
+|1..|..7|.9.|
+|.3.|.2.|..8|
+|..9|6..|5..|
++---+---+---+
+|..5|3..|9..|
+|.1.|.8.|..2|
+|6..|..4|...|
++---+---+---+
+|3..|...|.1.|
+|.4.|...|..7|
+|..7|...|3..|
++---+---+---+
+Entering guessing mode ...
+Considered 1314 hypotheses so far.  Hypothesis depth: 5.  Solved!
++---+---+---+
+|154|837|296|
+|736|929|148|
+|289|641|573|
++---+---+---+
+|475|362|981|
+|913|785|462|
+|628|194|735|
++---+---+---+
+|392|576|814|
+|841|293|657|
+|567|418|329|
++---+---+---+
+s017 19:04 ~/porquerolles % 
