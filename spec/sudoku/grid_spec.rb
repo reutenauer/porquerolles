@@ -13,6 +13,36 @@ describe Set do
 end
 
 module Sudoku
+  describe Group do
+    let(:grid) { Grid.new }
+    let(:group) { grid.rows.first }
+
+    context "with some heavily stubbed data" do
+      before(:each) do
+        @cell1 = group.cells[0]
+        @cell2 = group.cells[1]
+        @cell3 = group.cells[2]
+        @cell1.stub(:values).and_return(Set.new(1..2))
+        @cell2.stub(:values).and_return(Set.new(1..2))
+      end
+
+      describe "#possible_values" do
+        it "collects possible values" do
+          group.possible_values(Set.new([@cell1, @cell2])).should == Set.new(1..2)
+        end
+      end
+
+      describe "#resolve_location_subsets" do
+        it "resolves location subsets" do
+          @cell3.should_receive(:cross_out).with(1)
+          @cell3.should_receive(:cross_out).with(2)
+
+          group.resolve_location_subsets
+        end
+      end
+    end
+  end
+
   describe Block do
     let(:solver) { Grid.new }
 
