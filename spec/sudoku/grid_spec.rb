@@ -253,6 +253,13 @@ module Sudoku
         solver.solve(:chains => true)
       end
 
+      it "does not crash?" do
+        pending "Actually it does crash" do
+          solver.ingest(read_grid_file('guardian/2094.sdk'))
+          solver.solve(:chains => true)
+        end
+      end
+
       it "does not returns chains for groups when group.locations(x).count = 1!" do
         pending "Test hard to write"
       end
