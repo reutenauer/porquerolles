@@ -34,8 +34,7 @@ module Sudoku
 
       describe "#resolve_location_subsets" do
         it "resolves location subsets" do
-          @cell3.should_receive(:cross_out).with(1)
-          @cell3.should_receive(:cross_out).with(2)
+          @cell3.should_receive(:cross_out).with(Set.new(1..2))
 
           group.resolve_location_subsets
         end
