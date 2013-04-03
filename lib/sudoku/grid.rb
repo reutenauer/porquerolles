@@ -375,6 +375,7 @@ module Sudoku
       each do |cr, cl|
         return cr if cell == cl
       end
+      raise "should not happen"
     end
 
     def groups
