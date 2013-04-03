@@ -228,7 +228,6 @@ module Sudoku
       end
 
       it "uses that link" do
-        solver = Grid.new(STDOUT)
         solver.ingest(read_grid_file('misc/X-wing.sdk'))
         # solver.solve(:chains => true)
         solver.deduce
