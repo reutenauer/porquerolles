@@ -438,6 +438,12 @@ module Sudoku
         (6..8).each { |x| @grid[x, 8 - x].set_solved(x) } # reduces further by 3 × 8
         @grid.grand_count.should == 696
       end
+
+      it "returns 81 on a solved real grid" do
+        @grid.ingest(read_grid_file('simple.sdk'))
+        @grid.solve
+        @grid.grand_count.should == 81
+      end
     end
 
     describe "#setup" do
