@@ -742,6 +742,11 @@ module Sudoku
     def parse_inline(string)
       array = string.split('')
       array.inject(0) { |index, x| set_solved([index / 9, index % 9], x.to_i) if x != '0'; index + 1 }
+      @original_grid = Hash.new.tap do |hash|
+        @matrix.each do |coord, cell|
+          hash[coord] = cell
+        end
+      end
     end
 
     def backtrack
