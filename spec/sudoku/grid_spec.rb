@@ -433,8 +433,7 @@ module Sudoku
       it "crosses out a few values from a few cells" do
         expect do
           (0..2).each { |x| @grid[x, x].cross_out(Set.new(3..5)) }
-        end.to
-        change(@grid, :grand_count).by(9) # should now be 720
+        end.to change(@grid, :grand_count).by(-9) # should now be 720
       end
 
       it "set a few cells as solved" do
