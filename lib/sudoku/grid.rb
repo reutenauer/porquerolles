@@ -741,7 +741,11 @@ module Sudoku
 
     def parse_inline(string)
       array = string.split('')
-      array.inject(0) { |index, x| set_solved([index / 9, index % 9], x.to_i) if x != '0'; index + 1 }
+      array.inject(0) do |index, c|
+        x = c.to_i
+        set_solved([index / 9, index % 9], x) if x > 0
+        index + 1
+      end
       @original_grid = Hash.new.tap do |hash|
         @matrix.each do |coord, cell|
           hash[coord] = cell
