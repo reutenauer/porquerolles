@@ -83,7 +83,7 @@ module Sudoku
   end
 
   class Cell
-    attr_writer :values
+    attr_accessor :values
 
     def initialize(x = nil)
       if x
@@ -199,11 +199,12 @@ module Sudoku
       subsets = unsolved_locations.subsets
 
       subsets.each do |subset|
+        next if subset.count == 0
         values = possible_values(subset)
         if values.count == subset.count
           other_locations = cells - subset.to_a
           other_locations.each do |loc|
-            @grid.cross_out(@grid.coord(loc), subset)
+            @grid.cross_out(@grid.coord(loc), values)
           end
         end
       end
