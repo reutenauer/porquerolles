@@ -852,7 +852,11 @@ module Sudoku
       parse_options(args)
 
       args.each do |arg|
-        ingest(arg)
+        if inlined?
+          parse_inline(arg)
+        else
+          ingest(arg)
+        end
         print unless validating?
         unless valid?
           puts "Grid is not valid.  Exiting."
