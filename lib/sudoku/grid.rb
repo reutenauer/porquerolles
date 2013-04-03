@@ -591,6 +591,10 @@ module Sudoku
           @params[:validating] = w
         end
 
+        opts.on('-i', "--inline", "Ingest line-oriented grid description.") do
+          @params[:inline] = true
+        end
+
         # No tree yet.
 
         begin
@@ -637,6 +641,10 @@ module Sudoku
 
     def validating?
       @params[:validating]
+    end
+
+    def inlined?
+      @params[:inline]
     end
 
     def propagate

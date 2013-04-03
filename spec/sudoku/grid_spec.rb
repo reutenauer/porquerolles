@@ -319,6 +319,11 @@ module Sudoku
         solver.should be_validating
       end
 
+      it "passes the “inline” option" do
+        solver.parse_options(['-i'])
+        solver.should be_inlined
+      end
+
       it "outputs a message when it encounters an unknown options" do
         output.should_receive(:puts).with("Error: invalid option: -f")
         solver.parse_options(['-f'])
