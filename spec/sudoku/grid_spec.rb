@@ -482,7 +482,7 @@ module Sudoku
       it "is not trivial" do
         solver.ingest(read_grid_file('simple.sdk'))
         solver.solve
-        solver.reference.object_id.should == solver.object_id # FIXME ugly
+        solver.reference.should be_equal solver
       end
     end
 
