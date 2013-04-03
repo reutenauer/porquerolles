@@ -324,7 +324,7 @@ module Sudoku
       end
 
       it "solves using the chains option" do
-        pending "chains does not yet work" do
+        pending "coming soon!" do
           solver.ingest(read_grid_file('misc/X-wing.sdk'))
           solver.solve(:chains => true)
           solver.should be_solved
