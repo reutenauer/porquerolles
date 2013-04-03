@@ -260,6 +260,8 @@ module Sudoku
       it "does not return chains when the upper_group = lower_group" do
         pending "Test hard to write too"
       end
+
+      it "tests for something else too"
     end
   end
 
