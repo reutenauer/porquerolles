@@ -425,9 +425,11 @@ module Sudoku
     end
 
     describe "#parse_inline" do
-      grid.parse_inline("058006000300000500740953000000300060470090021090008000000219078002000005000500210")
-      grid.should be_valid
-      grid.count.should == 29
+      it "parses a string describing the sudoku, with 0 and values from 1 to 9" do
+        grid.parse_inline("058006000300000500740953000000300060470090021090008000000219078002000005000500210")
+        grid.should be_valid
+        grid.count.should == 29
+      end
     end
 
     describe "#guess" do
