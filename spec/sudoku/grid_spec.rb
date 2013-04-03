@@ -228,10 +228,15 @@ module Sudoku
       end
 
       it "uses that link" do
+        solver = Grid.new(STDOUT)
         solver.ingest(read_grid_file('misc/X-wing.sdk'))
-        solver.solve(:chains => true)
-        grid[0, 8].should be_solved
-        grid[0, 8].value.should == 8
+        # solver.solve(:chains => true)
+        solver.deduce
+        solver.rows.first.resolve_location_subsets
+        # solver[0, 8].should_receive(:cross_out).with(6)
+        solver.find_chains_solver
+        solver[0, 8].should be_solved
+        solver[0, 8].value.should == 8
       end
 
       it "does not crash" do

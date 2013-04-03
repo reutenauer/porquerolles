@@ -258,6 +258,8 @@ module Sudoku
           end
         end
       end
+
+      resolve_location_subsets
     end
 
     def place_single(x)
