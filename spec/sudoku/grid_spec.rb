@@ -2,6 +2,25 @@
 require 'spec_helper'
 
 describe Set do
+  describe "#subsets" do
+    it "returns the set of all subsets" do
+      set = Set.new(1..3)
+      subsets = set.subsets
+      subsets.should have(8).elements
+      subsets.should include Set.new([1])
+      subsets.should include Set.new(2..3)
+      subsets.should include set
+    end
+  end
+
+  describe "#random" do
+    it "returns a random element" do
+      set = Set.new(0..9)
+      r = set.random
+      set.should include r
+    end
+  end
+
   describe "#copy" do
     it "returns a copy of self" do
       set = Set.new([1, 2, 3])
