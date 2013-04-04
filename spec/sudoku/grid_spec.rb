@@ -40,10 +40,90 @@ module Sudoku
         end
       end
     end
+
+    describe "#min" do
+      it "is memoized"
+    end
+
+    describe "#locations" do
+      it "is memoized"
+    end
+  end
+
+  describe Row do
+    let(:grid) { Grid.new }
+
+    describe "#name" do
+      it "returns its own name" do
+        grid.rows[2].name.should == "Row 2"
+      end
+    end
+  end
+
+  describe Column do
+    let(:grid) { Grid.new }
+
+    describe "#name" do
+      it "returns its own name" do
+        grid.columns[6].name.should == "Column 6"
+      end
+    end
   end
 
   describe Block do
-    let(:solver) { Grid.new }
+    let(:grid) { Grid.new }
+
+    describe "#name" do
+      it "returns its own name" do
+        grid.blocks[8].name.should == "Block 8"
+        grid.blocks[4].name.should == "Block 4"
+        grid.blocks[2].name.should == "Block 2"
+      end
+    end
+
+    describe '#place_single' do
+      it "works" do
+        solver = Grid.new
+        solver.ingest(read_grid_file('guardian/2423.sdk'))
+        block = solver.blocks.first
+
+        (1..9).each do |x|
+          block.place_single(x)
+        end
+      end
+
+      it "places one value on one single values" do
+        solver = Grid.new
+        solver.ingest(read_grid_file('simple.sdk'))
+        grid = solver
+        cell = grid[6, 7]
+        block = grid.blocks.last
+
+        solver.propagate
+        cell.should_not be_solved
+        cell.should have(3).elements
+
+        block.place_single(1)
+        cell.should be_solved
+        cell.value.should == 1
+      end
+    end
+  end
+
+
+  describe Grid do
+    let(:output) { double("output").as_null_object }
+    let(:solver) { Grid.new(output) }
+
+    describe "#new" do
+      it "instantiates a new solver, outputting to /dev/null" do
+        Grid.new
+      end
+
+      it "instantiates a new solver, writing to some output" do
+        Grid.new(output)
+      end
+    end
 
     describe "#set_solved" do
       it "marks a cell as solved" do
@@ -111,71 +191,6 @@ module Sudoku
       end
     end
 
-    describe '#place_single' do
-      it "works" do
-        solver.ingest(read_grid_file('guardian/2423.sdk'))
-        block = solver.blocks.first
-
-        (1..9).each do |x|
-          block.place_single(x)
-        end
-      end
-
-      it "places one value on one single values" do
-        solver = Grid.new
-        solver.ingest(read_grid_file('simple.sdk'))
-        grid = solver
-        cell = grid[6, 7]
-        block = grid.blocks.last
-
-        solver.propagate
-        cell.should_not be_solved
-        cell.should have(3).elements
-
-        block.place_single(1)
-        cell.should be_solved
-        cell.value.should == 1
-      end
-    end
-
-    describe "#min" do
-      it "is memoized"
-    end
-  end
-
-  describe Group do
-    describe "#locations" do
-      it "is memoized"
-    end
-  end
-
-  describe "Convenience methods" do
-    context "with an empty grid" do
-      let(:grid) { Grid.new }
-
-      describe "Row#name" do
-        it "works" do
-          grid.rows[2].name.should == "Row 2"
-        end
-      end
-
-      describe "Column#name" do
-        it "works" do
-          grid.columns[6].name.should == "Column 6"
-        end
-      end
-
-      describe "Block#name" do
-        it "works" do
-          grid.blocks[8].name.should == "Block 8"
-          grid.blocks[4].name.should == "Block 4"
-          grid.blocks[2].name.should == "Block 2"
-        end
-      end
-    end
-  end
-
-  describe Grid do
     context "with an empty grid" do
       let(:grid) { Grid.new }
 
@@ -269,21 +284,6 @@ module Sudoku
       end
 
       it "tests for something else too"
-    end
-  end
-
-  describe "Old Solver" do
-    let(:output) { double("output").as_null_object }
-    let(:solver) { Grid.new(output) }
-
-    describe "#new" do
-      it "instantiates a new solver, outputting to /dev/null" do
-        Grid.new
-      end
-
-      it "instantiates a new solver, writing to some output" do
-        Grid.new(output)
-      end
     end
 
     describe "#parse_options" do
