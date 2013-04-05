@@ -486,6 +486,26 @@ module Sudoku
       end
     end
 
+    describe "count" do
+      before(:all) do
+        @grid = Grid.new
+      end
+
+      it "returns 0 on a fresh grid" do
+        @grid.count.should == 0
+      end
+
+      it "returns n after marking n cells as solved" do
+        (1..8).each { |x| @grid[x, x].set_solved(x) }
+        @grid.count.should == 8
+      end
+
+      it "returns 81 after fully solving the grid" do
+        @grid.each_value { |cell| cell.set_solved(3) }
+        @grid.count.should == 81
+      end
+    end
+
     describe "#grand_count" do
       before(:all) do
         @grid = Grid.new
