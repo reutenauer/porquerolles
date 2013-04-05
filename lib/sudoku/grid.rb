@@ -661,7 +661,7 @@ module Sudoku
       groups.each { |group| group.place(@params) }
     end
 
-    def find_chains_solver
+    def resolve_chains
       find_chains.each do |chain|
         x = chain[0]
         upper_loc = chain[1].first
@@ -689,7 +689,7 @@ module Sudoku
         old_count = grand_count
         propagate
         place
-        find_chains_solver if chained?
+        resolve_chains if chained?
         break if grand_count == old_count
       end
 

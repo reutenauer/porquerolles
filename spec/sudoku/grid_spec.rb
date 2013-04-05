@@ -279,17 +279,6 @@ module Sudoku
         grid.find_chains.include?([6, [[3, 8], [8, 8]], grid.columns[8]]).should == true
       end
 
-      it "uses that link" do
-        solver.ingest(read_grid_file('misc/X-wing.sdk'))
-        # solver.solve(:chains => true)
-        solver.deduce
-        solver.rows.first.resolve_location_subsets
-        # solver[0, 8].should_receive(:cross_out).with(6)
-        solver.find_chains_solver
-        solver[0, 8].should be_solved
-        solver[0, 8].value.should == 8
-      end
-
       it "does not crash" do
         solver.ingest(read_grid_file('guardian/2423.sdk'))
         solver.solve(:chains => true)
@@ -321,6 +310,19 @@ module Sudoku
       end
 
       it "tests for something else too"
+    end
+
+    describe "#resolve_chains" do
+      it "uses that links returned by #find_chains" do
+        solver.ingest(read_grid_file('misc/X-wing.sdk'))
+        # solver.solve(:chains => true)
+        solver.deduce
+        solver.rows.first.resolve_location_subsets
+        # solver[0, 8].should_receive(:cross_out).with(6)
+        solver.resolve_chains
+        solver[0, 8].should be_solved
+        solver[0, 8].value.should == 8
+      end
     end
 
     describe "#parse_options" do
