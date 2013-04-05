@@ -674,14 +674,10 @@ module Sudoku
       end
     end
 
-    def nb_cell_solved
-      each_value.inject(0) do |nsolved, cell|
-        nsolved + if cell.solved? then 1 else 0 end
-      end
-    end
-
     def count
-      nb_cell_solved
+      each_value.inject(0) do |total, cell|
+        total + if cell.solved? then 1 else 0 end
+      end
     end
 
     def deduce
@@ -817,7 +813,7 @@ module Sudoku
               end
             end
 
-            @output.puts "  Solved!" if method == :guess and grid.nb_cell_solved == 81
+            @output.puts "  Solved!" if method == :guess and grid.solved?
             @matrix = Hash.new.tap { |m| grid.each { |cr, cl| m[cr] = cl } }
           elsif method == :tree
             tree.each do |node|
