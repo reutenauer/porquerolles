@@ -20,15 +20,6 @@ describe Set do
       set.should include r
     end
   end
-
-  describe "#copy" do
-    it "returns a copy of self" do
-      set = Set.new([1, 2, 3])
-      set2 = set.copy
-      set2.should_not be_equal set
-      set2.should == set
-    end
-  end
 end
 
 describe Hash do
