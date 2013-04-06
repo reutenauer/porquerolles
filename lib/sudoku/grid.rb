@@ -131,8 +131,8 @@ module Sudoku
       end
     end
 
-    def copy
-      Cell.new.tap { |cell| cell.values = @values.copy }
+    def dup
+      Cell.new.tap { |cell| cell.values = @values.dup }
     end
 
     def guess
@@ -460,11 +460,11 @@ module Sudoku
       cells[rand(cells.count)]
     end
 
-    def copy
+    def dup
      Grid.new(@output,
        Hash.new.tap do |hash|
          each do |coord, cell|
-           hash[coord] = cell.copy
+           hash[coord] = cell.dup
          end
        end)
     end
@@ -613,7 +613,7 @@ module Sudoku
       elsif input.is_a? Hash
         @matrix = Hash.new.tap do |hash|
           input.each do |coord, cell|
-            hash[coord] = cell.copy
+            hash[coord] = cell.dup
           end
         end
       else
@@ -622,7 +622,7 @@ module Sudoku
 
       @original_grid = Hash.new.tap do |hash|
         @matrix.each do |coord, cell|
-          hash[coord] = cell.copy
+          hash[coord] = cell.dup
         end
       end
     end
@@ -695,7 +695,7 @@ module Sudoku
     def guess
       @nb_hypotheses += 1 # FIXME That’s ridiculous.  Use @hypotheses.count
       last_hyp_grid = if @hypotheses.count > 0 then @hypotheses.last.grid else self end
-      grid = last_hyp_grid.copy
+      grid = last_hyp_grid.dup
       coord_and_cell = grid.random
       coord = coord_and_cell.first
       cell = coord_and_cell.last
