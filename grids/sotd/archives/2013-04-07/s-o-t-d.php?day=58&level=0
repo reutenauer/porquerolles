@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<title>Sudoku Of The Day</title>
+	<link rel="stylesheet" type="text/css" href="/style/sudoku-sotd.css" /><link rel="stylesheet" type="text/css" href="/style/sudoku-furniture.css" />	<link rel="icon" href="/favicon.png" type="image/png" />
+	<link rel="SHORTCUT ICON" href="/favicon.ico" />
+	<meta name="keywords"
+		content="
+		Sudoku, Soduku, Sudoko, Suduku, Suduko, Sodoko, Sodoku, Soduko,
+		Su Doku, Su Duko, Su Duku, Su Duko, So Doko, So Doku, So Duko, So Duku
+		Palm, Pocket PC, Dell, Treo, Treo 700, Treo 650, Axim,
+		Treo Sudoku, Treo 650 Sudoku, Treo 600 Sudoku, Treo700w Sudoku,
+		iPaq Sudoku, QTek Sudoku, Smartphone Sudoku, Phone Sudoku,
+		Palm Sudoku, Palm Soduku, Palm Sudoko, Palm Suduku, Palm Suduko, Palm Sodoko, Palm Sodoku, Palm Soduko,
+		Treo Sudoku, Treo Soduku, Treo Sudoko, Treo Suduku, Treo Suduko, Treo Sodoko, Treo Sodoku, Treo Soduko,
+		Free Sudoku, Daily Sudoku, Sudoku Of The Day, Email Sudoku,
+		Free Puzzle, Puzzle Sudoku,
+		Sudoku Help, Sudoku Description, Sudoku Hints, Sudoku Assistance, Sudoku Solver, Sudoku Solutions, Sudoku Guide,
+		How To Play Sudoku, How To Solve Sudoku,
+		Easy Sudoku, Simple Sudoku, Hard Sudoku, Fiendish Sudoku, Diabolical Sudoku, Difficult Sudoku,
+		Best Sudoku, Sudoku Game, Sudoku Genius, Sudoku Expert, Sudoku Master,
+		Palm OS, Windows Mobile, WM5, Pocket PC 2003, Palm OS 5, iPhone, iPod touch, iPad, iOS, TouchPad, Nook Color, Nook Tablet, Nook,
+		Handheld Sudoku, Electronic Sudoku, Portable Sudoku, Mobile Sudoku
+		Sudoku Subscription, Sudoku Gifts,
+		Sudoku Page,
+		Astraware Sudoku" />
+	<meta name="description" content="Sudoku by Astraware, Sudoku Hints, Sudoku Tips, Free daily Sudoku, and the best downloadable Sudoku for your smartphone or tablet!" />
+</head>
+
+<body>
+<div id="navbar"><div class="navbarmainitem"><a href="/pages/about.php">About Sudoku</a></div><div class="navbarmainitem"><a href="/pages/howtostart.php">How To Start</a></div><div class="navbarmainitem"><a href="/pages/techniques-overview.php">Techniques Overview</a></div><div class="navbarsubitem"><a href="/pages/techniques-1.php">1: Single Position</a></div><div class="navbarsubitem"><a href="/pages/techniques-2.php">2: Single Candidate</a></div><div class="navbarsubitem"><a href="/pages/techniques-3.php">3: Candidate Lines</a></div><div class="navbarsubitem"><a href="/pages/techniques-4.php">4: Double Pairs</a></div><div class="navbarsubitem"><a href="/pages/techniques-5.php">5: Multiple Lines</a></div><div class="navbarsubitem"><a href="/pages/techniques-6.php">6: Naked Pairs / Triples</a></div><div class="navbarsubitem"><a href="/pages/techniques-7.php">7: Hidden Pairs / Triples</a></div><div class="navbarsubitem"><a href="/pages/techniques-8.php">8: X-Wings</a></div><div class="navbarsubitem"><a href="/pages/techniques-9.php">9: Swordfish</a></div><div class="navbarsubitem"><a href="/pages/techniques-10.php">10: Forcing Chains</a></div><div class="navbarsubitem"><a href="/pages/techniques-11.php">11: Nishio</a></div><div class="navbarsubitem"><a href="/pages/techniques-12.php">12: Guesswork</a></div><div class="navbarmainitem"><a href="/pages/s-o-t-d.php">Sudoku Of The Day</a></div><div class="navbarsubitem"><a href="/pages/dailysyndication.php">Daily Syndication</a></div><div class="navbarsubitem"><a href="/pages/s-o-t-d.php#archive">Archive</a></div><div class="navbarsubitem"><a href="/pages/scores.php">Best Scores</a></div><div class="navbarmainitem"><a href="/pages/need.php">Need Puzzles...</a></div><div class="navbarsubitem"><a href="/pages/need.php">for your publication?</a></div><div class="navbarsubitem"><a href="/pages/dailysyndication.php">for your website?</a></div><div class="navbarmainitem"><a href="/pages/downloads.php">Smartphone Sudoku</a></div><div class="navbarmainitem"><a href="/pages/links.php">Sudoku Links</a></div><div class="navbarmainitem"><a href="/pages/contact.php">Contact Us!</a></div><br /><div align="center"><script type="text/javascript"><!--
+google_ad_client = "pub-2786004705374056";
+/* 120x240 menu bar */
+google_ad_slot = "9762326436";
+google_ad_width = 120;
+google_ad_height = 600;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+	</div></div><div id="headerbar"><a href="/"><img src="/image/furniture/header.jpg" width="775" height="90" border="0" alt="Astraware Sudoku - It's a different kind of Zen" /></a></div><div id="mainbody">
+<div id="mainbody2">
+
+
+
+<html>
+<head><title>Sudoku Of The Day</title></head>
+<body>
+
+<hr>
+<h2>Specific Sudoku Of The Day</h2>
+<p>
+
+
+</p>
+
+
+
+
+<div id="breakout"><table><tr><td colspan="2"><h4>Beginner puzzle for Friday 8th February</h4></td></tr><tr><td><a href="../image/image.php?size=230&sg=060810003480500601000340080500600902020107030801004005090025000308001029700038050"><img src="../image/image.php?size=230&sg=06081.34805,601.34,805,6,902020107030801,4,509,25.308,10297.38050" width=230 height=230></a></td><td><a href="../image/image.php?size=230&sg=267819543483572691915346287574683912629157834831294765196425378358761429742938156">See the Complete Solution</a><br><br><a href="solver.php?did=23490">Get the Step-By-Step Solution</a><br><br><a href="/pages/downloads.php">Solve this puzzle on your smartphone</a></td></tr></table></div><p>Calculated difficulty : 4500.<br>Can be solved using : <a href="techniques-2.php">Single Candidate</a> </p>
+
+
+
+
+</p>
+
+<p>
+Print and solve on paper, or enter to your handheld to solve on the go!
+</p>
+
+<hr>
+
+<h2><a name="archive">Sudoku Of The Day : Archive</a></h2><p>Browse the puzzles from the past two weeks and try out the ones you like!</p><table class="archivegrid"><tr><td>Today</td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=0&amp;level=0">Beginner</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=0&amp;level=1">Easy</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=0&amp;level=2">Medium</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=0&amp;level=3">Tricky</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=0&amp;level=4">Fiendish</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=0&amp;level=5">Diabolical</a></div></td></tr><tr><td>Yesterday</td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=1&amp;level=0">Beginner</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=1&amp;level=1">Easy</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=1&amp;level=2">Medium</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=1&amp;level=3">Tricky</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=1&amp;level=4">Fiendish</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=1&amp;level=5">Diabolical</a></div></td></tr><tr><td>Friday 5th April</td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=2&amp;level=0">Beginner</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=2&amp;level=1">Easy</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=2&amp;level=2">Medium</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=2&amp;level=3">Tricky</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=2&amp;level=4">Fiendish</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=2&amp;level=5">Diabolical</a></div></td></tr><tr><td>Thursday 4th April</td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=3&amp;level=0">Beginner</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=3&amp;level=1">Easy</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=3&amp;level=2">Medium</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=3&amp;level=3">Tricky</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=3&amp;level=4">Fiendish</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=3&amp;level=5">Diabolical</a></div></td></tr><tr><td>Wednesday 3rd April</td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=4&amp;level=0">Beginner</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=4&amp;level=1">Easy</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=4&amp;level=2">Medium</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=4&amp;level=3">Tricky</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=4&amp;level=4">Fiendish</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=4&amp;level=5">Diabolical</a></div></td></tr><tr><td>Tuesday 2nd April</td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=5&amp;level=0">Beginner</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=5&amp;level=1">Easy</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=5&amp;level=2">Medium</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=5&amp;level=3">Tricky</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=5&amp;level=4">Fiendish</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=5&amp;level=5">Diabolical</a></div></td></tr><tr><td>Monday 1st April</td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=6&amp;level=0">Beginner</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=6&amp;level=1">Easy</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=6&amp;level=2">Medium</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=6&amp;level=3">Tricky</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=6&amp;level=4">Fiendish</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=6&amp;level=5">Diabolical</a></div></td></tr><tr><td>Sunday 31st March</td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=7&amp;level=0">Beginner</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=7&amp;level=1">Easy</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=7&amp;level=2">Medium</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=7&amp;level=3">Tricky</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=7&amp;level=4">Fiendish</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=7&amp;level=5">Diabolical</a></div></td></tr><tr><td>Saturday 30th March</td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=8&amp;level=0">Beginner</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=8&amp;level=1">Easy</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=8&amp;level=2">Medium</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=8&amp;level=3">Tricky</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=8&amp;level=4">Fiendish</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=8&amp;level=5">Diabolical</a></div></td></tr><tr><td>Friday 29th March</td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=9&amp;level=0">Beginner</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=9&amp;level=1">Easy</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=9&amp;level=2">Medium</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=9&amp;level=3">Tricky</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=9&amp;level=4">Fiendish</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=9&amp;level=5">Diabolical</a></div></td></tr><tr><td>Thursday 28th March</td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=10&amp;level=0">Beginner</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=10&amp;level=1">Easy</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=10&amp;level=2">Medium</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=10&amp;level=3">Tricky</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=10&amp;level=4">Fiendish</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=10&amp;level=5">Diabolical</a></div></td></tr><tr><td>Wednesday 27th March</td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=11&amp;level=0">Beginner</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=11&amp;level=1">Easy</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=11&amp;level=2">Medium</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=11&amp;level=3">Tricky</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=11&amp;level=4">Fiendish</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=11&amp;level=5">Diabolical</a></div></td></tr><tr><td>Tuesday 26th March</td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=12&amp;level=0">Beginner</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=12&amp;level=1">Easy</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=12&amp;level=2">Medium</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=12&amp;level=3">Tricky</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=12&amp;level=4">Fiendish</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=12&amp;level=5">Diabolical</a></div></td></tr><tr><td>Monday 25th March</td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=13&amp;level=0">Beginner</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=13&amp;level=1">Easy</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=13&amp;level=2">Medium</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=13&amp;level=3">Tricky</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=13&amp;level=4">Fiendish</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=13&amp;level=5">Diabolical</a></div></td></tr><tr><td>Sunday 24th March</td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=14&amp;level=0">Beginner</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=14&amp;level=1">Easy</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=14&amp;level=2">Medium</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=14&amp;level=3">Tricky</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=14&amp;level=4">Fiendish</a></div></td><td width=65><div align="center"><a href="/pages/s-o-t-d.php?day=14&amp;level=5">Diabolical</a></div></td></tr></table>
+<hr>
+
+
+
+
+
+
+
+<div id="footer">
+This page, its layout and contents, Copyright &copy; 2008-2012 <a href="http://www.astraware.com">Astraware Limited</a>
+</div>
+
+</div> <!--  id="mainbody2" -->
+</div> <!--  id="mainbody" -->
+
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-1814118-2");
+pageTracker._setDomainName("www.sudokuoftheday.com");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+</body>
+</html>
+
