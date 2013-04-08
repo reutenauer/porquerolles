@@ -717,7 +717,6 @@ module Sudoku
         matrix[[i, j]] = Cell.new(x)
       end
 
-      matrix = Hash.new
       i = 0
       gridfile.each do |line| # TODO Rescue Errno::EISDIR
         if i == 9
