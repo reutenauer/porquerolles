@@ -31,12 +31,28 @@ class Hash
   def dclone
     Hash.new.tap do |clone|
       each do |key, value|
-        if value.is_a? Enumerable
+        if value.respond_to? :dclone
           clone[key] = value.dclone
-        elsif value.is_a?(Fixnum) || value.is_a?(Float) || value.is_a?(String)
-          clone[key] = value
-        else
-          clone[key] = value.dup
+        elsif value.respond_to? :clone
+          begin
+            clone[key] = value.clone
+          rescue TypeError => error
+            if error.message =~ /can't clone/
+              clone[key] = value
+            else
+              raise "Error in dclone, aborting."
+            end
+          end
+        elsif value.respond_to? :dup
+          begin
+            clone[key] = value.dup
+          rescue TypeError => error
+            if error.message =~ /can't dup/
+              clone[key] = value
+            else
+              raise "Error in dclone, aborting."
+            end
+          end
         end
       end
     end
