@@ -27,6 +27,20 @@ class Hash
   def separate
     Hash.new.tap { |rejected| delete_if { |k, v| yield(k, v) && rejected[k] = v } }
   end
+
+  def dclone
+    Hash.new.tap do |clone|
+      each do |key, value|
+        if value.is_a? Enumerable
+          clone[key] = value.dclone
+        elsif value.is_a?(Fixnum) || value.is_a?(Float) || value.is_a?(String)
+          clone[key] = value
+        else
+          clone[key] = value.dup
+        end
+      end
+    end
+  end
 end
 
 # TODO exit -1 when applicable.
