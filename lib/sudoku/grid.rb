@@ -403,7 +403,7 @@ module Sudoku
 
     def coord(cell)
       each do |cr, cl|
-        return cr if cell == cl
+        return cr if cell.equal? cl
       end
       raise "should not happen"
     end
