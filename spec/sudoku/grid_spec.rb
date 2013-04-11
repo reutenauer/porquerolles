@@ -44,23 +44,23 @@ describe Hash do
      h = { :a => 1, :b => "foo", :c => { :d => 3, :e => 4, :f => 5 } }
      h2 = h.dclone
      h2.should have(h.count).elements
-     # h.should == h2
+     h.should == h2
      h.should_not be_equal h2
-     # h[:c].should == h2
-     h[:c].should_not be_equal h2
-     pending "Improve test!"
+     h[:c].should == h2[:c]
+     h[:c].should_not be_equal h2[:c]
    end
 
     it "returns a deep copy of itself, with cells" do
-      h = { :a => Sudoku::Cell.new, :b => Sudoku::Cell.new(2), :c => Sudoku::Cell.new(3) }
-      h2 = h.dclone
-      # h.should == h2
-      h2.should have(h.count).elements
-      h.should_not be_equal h2
-      [:a, :b, :c].each do |key|
-        # h[key].should == h2[key]
-        h[key].values.should == h2[key].values
-        h[key].should_not be_equal h2[key]
+      pending "== on Cell" do
+        h = { :a => Sudoku::Cell.new, :b => Sudoku::Cell.new(2), :c => Sudoku::Cell.new(3) }
+        h2 = h.dclone
+        h.should == h2
+        h2.should have(h.count).elements
+        h.should_not be_equal h2
+        [:a, :b, :c].each do |key|
+          h[key].should == h2[key]
+          h[key].should_not be_equal h2[key]
+        end
       end
     end
   end
