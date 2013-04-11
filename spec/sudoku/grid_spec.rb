@@ -70,6 +70,26 @@ module Sudoku
   describe Cell do
     describe "==" do
       it "tests for equality" do
+        pending do
+          c1a = Cell.new
+          c1b = Cell.new
+          c1a.should == c1a
+
+          c2a = Cell.new(3)
+          c2b = Cell.new(3)
+          c2c = Cell.new(4)
+          c2a.should == c2b
+          c2a.should_not == c2c
+
+          c3a = Cell.new
+          c3b = Cell.new
+          c3c = Cell.new
+          c3a.cross_out([2, 3, 5, 7])
+          c3b.cross_out([2, 3, 5, 7])
+          c3c.cross_out([2, 4, 6, 8])
+          c3a.should == c3b
+          c3a.should_not == c3c
+        end
       end
     end
   end
