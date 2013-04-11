@@ -119,6 +119,10 @@ module Sudoku
       end
     end
 
+    def ==(other)
+      values == other.values
+    end
+
     def value
       if @values.count != 1
         raise "Requested valued of unsolved cell; aborting (this shouldn’t happen!)."
