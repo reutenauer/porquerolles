@@ -20,6 +20,24 @@ describe Set do
       set.should include r
     end
   end
+end
+
+describe Hash do
+  describe "#separate" do
+    it "splits the hash according to a criterion specified as a block" do
+      hash = Hash.new.tap do |h|
+        (1..12).each do |n|
+          x = (96 + n).chr.to_sym
+          h[x] = 12 - n # h = { :a => 11, :b => 10, ... , :l => 0 }
+        end
+      end
+
+      lower = hash.separate { |k, v| v < 6 }
+      lower.should have(6).elements
+      hash.should have(6).elements
+      lower.all? { |k, v| v.should < 6 }
+    end
+  end
 
   describe "#dclone" do
    it "return a deeps copy of itself, with standard objects" do
@@ -44,24 +62,6 @@ describe Set do
         h[key].values.should == h2[key].values
         h[key].should_not be_equal h2[key]
       end
-    end
-  end
-end
-
-describe Hash do
-  describe "#separate" do
-    it "splits the hash according to a criterion specified as a block" do
-      hash = Hash.new.tap do |h|
-        (1..12).each do |n|
-          x = (96 + n).chr.to_sym
-          h[x] = 12 - n # h = { :a => 11, :b => 10, ... , :l => 0 }
-        end
-      end
-
-      lower = hash.separate { |k, v| v < 6 }
-      lower.should have(6).elements
-      hash.should have(6).elements
-      lower.all? { |k, v| v.should < 6 }
     end
   end
 end
