@@ -51,16 +51,14 @@ describe Hash do
    end
 
     it "returns a deep copy of itself, with cells" do
-      pending "== on Cell" do
-        h = { :a => Sudoku::Cell.new, :b => Sudoku::Cell.new(2), :c => Sudoku::Cell.new(3) }
-        h2 = h.dclone
-        h.should == h2
-        h2.should have(h.count).elements
-        h.should_not be_equal h2
-        [:a, :b, :c].each do |key|
-          h[key].should == h2[key]
-          h[key].should_not be_equal h2[key]
-        end
+      h = { :a => Sudoku::Cell.new, :b => Sudoku::Cell.new(2), :c => Sudoku::Cell.new(3) }
+      h2 = h.dclone
+      h.should == h2
+      h2.should have(h.count).elements
+      h.should_not be_equal h2
+      [:a, :b, :c].each do |key|
+        h[key].should == h2[key]
+        h[key].should_not be_equal h2[key]
       end
     end
   end
@@ -70,26 +68,24 @@ module Sudoku
   describe Cell do
     describe "==" do
       it "tests for equality" do
-        pending do
-          c1a = Cell.new
-          c1b = Cell.new
-          c1a.should == c1a
+        c1a = Cell.new
+        c1b = Cell.new
+        c1a.should == c1a
 
-          c2a = Cell.new(3)
-          c2b = Cell.new(3)
-          c2c = Cell.new(4)
-          c2a.should == c2b
-          c2a.should_not == c2c
+        c2a = Cell.new(3)
+        c2b = Cell.new(3)
+        c2c = Cell.new(4)
+        c2a.should == c2b
+        c2a.should_not == c2c
 
-          c3a = Cell.new
-          c3b = Cell.new
-          c3c = Cell.new
-          c3a.cross_out([2, 3, 5, 7])
-          c3b.cross_out([2, 3, 5, 7])
-          c3c.cross_out([2, 4, 6, 8])
-          c3a.should == c3b
-          c3a.should_not == c3c
-        end
+        c3a = Cell.new
+        c3b = Cell.new
+        c3c = Cell.new
+        c3a.cross_out([2, 3, 5, 7])
+        c3b.cross_out([2, 3, 5, 7])
+        c3c.cross_out([2, 4, 6, 8])
+        c3a.should == c3b
+        c3a.should_not == c3c
       end
     end
   end
