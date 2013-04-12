@@ -66,6 +66,132 @@ end
 
 module Sudoku
   describe Cell do
+    describe ".new" do
+      it "creates a cell with all possible values by default" do
+        cell = Cell.new
+        cell.should have(9).possible_values
+      end
+
+      it "creates a solved cell when given a numeric argument" do
+        cell = Cell.new(2)
+        cell.should be_solved
+      end
+    end
+
+    describe "#value" do
+      it "returns the cell’s value when solved" do
+        cell = Cell.new(3)
+        cell.value.should == 3
+      end
+
+      it "raises when not soveld" do
+        cell = Cell.new
+        expect { cell.value }.to raise_error
+      end
+    end
+
+    describe "#cross_out" do
+      it "crosses out possible values" do
+        cell = Cell.new
+        expect { (1..3).each { |x| cell.cross_out(x) } }.to change(cell, :count).by(-3)
+      end
+
+      it "... even if there would none left" do
+        cell = Cell.new(6)
+        cell.cross_out(6)
+        cell.should have(0).possible_values
+      end
+    end
+
+    describe "#set_solved" do
+      it "sets a cell’s value" do
+        cell = Cell.new
+        cell.set_solved(7)
+        cell.should be_solved
+        cell.value.should == 7
+      end
+    end
+
+    describe "#include?" do
+      it "says whether a cell includes a value" do
+        cell = Cell.new
+        cell.should include 8
+        cell.cross_out(8)
+        cell.should_not include 8
+      end
+    end
+
+    describe "#solved?" do
+      it "says whether a cell is solved" do
+        cell = Cell.new
+        cell.solved?.should be_false
+      end
+
+      it "says whether a cell is solved" do
+        cell = Cell.new(9)
+        cell.solved?.should be_true
+      end
+    end
+
+    describe "#display" do
+      it "returns '.' a graphical representation of an unsolved cell" do
+        cell = Cell.new
+        cell.display.should == "."
+      end
+
+      it "returns 'x' as graphical representation of a cell with value x" do
+        cell = Cell.new(6)
+        cell.display.should == "6"
+      end
+    end
+
+    describe "#dup" do
+      it "returns a copy of the cell" do
+        cell1 = Cell.new
+        cell1.cross_out([6, 7, 8])
+        cell2 = cell1.dup
+        cell2.should_not be_equal cell1
+        cell2.should have(6).possible_values
+      end
+    end
+
+    describe "#guess" do
+      it "chooses a value from the possible values, and marks the cell as solved with that value" do
+        cell = Cell.new
+        bad_values = [1, 2, 3, 7, 8, 9]
+        good_values = (1..9).to_a - bad_values
+        cell.cross_out(bad_values)
+        cell.guess
+        good_values.should include cell.value
+      end
+    end
+
+    describe "#deadlock?" do
+      it "returns true if cell has no value" do
+        cell = Cell.new(5)
+        cell.cross_out(5)
+        cell.deadlock?.should be_true
+      end
+
+      it "returns false otherwise" do
+        cell = Cell.new(6)
+        cell.deadlock?.should be_false
+      end
+    end
+
+    describe "#each" do
+      it "returns an enumerator" do
+        cell = Cell.new
+        cell.each.should be_an Enumerator
+      end
+
+      it "loops over all the possible values" do
+        cell = Cell.new
+        cell.each.should have(9).issues
+        cell.each.to_a.should =~ (1..9).to_a
+      end
+    end
+
     describe "==" do
       it "tests for equality" do
         c1a = Cell.new
