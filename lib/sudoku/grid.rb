@@ -731,12 +731,16 @@ module Sudoku
       end
     end
 
+    def invalidate_cache
+      @min = nil
+      groups.each do |group|
+        group.reset_locations
+      end
+    end
+
     def deduce
       until solved?
-        @min = nil
-        groups.each do |group|
-          group.reset_locations
-        end
+        invalidate_cache
         old_count = grand_count
         propagate
         place
