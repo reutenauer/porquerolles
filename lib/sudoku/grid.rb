@@ -209,15 +209,16 @@ module Sudoku
     end
 
     def locations(x)
-      unless @locations && @locations[x]
-        @locations ||= { }
-        @locations[x] = @coords.map do |coord| # TODO Some enumerator that yields both coord and cell as as an enumerator?
+      # unless @locations && @locations[x]
+        # @locations ||= { }
+        @coords.map do |coord| # TODO Some enumerator that yields both coord and cell as as an enumerator?
+        # @locations[x] = @coords.map do |coord| # TODO Some enumerator that yields both coord and cell as as an enumerator?
           cell = @grid.cell coord
           coord if cell.include? x
         end.compact.to_set
-      end
+      # end
 
-      @locations[x]
+      # @locations[x]
     end
 
     def reset_locations
