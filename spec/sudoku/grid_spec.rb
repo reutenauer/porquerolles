@@ -247,11 +247,11 @@ module Sudoku
     describe "#locations" do
       it "is not memoized" do
         (0..1).each do |i|
-          group.cells[i].should_receive(:include?).with(1).twice.and_return(true) # would be once with mem.
+          group.cells[i].should_receive(:include?).with(1).once.and_return(true) # would be once with mem.
         end
 
         (2..8).each do |i|
-          group.cells[i].should_receive(:include?).with(1).twice.and_return(false)
+          group.cells[i].should_receive(:include?).with(1).once.and_return(false)
         end
 
         group.locations(1).should == Set.new([[0, 0], [0, 1]])
@@ -554,7 +554,7 @@ module Sudoku
       end
 
       it "outputs extra messages when verbose" do
-        output.should_receive(:puts).with("One more chain, total 17.  Latest chain [6, [[3, 8], [8, 8]], Column 8].  Total length 3.")
+        output.should_receive(:puts).with("One more chain, total 16.  Latest chain [6, [[3, 8], [8, 8]], Column 8].  Total length 3.")
         solver.ingest(read_grid_file('misc/X-wing.sdk'))
         solver.solve(:verbose => true, :chains => true)
       end
