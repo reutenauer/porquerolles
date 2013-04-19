@@ -740,7 +740,7 @@ module Sudoku
     describe "#deduce" do
       it "resets variables holding temporary results" do
         grid.ingest(read_grid_file('simple.sdk'))
-        grid.should_receive(:invalidate_cache)
+        grid.should_receive(:invalidate_cache).twice
         grid.deduce
       end
     end
