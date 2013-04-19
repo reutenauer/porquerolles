@@ -652,16 +652,21 @@ module Sudoku
       end
     end
 
-    def ingest(input)
-      if input.is_a? String
-        @filename = input
-        parse_file(input)
-      elsif input.is_a? Hash
-        @matrix = Hash.new.tap do |hash|
-          input.each do |coord, cell|
-            hash[coord] = cell.dup
+    def ingest(input, params = { })
+      params[:file] = true if params.count == 0
+      if params[:file]
+        if input.is_a? String
+          @filename = input
+          parse_file(input)
+        elsif input.is_a? Hash
+          @matrix = Hash.new.tap do |hash|
+            input.each do |coord, cell|
+              hash[coord] = cell.dup
+            end
           end
         end
+      elsif params[:inline]
+        parse_inline(input)
       else
         raise NoGridInput
       end
