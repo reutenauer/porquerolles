@@ -754,11 +754,13 @@ module Sudoku
       end
 
       it "calls reference if called with references" do # OK, that’s a little cryptic ...
-       pending "Renegociation of responsibilities" do
-         grid.ingest(read_grid_file('simple.sdk'))
-         grid.should_receive(:reference)
-         grid.solve(:references => true)
-        end
+        grid.ingest(read_grid_file('simple.sdk'))
+        grid2 = Grid.new
+        grid2.ingest(read_grid_file('simple.sdk'))
+        grid2.solve
+        grid.should_receive(:reference).at_least(1).times.and_return(grid2)
+        grid.solve(:references => true)
+        grid.should be_solved
       end
 
       it "is not trivial" do
