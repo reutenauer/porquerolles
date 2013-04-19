@@ -494,10 +494,6 @@ module Sudoku
       @min
     end
 
-    def reset_min
-      @min = nil
-    end
-
     def random
       cells = map do |coord, cell|
         [coord, cell] if cell.count == min
@@ -759,10 +755,7 @@ module Sudoku
       coord = coord_and_cell.first
       cell = coord_and_cell.last
       val = cell.guess
-      grid.reset_min
-      grid.groups.each do |group|
-        group.reset_locations
-      end
+      grid.invalidate_cache
       @hypotheses << Hypothesis.new(grid, coord, val)
     end
 
