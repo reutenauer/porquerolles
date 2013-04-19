@@ -474,10 +474,14 @@ module Sudoku
     end
 
     def min
-      map do |coord, cell|
-        n = cell.count
-        n if n > 1
-      end.compact.min
+      unless @min
+        @min = map do |coord, cell|
+          n = cell.count
+          n if n > 1
+        end.compact.min
+      end
+
+      @min
     end
 
     def random
