@@ -499,10 +499,8 @@ module Sudoku
     end
 
     def random
-      m = min
       cells = map do |coord, cell|
-        [coord, cell] if cell.count == m
-        # cell if cell.count == m
+        [coord, cell] if cell.count == min
       end.compact
 
       cells[rand(cells.count)]
