@@ -365,9 +365,8 @@ module Sudoku
 
     describe "#data?" do
       it "refuses to do something useless" do
-        solver.stub(:data?).and_return(false)
-        solver.should_receive(:raise).with(NoGridInput)
-        solver.solve
+        solver
+        solver.data?.should be_false
       end
 
       it "refuses to do something even more useless" do
