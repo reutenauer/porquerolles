@@ -14,6 +14,7 @@ Feature: Invoking the solver from the command line
     When I run with switch -c
     Then it should solve the sudoku
 
+  @super_slow
   Scenario: With the guess switch
     Given grid "maman.sdk"
     When I run with switch -g

@@ -2,6 +2,7 @@ Feature: Unnamed
 
   Not sure what I’m testing here exactly.
 
+  @super_slow
   Scenario: The solver solves
     Given grid "maman.sdk"
     When I use the guess method
