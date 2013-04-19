@@ -244,10 +244,6 @@ module Sudoku
       end
     end
 
-    describe "#min" do
-      it "is memoized"
-    end
-
     describe "#locations" do
       it "is memoized"
     end
@@ -391,6 +387,18 @@ module Sudoku
         cell = solver[8, 8]
         cell.should_receive(:cross_out).with(8)
         solver.cross_out([8, 8], 8)
+      end
+    end
+
+    describe "#min" do
+      it "is memoized", :focus => true do
+        grid = Grid.new
+        grid.each_value do |cell|
+          cell.should_receive(:count).and_return(2)
+        end
+
+        grid.min.should == 2
+        grid.min # Second call should not call cell.count a second time
       end
     end
 
