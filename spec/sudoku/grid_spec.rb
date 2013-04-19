@@ -737,6 +737,16 @@ module Sudoku
       end
     end
 
+    describe "#invalidate_cache" do
+      it "resets temporary variables" do
+        grid.invalidate_cache
+        grid.instance_variable_get(:@min).should be_nil
+        grid.groups.each do |group|
+          group.instance_variable_get(:@locations).should == { }
+        end
+      end
+    end
+
     describe "#deduce" do
       it "resets variables holding temporary results" do
         grid.ingest(read_grid_file('simple.sdk'))
