@@ -786,12 +786,12 @@ module Sudoku
 
       it "runs a simple file" do
         grid.run([File.join(griddir, 'simple.sdk')])
+        grid.should be_solved
       end
 
       it "ingests an inline description of the grid if run with -i" do
         grid.run(['-i', "600100002002096100000004095000700800060000030007005000830400000006520900200001003"])
-        pending "renegociation of responsibilities"
-        # Grid should be input from the string directly, by-passing parse_file etc.
+        grid.should be_solved
       end
     end
 
