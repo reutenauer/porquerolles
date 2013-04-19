@@ -679,6 +679,14 @@ module Sudoku
         grid.solve(:method => :guess)
         grid.should be_solved
       end
+
+      it "invalidates the cache" do
+        pending "need more work to set up things" do
+          grid.ingest(read_grid_file('simple.sdk'))
+          grid.should_receive(:invalidate_cache).at_least(1)
+          grid.guess
+        end
+      end
     end
 
     describe "count" do
