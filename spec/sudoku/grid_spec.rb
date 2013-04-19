@@ -452,11 +452,11 @@ module Sudoku
       end
     end
 
-    describe "#find_chains" do
+    describe "#find_chains", :slow => true do
       let(:solver) { Grid.new }
       let(:grid) { solver }
 
-      it "finds a link" do
+      it "finds a link", :slow => true do
         solver.ingest(read_grid_file('misc/X-wing.sdk'))
         solver.solve
         # TODO Write a matcher for that too
@@ -758,7 +758,7 @@ module Sudoku
     end
 
     describe "#reference" do
-      it "computes a reference solution grid" do
+      it "computes a reference solution grid", :slow => true do
         solver.ingest(read_grid_file('sotd/2013-02-05-diabolical.sdk'))
         solver.reference.should act_as_a_solved_grid
       end
@@ -784,7 +784,7 @@ module Sudoku
       end
     end
 
-    describe "#deadlock?" do
+    describe "#deadlock?", :slow => true do
       it "never uses deadlock?" do
         solver.should_not_receive(:deadlock?)
         solver.ingest(read_grid_file('sotd/2013-02-05-diabolical.sdk'))
