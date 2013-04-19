@@ -565,9 +565,15 @@ module Sudoku
     end
 
     describe "#ingest" do
-      it "ingests a grid from a file" do
+      it "ingests a grid from a file, implicit syntax" do
         grid.ingest(read_grid_file('guardian/2084.sdk'))
         grid.should have(27).solved_cells
+      end
+
+      it "ingests a grid from a file, setting it explicitly" do
+        grid.ingest(read_grid_file('guardian/2085.sdk'))
+        debugger
+        grid.should have(24).solved_cells
       end
 
       it "ingests a grid from a matrix" do
