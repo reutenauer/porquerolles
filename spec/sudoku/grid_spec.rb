@@ -737,6 +737,14 @@ module Sudoku
       end
     end
 
+    describe "#deduce" do
+      it "resets variables holding temporary results" do
+        grid.ingest(read_grid_file('simple.sdk'))
+        grid.should_receive(:invalidate_cache)
+        grid.deduce
+      end
+    end
+
     describe "#solve" do
       it "sets additional options" do
         grid.ingest(read_grid_file('simple.sdk'))
