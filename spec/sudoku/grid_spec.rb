@@ -753,7 +753,7 @@ module Sudoku
         grid.should be_solved
       end
 
-      it "calls reference if called with references" do # OK, that’s a little cryptic ...
+      it "computes a reference if called with the option" do
         grid.ingest(read_grid_file('simple.sdk'))
         grid2 = Grid.new
         grid2.ingest(read_grid_file('simple.sdk'))
