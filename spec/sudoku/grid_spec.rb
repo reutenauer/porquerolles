@@ -245,7 +245,7 @@ module Sudoku
     end
 
     describe "#locations" do
-      it "is memoized" do
+      it "is memoized", :focus => true do
         (0..1).each do |i|
           group.cells[i].should_receive(:include?).with(1).once.and_return(true)
         end

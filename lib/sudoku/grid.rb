@@ -209,10 +209,15 @@ module Sudoku
     end
 
     def locations(x)
-      @coords.map do |coord| # TODO Some enumerator that yields both coord and cell as as an enumerator?
-        cell = @grid.cell coord
-        coord if cell.include? x
-      end.compact.to_set
+      unless @locations && @locations[x]
+        @locations ||= { }
+        @locations[x] = @coords.map do |coord| # TODO Some enumerator that yields both coord and cell as as an enumerator?
+          cell = @grid.cell coord
+          coord if cell.include? x
+        end.compact.to_set
+      end
+
+      @locations[x]
     end
 
     def possible_values(cells)
