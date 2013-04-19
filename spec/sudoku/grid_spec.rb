@@ -245,7 +245,18 @@ module Sudoku
     end
 
     describe "#locations" do
-      it "is memoized"
+      it "is memoized" do
+        (0..1).each do |i|
+          group.cells[i].should_receive(:include?).with(1).once.and_return(true)
+        end
+
+        (2..8).each do |i|
+          group.cells[i].should_receive(:include?).with(1).once.and_return(false)
+        end
+
+        group.locations(1).should == Set.new([[0, 0], [0, 1]])
+        group.locations(1)
+      end
     end
   end
 
@@ -391,7 +402,7 @@ module Sudoku
     end
 
     describe "#min" do
-      it "is memoized", :focus => true do
+      it "is memoized" do
         grid = Grid.new
         grid.each_value do |cell|
           cell.should_receive(:count).and_return(2)
