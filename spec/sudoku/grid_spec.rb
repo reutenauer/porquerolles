@@ -571,7 +571,7 @@ module Sudoku
       end
 
       it "ingests a grid from a file, setting it explicitly" do
-        grid.ingest(read_grid_file('guardian/2085.sdk'))
+        grid.ingest(read_grid_file('guardian/2085.sdk'), :file => true)
         debugger
         grid.should have(24).solved_cells
       end
