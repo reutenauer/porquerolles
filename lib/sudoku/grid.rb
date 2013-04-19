@@ -664,11 +664,11 @@ module Sudoku
               hash[coord] = cell.dup
             end
           end
+        else
+          raise NoGridInput
         end
       elsif params[:inline]
         parse_inline(input)
-      else
-        raise NoGridInput
       end
 
       @original_grid = Hash.new.tap do |hash|
