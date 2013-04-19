@@ -578,6 +578,12 @@ module Sudoku
         grid.should have(27).solved_cells
         grid2.should have(27).solved_cells
       end
+
+      it "ingests a grid from an inline string" do
+        grid.ingest("600100002002096100000004095000700800060000030007005000830400000006520900200001003", :inline => true)
+        grid.should be_valid
+        grid.should have(26).solved_cells
+      end
     end
 
     describe "#method" do
