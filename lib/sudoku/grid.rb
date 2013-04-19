@@ -220,6 +220,10 @@ module Sudoku
       @locations[x]
     end
 
+    def reset_locations
+      @locations = { }
+    end
+
     def possible_values(cells)
       cells.inject(Set.new) do |set, cell|
         set + cell.values
@@ -489,6 +493,10 @@ module Sudoku
       @min
     end
 
+    def reset_min
+      @min = nil
+    end
+
     def random
       m = min
       cells = map do |coord, cell|
@@ -721,6 +729,10 @@ module Sudoku
 
     def deduce
       until solved?
+        @min = nil
+        groups.each do |group|
+          group.reset_locations
+        end
         old_count = grand_count
         propagate
         place
@@ -739,6 +751,10 @@ module Sudoku
       coord = coord_and_cell.first
       cell = coord_and_cell.last
       val = cell.guess
+      grid.reset_min
+      grid.groups.each do |group|
+        group.reset_locations
+      end
       @hypotheses << Hypothesis.new(grid, coord, val)
     end
 

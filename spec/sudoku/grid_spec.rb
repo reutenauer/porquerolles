@@ -245,7 +245,7 @@ module Sudoku
     end
 
     describe "#locations" do
-      it "is memoized", :focus => true do
+      it "is memoized" do
         (0..1).each do |i|
           group.cells[i].should_receive(:include?).with(1).once.and_return(true)
         end
@@ -480,10 +480,8 @@ module Sudoku
       end
 
       it "does not crash?" do
-        pending "Actually it does crash" do
-          solver.ingest(read_grid_file('guardian/2094.sdk'))
-          solver.solve(:chains => true)
-        end
+        solver.ingest(read_grid_file('guardian/2094.sdk'))
+        solver.solve(:chains => true)
       end
 
       it "does not returns chains for groups when group.locations(x).count = 1!" do
@@ -554,7 +552,7 @@ module Sudoku
       end
 
       it "outputs extra messages when verbose" do
-        output.should_receive(:puts).with("One more chain, total 17.  Latest chain [6, [[3, 8], [8, 8]], Column 8].  Total length 3.")
+        output.should_receive(:puts).with("One more chain, total 16.  Latest chain [6, [[3, 8], [8, 8]], Column 8].  Total length 3.")
         solver.ingest(read_grid_file('misc/X-wing.sdk'))
         solver.solve(:verbose => true, :chains => true)
       end
