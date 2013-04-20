@@ -333,6 +333,21 @@ module Sudoku
       it "instantiates a new grid, writing to some output" do
         Grid.new(output)
       end
+
+      it "creates a blank the cache" do
+        grid = Grid.new
+        grid.instance_variable_get(:@min).should be_nil
+        grid.instance_variable_get(:@locations).should be_nil
+      end
+    end
+
+    describe "#dup" do
+      it "returns a copy of the Grid" do
+        grid.ingest(read_grid_file('simple.sdk'))
+        orig_count = grid.count
+        grid2 = grid.dup
+        grid2.should have(orig_count).solved_cells
+      end
     end
 
     describe "#set_solved" do
@@ -678,14 +693,6 @@ module Sudoku
         grid.ingest(read_grid_file('sotd/2013-02-05-diabolical.sdk'))
         grid.solve(:method => :guess)
         grid.should be_solved
-      end
-
-      it "invalidates the cache" do
-        pending "need more work to set up things" do
-          grid.ingest(read_grid_file('simple.sdk'))
-          grid.should_receive(:invalidate_cache).at_least(1)
-          grid.guess
-        end
       end
     end
 
