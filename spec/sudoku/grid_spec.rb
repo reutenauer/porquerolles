@@ -334,7 +334,7 @@ module Sudoku
         Grid.new(output)
       end
 
-      it "creates a blank the cache" do
+      it "creates a blank cache" do
         grid = Grid.new
         grid.instance_variable_get(:@min).should be_nil
         grid.instance_variable_get(:@locations).should be_nil
